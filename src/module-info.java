@@ -1,2 +1,3 @@
 module blackjack {
+	requires junit;
 }
