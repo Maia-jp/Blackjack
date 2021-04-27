@@ -1,4 +1,4 @@
-package blackjack.controller.Impl;
+package blackjack.model.Impl;
 
 
 //Implementa uma carta

@@ -1,4 +1,4 @@
-package blackjack.controller.Impl;
+package blackjack.model.Impl;
 
 import java.util.ArrayList;
 import java.util.Collections;

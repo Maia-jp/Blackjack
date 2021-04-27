@@ -1,10 +1,10 @@
-package testeUnitarios.controller;
+package testeUnitarios.model;
 
 import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-import blackjack.controller.Impl.Carta;
+import blackjack.model.Impl.Carta;
 
 public class cartasTest {
 
