@@ -1,12 +1,10 @@
-package testeUnitarios.model;
+package blackjack.model;
 
 import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-import blackjack.model.Impl.Carta;
-
-public class cartasTest {
+public class TesteCartas {
 
 	@Test
 	public void inicializarTesteSucesso() {

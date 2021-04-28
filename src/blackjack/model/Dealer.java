@@ -1,8 +1,8 @@
-package blackjack.model.Impl;
+package blackjack.model;
 
 import java.util.ArrayList;
 
-public class Dealer {
+class Dealer {
 	private ArrayList<Carta> cartasDealer;
 	
 	public Dealer() {

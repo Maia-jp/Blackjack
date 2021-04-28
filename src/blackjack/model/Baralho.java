@@ -1,14 +1,11 @@
-package blackjack.model.Impl;
+package blackjack.model;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 
-
-
-
-public class Baralho{
+class Baralho{
 	private int numeroDeCartas;
 	private List<Carta> cartas;
 	

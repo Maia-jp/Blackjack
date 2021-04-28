@@ -1,11 +1,11 @@
-package blackjack.model.Impl;
+package blackjack.model;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-public class Jogador {
+class Jogador {
 	private String nomeJogador;
 	private LinkedHashMap <String, Integer> fichasJogador = new LinkedHashMap<String, Integer>();
 	private List<Baralho> cartasJogador;
@@ -55,7 +55,7 @@ public class Jogador {
         }
 	}
 	
-	//aposta minima de $20 e máxima de $100
+	//aposta minima de $20 e mï¿½xima de $100
 	public void pagarFichas(int aposta) {
 		for (Map.Entry<String, Integer> entry : this.fichasJogador.entrySet()) {
 		    this.fichasJogador.replace(entry.getKey(),entry.getValue()-aposta/Integer.parseInt(entry.getKey()));

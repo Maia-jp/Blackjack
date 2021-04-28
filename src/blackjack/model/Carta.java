@@ -1,4 +1,4 @@
-package blackjack.model.Impl;
+package blackjack.model;
 
 
 //Implementa uma carta
@@ -8,7 +8,7 @@ package blackjack.model.Impl;
 // D = Diamonds/Ouros
 // Segunte formato = {Naipe Maisuculo}{Valor minusculo}
 // Examplo  = Hk = Rei de copas
-public class Carta {
+class Carta {
 	private String info;
 	private int valor;
 	

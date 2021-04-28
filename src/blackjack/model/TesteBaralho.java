@@ -1,4 +1,4 @@
-package testeUnitarios.model;
+package blackjack.model;
 
 import static org.junit.Assert.*;
 
@@ -7,10 +7,7 @@ import java.util.List;
 
 import org.junit.Test;
 
-import blackjack.model.Impl.Baralho;
-import blackjack.model.Impl.Carta;
-
-public class baralhoTest {
+public class TesteBaralho {
 
 	@Test
 	public void criarBaralhoN1TestSucesso() {
@@ -82,6 +79,4 @@ public class baralhoTest {
 		
 		return cartas;	
 	}
-	
-
 }
