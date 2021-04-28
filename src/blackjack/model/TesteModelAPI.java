@@ -7,8 +7,12 @@ import org.junit.Test;
 
 public class TesteModelAPI {
 
+	public ModelAPI testClass;
+	
 	@Before
 	public void setUp() throws Exception {
+		testClass = ModelAPI.iniciar();
+	
 	}
 
 	@Test
