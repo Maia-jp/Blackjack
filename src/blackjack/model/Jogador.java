@@ -6,13 +6,14 @@ import java.util.Map;
 
 class Jogador {
 	private String nomeJogador;
+	private int flag=0;
 	private LinkedHashMap <String, Integer> fichasJogador = new LinkedHashMap<String, Integer>();
-	private ArrayList<Carta> cartasJogador;
+	private ArrayList<Carta>[] maoJogador = new ArrayList[2];
 	
 	public Jogador(String nome) {
 		this.setNomeJogador(nome);
 		this.setFichasJogador(fichasJogador);
-		this.cartasJogador = new ArrayList<>();
+		this.maoJogador[flag] = new ArrayList<>();
 	}
 	
 	public String getNomeJogador() {
@@ -33,16 +34,26 @@ class Jogador {
 		this.fichasJogador.put("20", 5);
 		this.fichasJogador.put("10", 5);
 		this.fichasJogador.put("5", 8);
-		this.fichasJogador.put("1", 10);
-		
+		this.fichasJogador.put("1", 10);	
 	}
 	
-	public ArrayList<Carta> getCartasJogador() {
-		return this.cartasJogador;
+	public void split() {
+		if(this.maoJogador[flag].get(0).getValor()==this.maoJogador[flag].get(1).getValor()) {
+			this.maoJogador[flag+1].add(this.maoJogador[flag].get(1));
+			this.maoJogador[flag].remove(1);
+		}
+	}
+	
+	public ArrayList<Carta> getMaoJogador() {
+		return this.maoJogador[flag];
 	}
 
-	public void setCartasJogador(Carta a) {
-		this.cartasJogador.add(a);
+	public void setMaoJogador(Carta a) {
+		this.maoJogador[flag].add(a);
+	}
+	
+	public void limparMaoJogador() {
+		this.maoJogador[flag].clear();
 	}
 
 	public void receberFichas(int quantia) {

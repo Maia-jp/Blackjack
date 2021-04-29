@@ -39,11 +39,11 @@ class Carta {
 		if(pontos.equals("a")) {
 			return -1;// retorna valor indefinido
 		}else if(pontos.equals("k")){
-			return 13;
+			return 10;
 		}else if(pontos.equals("q")) {
-			return 12;
+			return 10;
 		}else if(pontos.equals("j")) {
-			return 11;
+			return 10;
 		}
 		
 		return Integer.parseInt(pontos);
