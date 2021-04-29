@@ -60,7 +60,7 @@ interface InterfaceInteracaoJogadores {
 	void putStand();
 	
 	//Tira do Stand
-	void clearSlipt();
+	void clearStand();
 	
 	//Verifica se o jogador esta em slipt
 	boolean checkSlipt();

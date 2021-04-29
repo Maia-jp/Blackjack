@@ -14,5 +14,23 @@ public class modelAPITest {
 		testClass = ModelAPI.iniciar();
 	
 	}
+	
+	@Test
+	public void rotinaDeJogoTest() {
+		
+		//Classe sera iniciada...
+		//1- jogadores serão adicionados, todo começam com 500 coins 
+		//jogadores faram apostas
+		//para cada jogador atual dar opçoes correspondentes // verificar baralho sempre que der cartas
+		//se jogador estiver sem dinheiro pular automaticamente
+		//se jogar tiver em stand pular
+		// jogador que estiver estourando entra em stand automaticamente
+		// verificar cartas
+		// dealer pega mais uma carta
+		// ditribui pontos
+		//nova rodada
+		
+		
+	}
 
 }
