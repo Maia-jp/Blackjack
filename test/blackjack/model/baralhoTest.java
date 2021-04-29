@@ -7,7 +7,7 @@ import java.util.List;
 
 import org.junit.Test;
 
-public class TesteBaralho {
+public class baralhoTest {
 
 	@Test
 	public void criarBaralhoN1TestSucesso() {

@@ -5,7 +5,7 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
-public class TesteModelAPI {
+public class modelAPITest {
 
 	public ModelAPI testClass;
 	
@@ -13,11 +13,6 @@ public class TesteModelAPI {
 	public void setUp() throws Exception {
 		testClass = ModelAPI.iniciar();
 	
-	}
-
-	@Test
-	public void test() {
-		fail("Not yet implemented");
 	}
 
 }
