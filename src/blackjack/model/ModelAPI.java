@@ -1,7 +1,9 @@
 package blackjack.model;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ModelAPI {
 	//Info principal
@@ -9,24 +11,81 @@ public class ModelAPI {
 	private List<Jogador> jogadores;
 	private Dealer dealer;
 	//Info secundaria
+	Map<String, Integer> jogadorAposta = new HashMap<String, Integer>();
 	Jogador jogadorAtual; 
 	int jogada;
 	int rodada;
-	ArrayList<String> log;
 	
 	
 	//
 	//Main loop
 	//
 	
-	String proximaJogada() {
+	//Começa uma rodada
+	void novaRodada() {
+		//Incrimenta em 1 a rodada
+		rodada++;
 		
+		//Coloca em 0 a jogada
+		jogada = 0;
 		
+		for(Jogador j :jogadores ) {
+			//Tira carta da mão de todos os jogadores
+			//j.limpaMao()
+			
+			//Tira do stand
+			//j.clearStand
+			
+			//Tira do split
+			//j.clearStand
+			
+			//remove o jogador caso nao tenha mais dinheiro
+			//if(j.fichas == 0)
+			//removerJogadorNome(j.getNomeJogador())	
+			
+		}
 		
+		//Primeiro jogador sera o jogador atual
+		jogadorAtual = jogadores.get(0);
+	}
+	
+	
+	
+	//Verifica se existem jogadores que podem pedir cartas
+	boolean checkJogadoresDisponiveis() {
+		for(Jogador j :jogadores ) {
+			//if(j.checkStand)
+				return true;
+		}
+		return false;
+	}
+	
+	
+	//verifica de precisa de um novo baralho
+	void checkNovoBaralho() {
+		if(baralho.getNumeroDeCartas() < ((52*4) - ((52*4)*0.10))){
+			reiniciarBaralho();
+		}
 		
-		
-		
-		jogadorAtual = jogadores.get(avancarJogada);
+	}
+	
+	
+	//distribui cartas
+	void distribuirCartas() {
+		for(Jogador j : jogadores) {
+			// @ze j.recebe(baralho.pegarCarta())
+			// @ze j.recebe(baralho.pegarCarta())
+		}
+		// @ale dealer.receberCarta(baralho.pegarCarta());
+		// @ale dealer.receberCarta(baralho.pegarCarta());
+	}
+	
+	
+	
+	//Pula para o proximo jogador (considera dinheiro e stand)
+	public String proximoJogador() {
+		jogada = avancarJogada();
+		jogadorAtual = jogadores.get(jogada);
 		return jogadorAtual.getNomeJogador();
 	}
 	
@@ -38,11 +97,57 @@ public class ModelAPI {
 	//
 
 	
+	//
+	//Metodos de controle jogador  [controla o jogador e o dealer]
+	//
+
+	
+	//Dealer age conforme as regras
+	public void dealerAcao() {
+		// @Ale
+	}
+	
+	//Jogador atual faz uma aposta
+	public void apostar(int n) {
+		// @ze jogadorAtual.pagar(n)
+		adicionarAMontante(jogadorAtual,n);
+	}
+	
+	//Jogador atual recebe
+	public void receber(int n) {
+		// @ze jogadorAtual.receber(n)
+	}
+	
+	//Jogador especifico recebe
+	public void receberJogador(Jogador j,int n) {
+		// @Ze j.recebe(n)
+	}
+	
+	public void pedirStand() {
+	// jogador atual pede um stand
+	}
+	
+	// .... Metodos para cada possivel interação
 	
 	
 	//
-	//Metodos de controle [controla a partida]
+	//Metodos de controle partida  [controla a partida]
 	//
+	
+	//adiciona um valor da aposta de determinado montante do jogador
+	private void adicionarAMontante(Jogador j, int valor){
+		if(!jogadorAposta.containsKey(j.getNomeJogador())) {
+			jogadorAposta.put(j.getNomeJogador(), valor);
+			
+		}else {
+			jogadorAposta.computeIfPresent(j.getNomeJogador(), (k, v) -> v + valor);
+		}
+	}
+	
+	//remove um valor da aposta de determinado montante do jogador
+	private void removerAMontante(Jogador j, int valor){
+		jogadorAposta.computeIfPresent(j.getNomeJogador(), (k, v) -> v - valor);
+	}
 	
 	//Passa para a proxima jogada
 	private int avancarJogada() {
@@ -55,9 +160,9 @@ public class ModelAPI {
 	
 	
 	//Adiciona um jogador a partida
-	public void adicionarJogador(Jogador j) throws Exception {
+	public void adicionarJogador(String nome) throws Exception {
 		if(jogadores.size()<4) {
-			jogadores.add(j);
+			jogadores.add(new Jogador(nome));
 		}else
 			throw new Exception("Impossivel adicionar mais um jogador. A mesa ja esta cheia !");
 	}
@@ -75,13 +180,13 @@ public class ModelAPI {
 	}
 	
 	//Remove o jogador atual da partida
-	void removerJogador() {
-		removerJogadorNome(this.jogadorAtual);
+	public void removerJogador() {
+		removerJogadorNome(this.jogadorAtual.getNomeJogador());
 	}
 	
 	
 	//Reinicia o baralho
-	void reiniciarBaralho() {
+	public void reiniciarBaralho() {
 		this.baralho = new Baralho(4);
 	}
 	
@@ -93,7 +198,8 @@ public class ModelAPI {
 	private static ModelAPI instanciaUnica;
 	
 	private ModelAPI() {
-		
+		reiniciarBaralho();
+		this.dealer = new Dealer();
 	}
 	
 	public static synchronized ModelAPI iniciar() {
