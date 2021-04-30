@@ -19,7 +19,8 @@ public class modelAPITest {
 	public void rotinaDeJogoTest() {
 		
 		//Classe sera iniciada...
-		//1- jogadores serão adicionados, todo começam com 500 coins 
+		//1- jogadores serão adicionados, todo começam com 500 coins
+		//Caso verificar cartas gerais
 		//jogadores faram apostas
 		//para cada jogador atual dar opçoes correspondentes // verificar baralho sempre que der cartas
 		//se jogador estiver sem dinheiro pular automaticamente
@@ -27,7 +28,7 @@ public class modelAPITest {
 		// jogador que estiver estourando entra em stand automaticamente
 		// verificar cartas
 		// dealer pega mais uma carta
-		// ditribui pontos
+		// ditribui dinehiro
 		//nova rodada
 		
 		

@@ -31,17 +31,17 @@ public class ModelAPI {
 		
 		for(Jogador j :jogadores ) {
 			//Tira carta da mão de todos os jogadores
-			//j.limpaMao()
+			j.limpaMao();
 			
 			//Tira do stand
-			//j.clearStand
+			j.clearStand();
 			
 			//Tira do split
-			//j.clearStand
+			j.clearSplit();
 			
 			//remove o jogador caso nao tenha mais dinheiro
-			//if(j.fichas == 0)
-			//removerJogadorNome(j.getNomeJogador())	
+			if(j.fichas() == 0)
+				removerJogadorNome(j.getNomeJogador());	
 			
 		}
 		
@@ -54,7 +54,7 @@ public class ModelAPI {
 	//Verifica se existem jogadores que podem pedir cartas
 	boolean checkJogadoresDisponiveis() {
 		for(Jogador j :jogadores ) {
-			//if(j.checkStand)
+			if(j.checkStand())
 				return true;
 		}
 		return false;
@@ -73,11 +73,11 @@ public class ModelAPI {
 	//distribui cartas
 	void distribuirCartas() {
 		for(Jogador j : jogadores) {
-			// @ze j.recebe(baralho.pegarCarta())
-			// @ze j.recebe(baralho.pegarCarta())
+			j.recebe(baralho.pegarCarta());
+			j.recebe(baralho.pegarCarta());
 		}
-		// @ale dealer.receberCarta(baralho.pegarCarta());
-		// @ale dealer.receberCarta(baralho.pegarCarta());
+		// @ALE dealer.receberCarta(baralho.pegarCarta());
+		// @ALE dealer.receberCarta(baralho.pegarCarta());
 	}
 	
 	
@@ -109,13 +109,13 @@ public class ModelAPI {
 	
 	//Jogador atual faz uma aposta
 	public void apostar(int n) {
-		// @ze jogadorAtual.pagar(n)
+		// @Ze jogadorAtual.pagar(n);
 		adicionarAMontante(jogadorAtual,n);
 	}
 	
 	//Jogador atual recebe
 	public void receber(int n) {
-		// @ze jogadorAtual.receber(n)
+		// @Ze jogadorAtual.receber(n);
 	}
 	
 	//Jogador especifico recebe
