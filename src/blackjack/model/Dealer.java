@@ -2,29 +2,56 @@ package blackjack.model;
 
 import java.util.ArrayList;
 
-public class Dealer extends Jogador {
+class Dealer extends Jogador{
 	private ArrayList<Carta> cartasDealer;
-	private int flag;
+	private boolean flag;
 	
-	public Dealer() {
-		super("dealer");
+	public Dealer(String nome) {
+		super(nome);
+		super.setNomeJogador(nome);
 		this.cartasDealer = new ArrayList<>();
+		
+	}
+	
+	public String getNomeJogador() {
+		return super.getNomeJogador();
 	}
 	
 	//adiciona cartas na mão do Dealer ______DEVE SER CHAMADO PELA MESA_________
-	public void setCartaDealer(Carta a) {
+	void receberCarta(Carta a) {
 		this.cartasDealer.add(a);
 	}
 	
-	//retorna pra mesa as cartas do Dealer ____NÂO SEI SE VAI SER NECESSARIO_________
-	public ArrayList<Carta> getListaCartas(){
+	//remove as cartas da mão
+	void limpaMao() {
+		this.cartasDealer.clear();
+	}
+	
+	//retorna pra mesa as cartas do Dealer
+	ArrayList<Carta> verificarMao(){
 		return this.cartasDealer;
 	}
 	
+	int valorMao() {
+		int val = contagem();
+		return val;
+	}
+	
+	//verifica qual valor o dealer vai escolher do Ás
+	private int verificaValorAs(int to) {
+		//verifica se o total vai ser maior ou menor que 21 com a escolha do Ás
+		if(to + 11 > 21) {
+			 to += 1;
+		}
+		else {
+			to += 11;
+		}
+		return to;
+	}
+	
 	//conta as cartas na mão do Dealer
-	public int contagem() {
+	private int contagem() {
 		int total = 0, contador = 0;
-		flag = 0;
 		//conta as cartas na mão do dealer, para bolar a estrategia
 		for(int i = 0; i <= this.cartasDealer.size(); i++) {
 			contador = this.cartasDealer.get(i).getValor();
@@ -34,26 +61,28 @@ public class Dealer extends Jogador {
 			}
 			
 			else {
-				flag = contador;
+				total = verificaValorAs(total);
 			}
 		}
 		return total;
 	}
 	
 	//vai definir a estrategia do Dealer______DEVE SER CHAMADO PELA MESA_________
-	public String estrategia() {
+	private int estrategia() {
 		int total = contagem();
 		
-		if(total > 17 && flag == 0) {
+		if(total >= 17) {
 			//significa que não pode pegar mais cartas
-			return "Stand";
+			return 1;
 		}
-		
-		else if (flag == 0 && total <= 17 ) {
-			//Hit significa que mais uma Carta
-			return "Hit";
-		}	
-		return "Stand";
-	}	
+		else{
+			// significa que mais uma Carta
+			return 2;
+		}
+	}
+	
+	int checkEstrategia() {
+		return estrategia();
+	}
 }
 

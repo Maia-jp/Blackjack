@@ -44,6 +44,10 @@ public class ModelAPI {
 				removerJogadorNome(j.getNomeJogador());	
 		}
 		
+		//Limpa a mão do dealer
+		dealer.limpaMao();
+		
+		
 		//Primeiro jogador sera o jogador atual
 		jogadorAtual = jogadores.get(0);
 	}
@@ -71,8 +75,8 @@ public class ModelAPI {
 			j.recebeCarta(baralho.pegarCarta(),0);
 			j.recebeCarta(baralho.pegarCarta(),0);
 		}
-		// @ALE dealer.receberCarta(baralho.pegarCarta());
-		// @ALE dealer.receberCarta(baralho.pegarCarta());
+		 dealer.receberCarta(baralho.pegarCarta());
+		 dealer.receberCarta(baralho.pegarCarta());
 	}
 	
 	//Pula para o proximo jogador (considera dinheiro e stand)
@@ -94,7 +98,12 @@ public class ModelAPI {
 	
 	//Dealer age conforme as regras
 	public void dealerAcao() {
-		// @Ale
+		if(dealer.checkEstrategia() == 2) {
+			dealer.receberCarta(baralho.pegarCarta());
+		}
+		else {
+			//verificar cartas para, fim da rodada, ou proximo jogador.
+		}
 	}
 	
 	//Jogador atual faz uma aposta
@@ -189,7 +198,7 @@ public class ModelAPI {
 	
 	private ModelAPI() {
 		reiniciarBaralho();
-		this.dealer = new Dealer();
+		this.dealer = new Dealer("0x00");
 	}
 	
 	public static synchronized ModelAPI iniciar() {
