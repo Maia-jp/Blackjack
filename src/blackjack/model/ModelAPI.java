@@ -2,6 +2,7 @@ package blackjack.model;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -11,18 +12,33 @@ public class ModelAPI {
 	private List<Jogador> jogadores;
 	private Dealer dealer;
 	//Info secundaria
-	Map<String, Integer> jogadorAposta = new HashMap<String, Integer>();
-	Jogador jogadorAtual; 
+	static Map<String, Integer> jogadorAposta = new HashMap<String, Integer>();
 	int jogada;
 	int rodada;
 	
 	
 	//
-	//Main loop
+	//Funçoes principais de controle de partida
 	//
 	
+	public void confereGanhadores() {
+		//@ Ze confere black jack
+		//@ Ale confere blacl jack
+		for(Jogador j: jogadores) {
+//			if(j.blackJack())
+//				j.receberFichas(jogadorAposta.get((j.getNomeJogador()*1.5) +j.getNomeJogador()));
+			if(j.valorMao(0) > dealer.valorMao())
+				j.receberFichas(jogadorAposta.get(j.getNomeJogador()));
+//		@Ze	if(j.checkRendicao())
+//				j.receberFichas(jogadorAposta.get(j.getNomeJogador())/2);
+			
+		}
+		zerarMontade(); // zera o montante
+		novaRodada();//Chama uma nova rodada;
+	}
+	
 	//Começa uma rodada
-	void novaRodada() {
+	public void novaRodada() {
 		//Incrimenta em 1 a rodada
 		rodada++;
 		
@@ -44,18 +60,23 @@ public class ModelAPI {
 				removerJogadorNome(j.getNomeJogador());	
 		}
 		
-		//Limpa a m�o do dealer
+		//Limpa a m�o do dealer
 		dealer.limpaMao();
 		
-		
-		//Primeiro jogador sera o jogador atual
-		jogadorAtual = jogadores.get(0);
+	}
+	
+	//limpa todos os stands
+	public void clearStand(){
+		for(Jogador j : jogadores) {
+			j.clearStand();
+		}
+		dealer.clearStand();
 	}
 	
 	//Verifica se existem jogadores que podem pedir cartas
 	boolean checkJogadoresDisponiveis() {
 		for(Jogador j :jogadores ) {
-			if(j.checkStand())
+			if(!j.checkStand())
 				return true;
 		}
 		return false;
@@ -80,15 +101,67 @@ public class ModelAPI {
 	}
 	
 	//Pula para o proximo jogador (considera dinheiro e stand)
-	public String proximoJogador() {
-		jogada = avancarJogada();
-		jogadorAtual = jogadores.get(jogada);
-		return jogadorAtual.getNomeJogador();
+	public void proximoJogador() {
+		//todo ?
+		proximaJogada();
 	}
 	
 	//
 	//Metodos de informacao [obtem informaçao dos jogadores e da partida]
 	//
+	
+	public String jogadorAtualNome() {
+		return jogadores.get(jogada).getNomeJogador();
+	}
+	
+	public List<String> jogadorAtualMao() {
+		List<String> cartasString =new ArrayList<>();
+		for(Carta c: jogadores.get(jogada).getMaoJogador(0)) {
+			cartasString.add(c.getInfo());
+		}
+		return cartasString;
+	}
+	
+	public LinkedHashMap <String, Integer> jogadorAtualCarteira() {
+		return jogadores.get(jogada).getFichasJogador();
+	}
+	
+	public boolean jogadorAtualCheckStand() {
+		return jogadores.get(jogada).checkStand();
+	}
+	
+	public int numeroDeJogadores() {
+		return jogadores.size();
+	}
+	
+	public String jogadorNome(int n) {
+		return jogadores.get(n).getNomeJogador();
+	}
+	
+	public List<String> jogadorMao(int n) {
+		List<String> cartasString =new ArrayList<>();
+		for(Carta c: jogadores.get(n).getMaoJogador(0)) {
+			cartasString.add(c.getInfo());
+		}
+		return cartasString;
+	}
+	
+	
+	public List<String> dealerMao() {
+		List<String> cartasString =new ArrayList<>();
+		for(Carta c: dealer.verificarMao()) {
+			cartasString.add(c.getInfo());
+		}
+		return cartasString;
+	}
+	
+	public int totalMontante() {
+		int i=0;
+		for (Map.Entry<String,Integer> pair : jogadorAposta.entrySet()) {
+		    i=i+pair.getValue();
+		}
+		return i;
+	}
 
 	
 	//
@@ -108,13 +181,13 @@ public class ModelAPI {
 	
 	//Jogador atual faz uma aposta
 	public void apostar(int n) {
-		jogadorAtual.pagarFichas(n);
-		adicionarAMontante(jogadorAtual,n);
+		jogadores.get(jogada).pagarFichas(n);
+		adicionarAMontante(jogadores.get(jogada),n);
 	}
 	
 	//Jogador atual recebe
 	public void receber(int n) {
-		jogadorAtual.receberFichas(n);
+		jogadores.get(jogada).receberFichas(n);
 	}
 	
 	//Jogador especifico recebe
@@ -123,7 +196,11 @@ public class ModelAPI {
 	}
 	
 	public void pedirStand() {
-		jogadorAtual.putStand();
+		jogadores.get(jogada).putStand();
+	}
+	
+	public void pedirHit() {
+		jogadores.get(jogada).recebeCarta(baralho.pegarCarta(),0);
 	}
 	
 	// .... Metodos para cada possivel interação
@@ -132,6 +209,14 @@ public class ModelAPI {
 	//
 	//Metodos de controle partida  [controla a partida]
 	//
+	
+	
+	//Zera o montade
+	private void zerarMontade() {
+		jogadorAposta.forEach((key, value) -> {
+			   value = 0;
+			});
+	}
 	
 	//adiciona um valor da aposta de determinado montante do jogador
 	private void adicionarAMontante(Jogador j, int valor){
@@ -144,26 +229,24 @@ public class ModelAPI {
 	}
 	
 	//remove um valor da aposta de determinado montante do jogador
+	@SuppressWarnings("unused")
 	private void removerAMontante(Jogador j, int valor){
 		jogadorAposta.computeIfPresent(j.getNomeJogador(), (k, v) -> v - valor);
 	}
 	
 	//Passa para a proxima jogada
-	private int avancarJogada() {
-		if(this.jogada == this.jogadores.size())
-			return 0;
-		
-		return this.jogada++;
-		
+	public void  proximaJogada() {
+		jogada = jogada+1;
+		if(jogada == jogadores.size())
+			jogada = 0;
 	}
 	
 	
 	//Adiciona um jogador a partida
-	public void adicionarJogador(String nome) throws Exception {
-		if(jogadores.size()<4) {
+	public void adicionarJogador(String nome){
+		if(jogadores.size()<=4) {
 			jogadores.add(new Jogador(nome));
-		}else
-			throw new Exception("Impossivel adicionar mais um jogador. A mesa ja esta cheia !");
+		}
 	}
 	
 	//Remove um jogador especifico da partida
@@ -180,7 +263,7 @@ public class ModelAPI {
 	
 	//Remove o jogador atual da partida
 	public void removerJogador() {
-		removerJogadorNome(this.jogadorAtual.getNomeJogador());
+		removerJogadorNome(jogadores.get(jogada).getNomeJogador());
 	}
 	
 	
@@ -199,6 +282,8 @@ public class ModelAPI {
 	private ModelAPI() {
 		reiniciarBaralho();
 		this.dealer = new Dealer("0x00");
+		this.jogadores = new ArrayList<>();
+		this.jogada = 0;
 	}
 	
 	public static synchronized ModelAPI iniciar() {
@@ -206,8 +291,5 @@ public class ModelAPI {
 			instanciaUnica = new ModelAPI();
 		return instanciaUnica;
 	}
-	
-	
-	
 	
 }
