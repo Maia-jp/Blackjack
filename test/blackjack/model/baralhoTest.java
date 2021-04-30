@@ -58,6 +58,8 @@ public class baralhoTest {
 		
 	}
 	
+	
+	
 	//Imita(mocka) um baralho
 	private List<String> baralhoMock() {
 
