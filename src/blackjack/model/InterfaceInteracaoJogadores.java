@@ -13,10 +13,10 @@ interface InterfaceInteracaoJogadores {
 
 	
 	//Seta um nome para o jogador (dealer tera nome "0x00")
-	void setNomeJogador(String n);
+	void setNomeJogador(String n); // foi
 	
 	//Recebe o nome do jogador (dealer tera nome "0x00")
-	String getNomeJogador();
+	String getNomeJogador(); // foi
 	
 	
 	
@@ -25,48 +25,48 @@ interface InterfaceInteracaoJogadores {
 	//
 	
 	//Recebe 1 carta
-	void receberCarta(Carta c);
+	void receberCarta(Carta c); // foi
 	
 	//Retira todas as cartas da mão
-	void limpaMao();
+	void limpaMao(); // foi
 	
 	//Olha a mão que esta na carta dos jogadores
-	ArrayList<Carta> verificarMao();
+	ArrayList<Carta> verificarMao(); // foi
 	
 	//Verifica o valor da mao do jogador
-	int valorMao();
+	int valorMao(); // foi
 	
 	//
 	//Metodos relacionados a fichas
 	//
 	void pagar(int n);
 	
-	void receber(int n);
+	void receber(int n); // foi
 	
 	//Retorna o numero de fichas;
-	int fichas();
+	int fichas(); // foi
 	
 	//
 	//Metodos relacionados a jogadas possiveis
 	//
 	
 	//Coloca em Slipt
-	void putSlipt();
+	void putSlipt(); // foi
 	
 	//Tira do split
-	void clearSlipt();
+	void clearSlipt(); // foi
 	
 	//Coloca o Stand
-	void putStand();
+	void putStand(); // foi
 	
 	//Tira do Stand
-	void clearStand();
+	void clearStand(); // foi
 	
 	//Verifica se o jogador esta em slipt
-	boolean checkSlipt();
+	boolean checkSlipt(); // foi
 	
 	//Verificar so o jogador esta em stand nessa jogada
-	boolean checkStand();
+	boolean checkStand(); // foi
 	
 	
 	
