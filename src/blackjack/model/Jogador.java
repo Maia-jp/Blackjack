@@ -9,6 +9,7 @@ class Jogador {
 	private boolean stand;
 	private LinkedHashMap <String, Integer> fichasJogador = new LinkedHashMap<String, Integer>();
 	private int totalFichasJogador;
+	@SuppressWarnings("unchecked")
 	private ArrayList<Carta>[] maoJogador = new ArrayList[2];
 	
 	public Jogador(String nome) {
@@ -52,7 +53,7 @@ class Jogador {
 		return this.totalFichasJogador;
 	}
 	
-	//retorna hashmap com a quantidade de cada ficha que o jogador possui
+	//retorna um hashmap com a quantidade de cada ficha que o jogador possui
 	public LinkedHashMap <String, Integer> getFichasJogador() {
 		return fichasJogador;
 	}
@@ -78,7 +79,6 @@ class Jogador {
         }
 	}
 	
-	//aposta minima de $20 e maxima de $100
 	public void pagarFichas(int aposta) {
 		this.totalFichasJogador=this.totalFichasJogador-aposta;
 		for (Map.Entry<String, Integer> entry : this.fichasJogador.entrySet()) {
