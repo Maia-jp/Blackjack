@@ -31,25 +31,22 @@ public class ModelAPI {
 		
 		for(Jogador j :jogadores ) {
 			//Tira carta da mão de todos os jogadores
-			j.limpaMao();
+			j.limparMaoJogador(0);;
 			
 			//Tira do stand
 			j.clearStand();
 			
 			//Tira do split
-			j.clearSplit();
+			j.limparMaoJogador(1);
 			
 			//remove o jogador caso nao tenha mais dinheiro
-			if(j.fichas() == 0)
+			if(j.fichasTotalJogador() == 0)
 				removerJogadorNome(j.getNomeJogador());	
-			
 		}
 		
 		//Primeiro jogador sera o jogador atual
 		jogadorAtual = jogadores.get(0);
 	}
-	
-	
 	
 	//Verifica se existem jogadores que podem pedir cartas
 	boolean checkJogadoresDisponiveis() {
@@ -60,7 +57,6 @@ public class ModelAPI {
 		return false;
 	}
 	
-	
 	//verifica de precisa de um novo baralho
 	void checkNovoBaralho() {
 		if(baralho.getNumeroDeCartas() < ((52*4) - ((52*4)*0.10))){
@@ -69,18 +65,15 @@ public class ModelAPI {
 		
 	}
 	
-	
 	//distribui cartas
 	void distribuirCartas() {
 		for(Jogador j : jogadores) {
-			j.recebe(baralho.pegarCarta());
-			j.recebe(baralho.pegarCarta());
+			j.recebeCarta(baralho.pegarCarta(),0);
+			j.recebeCarta(baralho.pegarCarta(),0);
 		}
 		// @ALE dealer.receberCarta(baralho.pegarCarta());
 		// @ALE dealer.receberCarta(baralho.pegarCarta());
 	}
-	
-	
 	
 	//Pula para o proximo jogador (considera dinheiro e stand)
 	public String proximoJogador() {
@@ -88,9 +81,6 @@ public class ModelAPI {
 		jogadorAtual = jogadores.get(jogada);
 		return jogadorAtual.getNomeJogador();
 	}
-	
-	
-	
 	
 	//
 	//Metodos de informacao [obtem informaçao dos jogadores e da partida]
@@ -109,22 +99,22 @@ public class ModelAPI {
 	
 	//Jogador atual faz uma aposta
 	public void apostar(int n) {
-		// @Ze jogadorAtual.pagar(n);
+		jogadorAtual.pagarFichas(n);
 		adicionarAMontante(jogadorAtual,n);
 	}
 	
 	//Jogador atual recebe
 	public void receber(int n) {
-		// @Ze jogadorAtual.receber(n);
+		jogadorAtual.receberFichas(n);
 	}
 	
 	//Jogador especifico recebe
 	public void receberJogador(Jogador j,int n) {
-		// @Ze j.recebe(n)
+		j.receberFichas(n);
 	}
 	
 	public void pedirStand() {
-	// jogador atual pede um stand
+		jogadorAtual.putStand();
 	}
 	
 	// .... Metodos para cada possivel interação

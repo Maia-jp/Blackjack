@@ -32,7 +32,7 @@ class Jogador {
 		return this.maoJogador[mao];
 	}
 
-	public void hit(Carta a,int mao) {
+	public void recebeCarta(Carta a,int mao) {
 		this.maoJogador[mao].add(a);
 	}
 	
@@ -88,6 +88,10 @@ class Jogador {
 		        break;
 		    }
         }
+	}
+	
+	public void hit(Carta a,int mao) {
+		this.maoJogador[mao].add(a);
 	}
 	
 	public void split() {
