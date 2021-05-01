@@ -32,9 +32,9 @@ public class ModelAPI {
 		}
 		
 		for(Jogador j: jogadores) {
-//			if(j.blackJack())
-//				j.receberFichas(jogadorAposta.get((j.getNomeJogador()*1.5) +j.getNomeJogador()));
-			if(j.valorMao(0) > dealer.valorMao())
+			//if(j.blackjack())
+		//		j.receberFichas(jogadorAposta.get(j.getNomeJogador())*1.5 +j.getNomeJogador()));
+	//		if(j.valorMao(0) > dealer.valorMao())
 				j.receberFichas(jogadorAposta.get(j.getNomeJogador()));
 //		@Ze	if(j.checkRendicao())
 //				j.receberFichas(jogadorAposta.get(j.getNomeJogador())/2);
@@ -55,6 +55,9 @@ public class ModelAPI {
 		for(Jogador j :jogadores ) {
 			//Tira carta da mão de todos os jogadores
 			j.limparMaoJogador(0);;
+			
+			//Tira do double
+			j.clearDobrar();
 			
 			//Tira do stand
 			j.clearStand();
@@ -102,6 +105,7 @@ public class ModelAPI {
 		for(Jogador j : jogadores) {
 			j.recebeCarta(baralho.pegarCarta(),0);
 			j.recebeCarta(baralho.pegarCarta(),0);
+			j.putDobrar();
 		}
 		 dealer.receberCarta(baralho.pegarCarta());
 		 dealer.receberCarta(baralho.pegarCarta());

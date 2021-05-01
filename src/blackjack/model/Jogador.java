@@ -6,6 +6,7 @@ import java.util.Map;
 class Jogador {
 	private String nomeJogador;
 	private boolean stand;
+	private boolean dobrar;
 	private boolean maoVazia;
 	private LinkedHashMap <String, Integer> fichasJogador = new LinkedHashMap<String, Integer>();
 	private int totalFichasJogador;
@@ -19,13 +20,14 @@ class Jogador {
 		this.maoJogador[1] = new ArrayList<>();
 		this.setMaoVazia(true);
 		this.setStand(false);
+		this.setDobrar(false);
 	}
 	
 	public String getNomeJogador() {
 		return nomeJogador;
 	}
 	
-	private void setNomeJogador(String nomeJogador) {
+	public void setNomeJogador(String nomeJogador) {
 		this.nomeJogador = nomeJogador;
 	}
 	
@@ -101,10 +103,25 @@ class Jogador {
         }
 	}
 	
+	public boolean blackjack() {
+		if (this.getMaoJogador(0).size() == 2 && this.valorMao(0) == 21) {
+			return true;
+		}else {
+			return false;
+		}
+	}
+	
 	public void hit(Carta a,int mao) {
 		this.maoJogador[mao].add(a);
 		this.setMaoVazia(false);
 	}
+	
+	public void dobrar(int apostaDoMontante) {
+		if(this.fichasTotalJogador()>=apostaDoMontante) {
+			this.pagarFichas(apostaDoMontante);
+			this.setStand(true);
+		}	
+	}	
 	
 	public void split() {
 		if(this.maoJogador[0].get(0).getValor()==this.maoJogador[0].get(1).getValor()) {
@@ -114,22 +131,38 @@ class Jogador {
 	}
 	
 	public boolean checkStand() {
-		return stand;
+		return this.stand;
 	}
 
 	private void setStand(boolean stand) {
 		this.stand = stand;
 	}
 	
-	void putStand() {
+	public void putStand() {
 		this.setStand(true);
 	}
 	
-	void clearStand() {
+	public void clearStand() {
 		this.setStand(false);
 	}
 	
-	boolean checkSlipt() {
+	public boolean checkDobrar() {
+		return this.dobrar;
+	}
+	
+	private void setDobrar(boolean dobrar) {
+		this.dobrar = dobrar;
+	}
+	
+	public void putDobrar() {
+		this.setDobrar(true);
+	}
+	
+	public void clearDobrar() {
+		this.setDobrar(false);
+	}
+	
+	public boolean checkSlipt() {
 		if(this.maoJogador[1].isEmpty()) {
 			return false;
 		}else {
