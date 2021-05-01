@@ -3,7 +3,6 @@ package blackjack.model;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
-//testando
 class Jogador {
 	private String nomeJogador;
 	private boolean stand;
