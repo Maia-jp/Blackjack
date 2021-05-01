@@ -7,6 +7,7 @@ import java.util.Map;
 class Jogador {
 	private String nomeJogador;
 	private boolean stand;
+	private boolean maoVazia;
 	private LinkedHashMap <String, Integer> fichasJogador = new LinkedHashMap<String, Integer>();
 	private int totalFichasJogador;
 	@SuppressWarnings("unchecked")
@@ -17,6 +18,7 @@ class Jogador {
 		this.setFichasJogador(fichasJogador);
 		this.maoJogador[0] = new ArrayList<>();
 		this.maoJogador[1] = new ArrayList<>();
+		this.setMaoVazia(true);
 		this.setStand(false);
 	}
 	
@@ -24,7 +26,7 @@ class Jogador {
 		return nomeJogador;
 	}
 	
-	public void setNomeJogador(String nomeJogador) {
+	private void setNomeJogador(String nomeJogador) {
 		this.nomeJogador = nomeJogador;
 	}
 	
@@ -32,17 +34,27 @@ class Jogador {
 		return this.maoJogador[mao];
 	}
 
+	public boolean isMaoVazia() {
+		return maoVazia;
+	}
+
+	private void setMaoVazia(boolean maoVazia) {
+		this.maoVazia = maoVazia;
+	}
+	
 	public void recebeCarta(Carta a,int mao) {
 		this.maoJogador[mao].add(a);
+		this.setMaoVazia(false);
 	}
 	
 	public void limparMaoJogador(int mao) {
 		this.maoJogador[mao].clear();
+		this.setMaoVazia(true);
 	}
 	
 	public int valorMao(int mao) {
 		int soma=0;
-		for(int i=0;i<=this.maoJogador[mao].size();i++) {
+		for(int i=0;i<this.maoJogador[mao].size();i++) {
 			soma=soma+this.maoJogador[mao].get(i).getValor();
 		}
 		return soma;
@@ -58,7 +70,7 @@ class Jogador {
 		return fichasJogador;
 	}
 
-	public void setFichasJogador(LinkedHashMap <String, Integer> fichasJogador) {
+	private void setFichasJogador(LinkedHashMap <String, Integer> fichasJogador) {
 		this.fichasJogador.put("100", 2);
 		this.fichasJogador.put("50", 2);
 		this.fichasJogador.put("20", 5);
@@ -92,6 +104,7 @@ class Jogador {
 	
 	public void hit(Carta a,int mao) {
 		this.maoJogador[mao].add(a);
+		this.setMaoVazia(false);
 	}
 	
 	public void split() {
@@ -105,7 +118,7 @@ class Jogador {
 		return stand;
 	}
 
-	public void setStand(boolean stand) {
+	private void setStand(boolean stand) {
 		this.stand = stand;
 	}
 	
@@ -124,4 +137,6 @@ class Jogador {
 			return true;
 		}
 	}
+
+	
 }
