@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 class Dealer extends Jogador{
 	private ArrayList<Carta> cartasDealer;
-	private boolean flag;
 	
 	public Dealer(String nome) {
 		super(nome);
@@ -17,7 +16,7 @@ class Dealer extends Jogador{
 		return super.getNomeJogador();
 	}
 	
-	//adiciona cartas na mão do Dealer ______DEVE SER CHAMADO PELA MESA_________
+	//adiciona cartas na mão do Dealer
 	void receberCarta(Carta a) {
 		this.cartasDealer.add(a);
 	}
@@ -79,6 +78,14 @@ class Dealer extends Jogador{
 			// significa que mais uma Carta
 			return 2;
 		}
+	}
+	
+	boolean veBlackJackDealer() {
+		boolean blackjack = false;
+		if (this.cartasDealer.size() == 2 && contagem() == 21) {
+			blackjack = true;
+		}
+		return blackjack;
 	}
 	
 	int checkEstrategia() {

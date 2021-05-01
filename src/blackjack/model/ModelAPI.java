@@ -23,7 +23,14 @@ public class ModelAPI {
 	
 	public void confereGanhadores() {
 		//@ Ze confere black jack
-		//@ Ale confere blacl jack
+		 
+		//CASO UM OUTRO JOGADOR TENHA BLACK JACK DA EMPATE --> verificar o que acontece no empate. <--
+		if (dealer.veBlackJackDealer() == true /*  && Jogador não possui Black Jack */) {
+			//possui um BLACKJACK
+			zerarMontade();
+			novaRodada();//Chama uma nova rodada;
+		}
+		
 		for(Jogador j: jogadores) {
 //			if(j.blackJack())
 //				j.receberFichas(jogadorAposta.get((j.getNomeJogador()*1.5) +j.getNomeJogador()));
@@ -176,6 +183,7 @@ public class ModelAPI {
 		}
 		else {
 			//verificar cartas para, fim da rodada, ou proximo jogador.
+			proximoJogador();// <-------------------- em duvida?
 		}
 	}
 	
