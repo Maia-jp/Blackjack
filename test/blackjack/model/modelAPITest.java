@@ -102,7 +102,22 @@ public class modelAPITest {
 	
 	@Test
 	public void testNovaRodada() {
-		//@ jao 
+		ModelAPI testClass = ModelAPI.iniciar();
+		testClass.adicionarJogador("alpha");
+		testClass.adicionarJogador("beta");
+		
+		testClass.pedirStand();
+		testClass.pedirDouble();
+		
+		testClass.proximoJogador();
+		
+		testClass.apostar(10);
+		
+		testClass.novaRodada();
+		
+		assertEquals(testClass.checkJogadoresDisponiveis(),true);
+		assertEquals(testClass.jogadorAtualNome(),"alpha");
+		assertEquals(testClass.totalMontante(),0);
 	}
 	
 	@Test
@@ -141,7 +156,13 @@ public class modelAPITest {
 	public void testCheckNovoBaralhoSucess() {
 		ModelAPI testClass = ModelAPI.iniciar();
 		testClass.adicionarJogador("alpha");
-		//@ joao, mudar implementação pare retornar true no check
+		assertFalse(testClass.checkNovoBaralho());
+		
+		for(int i=0; i< 52; i++) {
+			testClass.pedirHit();
+		}
+		
+		assertTrue(testClass.checkNovoBaralho());
 		
 	}
 	
