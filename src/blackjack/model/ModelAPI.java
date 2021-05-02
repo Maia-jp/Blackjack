@@ -96,13 +96,10 @@ public class ModelAPI {
 	}
 	
 	//verifica de precisa de um novo baralho
-	public boolean checkNovoBaralho() {
+	void checkNovoBaralho() {
 		if(baralho.getNumeroDeCartas() < ((52*4) - ((52*4)*0.10))){
 			reiniciarBaralho();
-			return true;
 		}
-		
-		return false;
 		
 	}
 	
@@ -112,8 +109,8 @@ public class ModelAPI {
 			j.recebeCarta(baralho.pegarCarta(),0);
 			j.recebeCarta(baralho.pegarCarta(),0);
 		}
-		dealer.receberCarta(baralho.pegarCarta());
-		dealer.receberCarta(baralho.pegarCarta());
+		 dealer.receberCarta(baralho.pegarCarta());
+		 dealer.receberCarta(baralho.pegarCarta());
 	}
 	
 	//Pula para o proximo jogador 
