@@ -1,5 +1,6 @@
 package blackjack.model;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -114,9 +115,8 @@ public class ModelAPI {
 		 dealer.receberCarta(baralho.pegarCarta());
 	}
 	
-	//Pula para o proximo jogador (considera dinheiro e stand)
+	//Pula para o proximo jogador 
 	public void proximoJogador() {
-		//todo ?
 		proximaJogada();
 	}
 	
@@ -297,9 +297,17 @@ public class ModelAPI {
 	//
 	//Implementa modelo singleton
 	//
+	public void reinicar() {
+		reiniciarBaralho();
+		this.dealer = new Dealer("0x00");
+		this.jogadores = new ArrayList<>();
+		this.jogada = 0;
+		this.rodada = 0;
+		
+	}
+	
 	private String gerarID() {
-		Integer idNumerico = (int) ((Math.random() * (100 - 0)) + 0);
-		return ""+idNumerico.byteValue();
+		return ""+Instant.now().getEpochSecond();
 	}
 	
 	public String conferirId() {
@@ -320,6 +328,7 @@ public class ModelAPI {
 	public static synchronized ModelAPI iniciar() {
 		if(instanciaUnica == null)
 			instanciaUnica = new ModelAPI();
+		instanciaUnica.reinicar();
 		return instanciaUnica;
 	}
 	

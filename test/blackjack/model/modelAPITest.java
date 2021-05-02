@@ -3,26 +3,64 @@ package blackjack.model;
 import static org.junit.Assert.*;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Scanner;
 
 import org.junit.Before;
 import org.junit.Test;
 
 public class modelAPITest {
+	
 
-	public ModelAPI testClass;
+	private ModelAPI testClass;
 	
-	@Before
-	public void setUp() throws Exception {
-		testClass = ModelAPI.iniciar();
 	
+	@Test
+	public void testInicilizarSucesso() {
+		ModelAPI testClass = ModelAPI.iniciar();
+		assertEquals(testClass.numeroDeJogadores(),0);
 	}
 	
 	@Test
+	public void testAdicionarJogadorSucesso() {
+		ModelAPI testClass = ModelAPI.iniciar();
+		List nomesList = Arrays.asList(new String[]{"alpha","beta","gama","delta"});
+		testClass.adicionarJogador("alpha");
+		testClass.adicionarJogador("beta");
+		testClass.adicionarJogador("gama");
+		testClass.adicionarJogador("delta");
+		assertEquals(testClass.numeroDeJogadores(),4);
+		
+		//verifica se todos os jogadores estão realmente na partida
+		for(int i=0;i<testClass.numeroDeJogadores();i++) {
+			assertTrue(nomesList.contains(testClass.jogadorNome(i)));
+		}
+	}
+	
+	@Test
+	public void testDistribuirCartasSucesso() {
+		ModelAPI testClass = ModelAPI.iniciar();
+		testClass.adicionarJogador("Epsilon");
+		testClass.adicionarJogador("Zeta");
+		testClass.distribuirCartas();
+		
+		//Confere se todas os jogadores possuem cartas nas suas mãos
+		for(int i=0;i<testClass.numeroDeJogadores();i++) {
+			assertEquals(testClass.jogadorMao(i).size(),2);
+			}
+	
+	}	
+	
+	
+	@Test
 	public void testSingletonSucesso() {
+		ModelAPI testClass = ModelAPI.iniciar();
 		ModelAPI dummyClass = ModelAPI.iniciar();
 		assertEquals(dummyClass.conferirId(), testClass.conferirId());
+		assertEquals(dummyClass, testClass);
+		
 	}
 	
 	
@@ -37,7 +75,15 @@ public class modelAPITest {
 	//referente a model do que aconteceria em 1 rodada.
 	//
 	@Test
-	public void rotinaDeJogoTest() throws IOException {
+	public void rodarTestIterativo() throws IOException {
+		if(true)	// comente essa linha para iniciar o teste iterativo
+			return; // comente essa linha para iniciar o teste iterativo
+		testClass.reinicar();
+		rotinaDeJogoTest(testClass);
+	}
+	
+	
+	public void rotinaDeJogoTest(ModelAPI testClass) throws IOException {
 		
 		
 		//Analise stdin Usuario
@@ -75,6 +121,7 @@ public class modelAPITest {
 				testClass.confereGanhadores();
 				System.out.println("--------Fim to teste Iterativo-------:");
 				//@Ze printar aqui a quantidade de fichas de cada jogador
+				testClass = null;
 				return;
 			}
 			
@@ -134,13 +181,12 @@ public class modelAPITest {
 			  case 3:
 				  break; //@Ze implementar double
 			  case 0:
-				  return;
+				  testClass = null;return;
 			}
 			
 			//@Ale Dealer pensa
 			testClass.proximaJogada();
 		}
-		
 		
 	}
 
