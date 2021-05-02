@@ -24,6 +24,19 @@ public class modelAPITest {
 	}
 	
 	@Test
+	public void testNumeroDeJogadoresSucesso() {
+		ModelAPI testClass = ModelAPI.iniciar();
+		assertEquals(testClass.numeroDeJogadores(),0);
+		
+		testClass.adicionarJogador("alpha");
+		testClass.adicionarJogador("beta");
+		testClass.adicionarJogador("gama");
+		testClass.adicionarJogador("delta");
+		
+		assertEquals(testClass.numeroDeJogadores(),4);
+	}
+	
+	@Test
 	public void testAdicionarJogadorSucesso() {
 		ModelAPI testClass = ModelAPI.iniciar();
 		List nomesList = Arrays.asList(new String[]{"alpha","beta","gama","delta"});
@@ -53,6 +66,273 @@ public class modelAPITest {
 	
 	}	
 	
+	@Test
+	public void testJogadorAtualNomeSucesso() {
+		ModelAPI testClass = ModelAPI.iniciar();
+		testClass.adicionarJogador("Epsilon");
+		
+		assertEquals(testClass.jogadorAtualNome(),"Epsilon");
+		
+	}
+	
+	@Test
+	public void testJogadorAtualMao() {
+		ModelAPI testClass = ModelAPI.iniciar();
+		testClass.adicionarJogador("Epsilon");
+		testClass.distribuirCartas();
+		
+		assertEquals(testClass.jogadorAtualMao().size(),2);
+	}
+	
+	@Test
+	public void testJogadorAtualCarteira() {
+		ModelAPI testClass = ModelAPI.iniciar();
+		testClass.adicionarJogador("alpha");
+		
+		LinkedHashMap <String, Integer> testMethod = testClass.jogadorAtualCarteira();
+		assertNotNull(testMethod);
+		
+		assertEquals(testMethod.size(),6);
+	
+	}
+	
+	@Test
+	public void confereGanhadores() {
+		//@ Ale
+	}
+	
+	@Test
+	public void testNovaRodada() {
+		//@ jao 
+	}
+	
+	@Test
+	public void testClearStandSucesso() {
+		ModelAPI testClass = ModelAPI.iniciar();
+		testClass.adicionarJogador("alpha");
+		testClass.adicionarJogador("beta");
+		
+		testClass.pedirStand();
+		
+		testClass.proximaJogada();
+		
+		testClass.pedirStand();
+		
+		testClass.clearStand();
+		
+		assertTrue(testClass.checkJogadoresDisponiveis());
+	}
+	
+	@Test
+	public void testCheckJogadoresDisponiveis() {
+		ModelAPI testClass = ModelAPI.iniciar();
+		testClass.adicionarJogador("alpha");
+		testClass.adicionarJogador("beta");
+		
+		testClass.pedirStand();
+		assertTrue(testClass.checkJogadoresDisponiveis());
+		
+		testClass.proximaJogada();
+		
+		testClass.pedirStand();
+		assertFalse(testClass.checkJogadoresDisponiveis());
+	}
+	
+	@Test
+	public void testCheckNovoBaralhoSucess() {
+		ModelAPI testClass = ModelAPI.iniciar();
+		testClass.adicionarJogador("alpha");
+		//@ joao, mudar implementação pare retornar true no check
+		
+	}
+	
+	@Test
+	public void testProximoJogador() {
+		ModelAPI testClass = ModelAPI.iniciar();
+		testClass.adicionarJogador("alpha");
+		testClass.adicionarJogador("beta");
+		testClass.adicionarJogador("gama");
+		testClass.adicionarJogador("delta");
+		
+		assertEquals(testClass.jogadorAtualNome(),"alpha");
+		testClass.proximoJogador();
+		assertEquals(testClass.jogadorAtualNome(),"beta");
+		testClass.proximoJogador();
+		assertEquals(testClass.jogadorAtualNome(),"gama");
+		testClass.proximoJogador();
+		assertEquals(testClass.jogadorAtualNome(),"delta");
+		testClass.proximoJogador();
+		assertEquals(testClass.jogadorAtualNome(),"alpha");
+		
+	}
+	
+	@Test
+	public void testJogadorNome() {
+		ModelAPI testClass = ModelAPI.iniciar();
+		testClass.adicionarJogador("alpha");
+		testClass.adicionarJogador("beta");
+		testClass.adicionarJogador("gama");
+		testClass.adicionarJogador("delta");
+		
+		assertEquals(testClass.jogadorNome(0),"alpha");
+		assertEquals(testClass.jogadorNome(1),"beta");
+		assertEquals(testClass.jogadorNome(2),"gama");
+		assertEquals(testClass.jogadorNome(3),"delta");
+		
+	}
+	
+	@Test
+	public void testJogadorMao() {
+		ModelAPI testClass = ModelAPI.iniciar();
+		testClass.adicionarJogador("alpha");
+		testClass.adicionarJogador("beta");
+		testClass.adicionarJogador("gama");
+		testClass.adicionarJogador("delta");
+
+		assertEquals(testClass.jogadorMao(0).size(),0);
+		assertEquals(testClass.jogadorMao(1).size(),0);
+		assertEquals(testClass.jogadorMao(2).size(),0);
+		assertEquals(testClass.jogadorMao(3).size(),0);
+		
+		testClass.distribuirCartas();
+		
+		assertEquals(testClass.jogadorMao(0).size(),2);
+		assertEquals(testClass.jogadorMao(1).size(),2);
+		assertEquals(testClass.jogadorMao(2).size(),2);
+		assertEquals(testClass.jogadorMao(3).size(),2);
+		
+		
+	}
+	
+	@Test
+	public void testDealerMao() {
+		ModelAPI testClass = ModelAPI.iniciar();
+		testClass.adicionarJogador("alpha");
+		
+		testClass.distribuirCartas();
+		
+		assertEquals(testClass.dealerMao().size(),2);
+		
+	}
+	
+	@Test
+	public void testTotalMontante() {
+		ModelAPI testClass = ModelAPI.iniciar();
+		testClass.adicionarJogador("Gama");
+		testClass.apostar(10);
+		
+		assertEquals(testClass.totalMontante(),10);
+		
+	}
+	
+	
+	//testar dealer acao @Ale
+	
+	
+	
+	@Test
+	public void testApostar() {
+		ModelAPI testClass = ModelAPI.iniciar();
+		testClass.adicionarJogador("alpha");
+		testClass.apostar(10);
+		
+		assertEquals(testClass.totalMontante(),10);
+	}
+	
+	
+	
+	
+	@Test
+	public void testPedirStand() {
+		ModelAPI testClass = ModelAPI.iniciar();
+		testClass.adicionarJogador("alpha");
+		testClass.pedirStand();
+		
+		assertTrue(testClass.jogadorAtualCheckStand());
+	}
+	
+	
+	@Test
+	public void testPedirHit() {
+		ModelAPI testClass = ModelAPI.iniciar();
+		testClass.adicionarJogador("alpha");
+		testClass.pedirHit();
+		assertEquals(testClass.jogadorAtualMao().size(),1);
+		testClass.pedirHit();
+		assertEquals(testClass.jogadorAtualMao().size(),2);
+		testClass.pedirHit();
+		assertEquals(testClass.jogadorAtualMao().size(),3);
+		
+	}
+	
+	@Test
+	public void testJogadorAtualCheckStand() {
+		ModelAPI testClass = ModelAPI.iniciar();
+		testClass.adicionarJogador("alpha");
+		
+		assertFalse(testClass.jogadorAtualCheckStand());
+		
+		testClass.pedirStand();
+		
+		assertTrue(testClass.jogadorAtualCheckStand());
+		
+	}
+	
+	@Test
+	public void testAtivarDouble() {
+		ModelAPI testClass = ModelAPI.iniciar();
+		testClass.adicionarJogador("alpha");
+		//Testar double @ze
+	}
+	
+	@Test
+	public void testPedirDouble() {
+		ModelAPI testClass = ModelAPI.iniciar();
+		testClass.adicionarJogador("alpha");
+		//Testar double @ze
+	}
+	
+	
+	@Test
+	public void testproximaJogada() {
+		ModelAPI testClass = ModelAPI.iniciar();
+		testClass.adicionarJogador("alpha");
+		testClass.adicionarJogador("beta");
+		
+		String j1 = testClass.jogadorAtualNome();
+		testClass.proximoJogador();
+		assertFalse(j1.equals(testClass.jogadorAtualNome()));
+		
+	}
+	
+	@Test
+	public void testRemoverJogadorNome() {
+		ModelAPI testClass = ModelAPI.iniciar();
+		testClass.adicionarJogador("alpha");
+		testClass.adicionarJogador("beta");
+		testClass.adicionarJogador("gama");
+		
+		testClass.removerJogadorNome("beta");
+		
+		assertEquals(testClass.numeroDeJogadores(),2);
+		
+	}
+	
+	@Test
+	public void testRemoverJogador() {
+		ModelAPI testClass = ModelAPI.iniciar();
+		testClass.adicionarJogador("alpha");
+		testClass.adicionarJogador("beta");
+		testClass.adicionarJogador("gama");
+		
+		testClass.removerJogador();
+		
+		assertEquals(testClass.numeroDeJogadores(),2);
+		
+	}
+	
+
+	
 	
 	@Test
 	public void testSingletonSucesso() {
@@ -78,7 +358,7 @@ public class modelAPITest {
 	public void rodarTestIterativo() throws IOException {
 		if(true)	// comente essa linha para iniciar o teste iterativo
 			return; // comente essa linha para iniciar o teste iterativo
-		testClass.reinicar();
+		ModelAPI testClass = ModelAPI.iniciar();
 		rotinaDeJogoTest(testClass);
 	}
 	
@@ -120,7 +400,6 @@ public class modelAPITest {
 			if(!testClass.checkJogadoresDisponiveis()){
 				testClass.confereGanhadores();
 				System.out.println("--------Fim to teste Iterativo-------:");
-				//@Ze printar aqui a quantidade de fichas de cada jogador
 				testClass = null;
 				return;
 			}
@@ -179,12 +458,10 @@ public class modelAPITest {
 			  case 2:
 				  testClass.pedirHit();
 			  case 3:
-				  break; //@Ze implementar double
-			  case 0:
-				  testClass = null;return;
+				  testClass.pedirDouble();
 			}
 			
-			//@Ale Dealer pensa
+
 			testClass.proximaJogada();
 		}
 		

@@ -13,7 +13,7 @@ public class ModelAPI {
 	private List<Jogador> jogadores;
 	private Dealer dealer;
 	//Info secundaria
-	static Map<String, Integer> jogadorAposta = new HashMap<String, Integer>();
+	static private Map<String, Integer> jogadorAposta = new HashMap<String, Integer>();
 	private String ID;
 	private int jogada;
 	private int rodada;
@@ -170,8 +170,8 @@ public class ModelAPI {
 	
 	public int totalMontante() {
 		int i=0;
-		for (Map.Entry<String,Integer> pair : jogadorAposta.entrySet()) {
-		    i=i+pair.getValue();
+		for (int f : jogadorAposta.values()) {
+		    i = i+f;
 		}
 		return i;
 	}
@@ -297,7 +297,7 @@ public class ModelAPI {
 	
 	
 	//Reinicia o baralho
-	public void reiniciarBaralho() {
+	private void reiniciarBaralho() {
 		this.baralho = new Baralho(4);
 	}
 	
@@ -306,12 +306,13 @@ public class ModelAPI {
 	//
 	//Implementa modelo singleton
 	//
-	public void reinicar() {
+	private void reinicar() {
 		reiniciarBaralho();
 		this.dealer = new Dealer("0x00");
 		this.jogadores = new ArrayList<>();
 		this.jogada = 0;
 		this.rodada = 0;
+		this.jogadorAposta.clear();
 		
 	}
 	
@@ -328,10 +329,12 @@ public class ModelAPI {
 	
 	private ModelAPI() {
 		reiniciarBaralho();
+		this.jogadorAposta.clear();
 		this.dealer = new Dealer("0x00");
 		this.jogadores = new ArrayList<>();
 		this.jogada = 0;
 		this.ID = gerarID();
+		
 	}
 	
 	public static synchronized ModelAPI iniciar() {
