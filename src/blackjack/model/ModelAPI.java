@@ -96,11 +96,14 @@ public class ModelAPI {
 	}
 	
 	//verifica de precisa de um novo baralho
-	void checkNovoBaralho() {
+	public boolean checkNovoBaralho() {
 		if(baralho.getNumeroDeCartas() < ((52*4) - ((52*4)*0.10))){
 			reiniciarBaralho();
+			return true;
 		}
-		
+
+		return false;
+
 	}
 	
 	//distribui cartas
