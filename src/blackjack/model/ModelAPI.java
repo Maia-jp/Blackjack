@@ -108,10 +108,9 @@ public class ModelAPI {
 		for(Jogador j : jogadores) {
 			j.recebeCarta(baralho.pegarCarta(),0);
 			j.recebeCarta(baralho.pegarCarta(),0);
-			this.ativarDouble();
 		}
-		 dealer.receberCarta(baralho.pegarCarta());
-		 dealer.receberCarta(baralho.pegarCarta());
+		dealer.receberCarta(baralho.pegarCarta());
+		dealer.receberCarta(baralho.pegarCarta());
 	}
 	
 	//Pula para o proximo jogador 
@@ -197,6 +196,7 @@ public class ModelAPI {
 	public void apostar(int n) {
 		jogadores.get(jogada).pagarFichas(n);
 		adicionarAMontante(jogadores.get(jogada),n);
+		ativarDouble();
 	}
 	
 	//Jogador atual recebe

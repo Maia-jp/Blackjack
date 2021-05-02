@@ -80,7 +80,6 @@ public class modelAPITest {
 		ModelAPI testClass = ModelAPI.iniciar();
 		testClass.adicionarJogador("Epsilon");
 		testClass.distribuirCartas();
-		
 		assertEquals(testClass.jogadorAtualMao().size(),2);
 	}
 	
