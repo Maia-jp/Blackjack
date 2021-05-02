@@ -93,7 +93,7 @@ public class DealerTest {
 		d.receberCarta(teste2);
 		//Adicionando cartas na mão do jogador  Ás e Reis e 5 o dealer vai escolher o Ás = 1
 		
-		assertEquals(16, d.valorMao());
+		assertEquals(26, d.valorMao());
 	}
 	
 	@Test
