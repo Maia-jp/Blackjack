@@ -49,34 +49,34 @@ public class ModelAPI {
 	
 	//Começa uma rodada
 	public void novaRodada() {
-		//Incrimenta em 1 a rodada
-		rodada++;
-		
-		//Coloca em 0 a jogada
-		jogada = 0;
-		
-		for(Jogador j :jogadores ) {
-			//Tira carta da mão de todos os jogadores
-			j.limparMaoJogador(0);;
-			
-			//Tira do double
-			j.clearDobrar();
-			
-			//Tira do stand
-			j.clearStand();
-			
-			//Tira do split
-			j.limparMaoJogador(1);
-			
-			//remove o jogador caso nao tenha mais dinheiro
-			if(j.fichasTotalJogador() == 0)
-				removerJogadorNome(j.getNomeJogador());	
-		}
-		
-		//Limpa a m�o do dealer
-		dealer.limpaMao();
-		
-	}
+        //Incrimenta em 1 a rodada
+        rodada++;
+        
+        //Coloca em 0 a jogada
+        jogada = 0;
+        
+        for(Jogador j :jogadores ) {
+            //Tira carta da m�o de todos os jogadores
+            j.limparMaoJogador(0);;
+            
+            //Tira do double
+            j.clearDobrar();
+            
+            //Tira do stand
+            j.clearStand();
+            
+            //Tira do split
+            j.limparMaoJogador(1);
+            
+            //remove o jogador caso nao tenha mais dinheiro
+            if(j.fichasTotalJogador() == 0)
+                removerJogadorNome(j.getNomeJogador());    
+        }
+        
+        //Limpa a mao do dealer
+        dealer.limpaMao();
+        zerarMontante();    
+    }
 	
 	//limpa todos os stands
 	public void clearStand(){
@@ -199,7 +199,6 @@ public class ModelAPI {
 	public void apostar(int n) {
 		jogadores.get(jogada).pagarFichas(n);
 		adicionarAMontante(jogadores.get(jogada),n);
-		ativarDouble();
 	}
 	
 	//Jogador atual recebe
@@ -245,10 +244,8 @@ public class ModelAPI {
 	
 	//Zera o montade
 	private void zerarMontante() {
-		jogadorAposta.forEach((key, value) -> {
-			   value = 0;
-			});
-	}
+        jogadorAposta.clear();
+    }
 	
 	//adiciona um valor da aposta de determinado montante do jogador
 	private void adicionarAMontante(Jogador j, int valor){
