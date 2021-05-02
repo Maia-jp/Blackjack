@@ -13,8 +13,9 @@ public class ModelAPI {
 	private Dealer dealer;
 	//Info secundaria
 	static Map<String, Integer> jogadorAposta = new HashMap<String, Integer>();
-	int jogada;
-	int rodada;
+	private String ID;
+	private int jogada;
+	private int rodada;
 	
 	
 	//
@@ -25,18 +26,20 @@ public class ModelAPI {
 		//@ Ze confere black jack
 		 
 		//CASO UM OUTRO JOGADOR TENHA BLACK JACK DA EMPATE --> verificar o que acontece no empate. <--
-		if (dealer.veBlackJackDealer() == true /*  && Jogador n�o possui Black Jack */) {
+		if (dealer.veBlackJackDealer() == true /*  && Jogador n�o possui Black Jack */) {
 			//possui um BLACKJACK
 			zerarMontade();
 			novaRodada();//Chama uma nova rodada;
 		}
 		
 		for(Jogador j: jogadores) {
-			//if(j.blackjack())
-		//		j.receberFichas(jogadorAposta.get(j.getNomeJogador())*1.5 +j.getNomeJogador()));
-	//		if(j.valorMao(0) > dealer.valorMao())
+			if(j.blackjack()) {
+				j.receberFichas((int)(jogadorAposta.get(j.getNomeJogador())
+						*1.5 + jogadorAposta.get(j.getNomeJogador())));
+			}
+			if(j.valorMao(0) > dealer.valorMao())
 				j.receberFichas(jogadorAposta.get(j.getNomeJogador()));
-//		@Ze	if(j.checkRendicao())
+// @ze		if(j.checkRendicao())
 //				j.receberFichas(jogadorAposta.get(j.getNomeJogador())/2);
 			
 		}
@@ -215,6 +218,11 @@ public class ModelAPI {
 		jogadores.get(jogada).recebeCarta(baralho.pegarCarta(),0);
 	}
 	
+	public void pedirDouble() {
+//		@Zejogadores.get(jogada).dobrar(apostaDoMontante);
+//		jogadores.get(jogada).recebeCarta(baralho.pegarCarta(),0);
+	}
+	
 	// .... Metodos para cada possivel interação
 	
 	
@@ -289,6 +297,16 @@ public class ModelAPI {
 	//
 	//Implementa modelo singleton
 	//
+	private String gerarID() {
+		Integer idNumerico = (int) ((Math.random() * (100 - 0)) + 0);
+		return ""+idNumerico.byteValue();
+	}
+	
+	public String conferirId() {
+		return ID;
+	}
+	
+	
 	private static ModelAPI instanciaUnica;
 	
 	private ModelAPI() {
@@ -296,6 +314,7 @@ public class ModelAPI {
 		this.dealer = new Dealer("0x00");
 		this.jogadores = new ArrayList<>();
 		this.jogada = 0;
+		this.ID = gerarID();
 	}
 	
 	public static synchronized ModelAPI iniciar() {

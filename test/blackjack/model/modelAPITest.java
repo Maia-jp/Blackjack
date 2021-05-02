@@ -19,13 +19,26 @@ public class modelAPITest {
 	
 	}
 	
+	@Test
+	public void testSingletonSucesso() {
+		ModelAPI dummyClass = ModelAPI.iniciar();
+		assertEquals(dummyClass.conferirId(), testClass.conferirId());
+	}
+	
+	
+	
+	
+	
+	
+	
 	//
 	//Esse teste é uma "DEMO" do jogo. Ou seja, aqui mostramos como todos os componentes
-	//estão funcionando mas em um cenario iterativo e limitado. Basicamente é uma demosntração interativa da API que se
-	//referente a model
+	//estão funcionando mas em um cenario iterativo e limitado! Basicamente é uma demosntração interativa da API que se
+	//referente a model do que aconteceria em 1 rodada.
 	//
 	@Test
 	public void rotinaDeJogoTest() throws IOException {
+		
 		
 		//Analise stdin Usuario
 		Scanner sc= new Scanner(System.in);      //System.in is a standard input stream  
@@ -60,6 +73,8 @@ public class modelAPITest {
 		while(true) {
 			if(!testClass.checkJogadoresDisponiveis()){
 				testClass.confereGanhadores();
+				System.out.println("--------Fim to teste Iterativo-------:");
+				//@Ze printar aqui a quantidade de fichas de cada jogador
 				return;
 			}
 			
@@ -100,7 +115,7 @@ public class modelAPITest {
 			//Exibe montante da mesa
 			System.out.println("Montante total na mesa: "+testClass.totalMontante());
 			
-			//Opçoces de jogo [Mesmo tendo todas elas implementadas limitados aqui 
+			//Opçoces de jogo [Mesmo tendo todas elas implementadas, nos deixamos esse teste com limitações
 			//para nao acrescentar complexidade visto que isso é apenas uma demonstracao
 			//iterativa]
 			System.out.println("\n|Opçoes - digite o numero da opção|");
