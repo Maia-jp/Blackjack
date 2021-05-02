@@ -29,14 +29,13 @@ public class ModelAPI {
 		//CASO UM OUTRO JOGADOR TENHA BLACK JACK DA EMPATE --> verificar o que acontece no empate. <--
 		if (dealer.veBlackJackDealer() == true /*  && Jogador n�o possui Black Jack */) {
 			//possui um BLACKJACK
-			zerarMontade();
+			zerarMontante();
 			novaRodada();//Chama uma nova rodada;
 		}
 		
 		for(Jogador j: jogadores) {
 			if(j.blackjack()) {
-				j.receberFichas((int)(jogadorAposta.get(j.getNomeJogador())
-						*1.5 + jogadorAposta.get(j.getNomeJogador())));
+				j.receberFichas((int)(jogadorAposta.get(j.getNomeJogador())*1.5 + jogadorAposta.get(j.getNomeJogador())));
 			}
 			if(j.valorMao(0) > dealer.valorMao())
 				j.receberFichas(jogadorAposta.get(j.getNomeJogador()));
@@ -44,8 +43,8 @@ public class ModelAPI {
 //				j.receberFichas(jogadorAposta.get(j.getNomeJogador())/2);
 			
 		}
-		zerarMontade(); // zera o montante
-		novaRodada();//Chama uma nova rodada;
+		zerarMontante();
+		novaRodada();
 	}
 	
 	//Começa uma rodada
@@ -109,7 +108,7 @@ public class ModelAPI {
 		for(Jogador j : jogadores) {
 			j.recebeCarta(baralho.pegarCarta(),0);
 			j.recebeCarta(baralho.pegarCarta(),0);
-			j.putDobrar();
+			this.ativarDouble();
 		}
 		 dealer.receberCarta(baralho.pegarCarta());
 		 dealer.receberCarta(baralho.pegarCarta());
@@ -215,14 +214,24 @@ public class ModelAPI {
 	}
 	
 	public void pedirHit() {
-		jogadores.get(jogada).recebeCarta(baralho.pegarCarta(),0);
+		jogadores.get(jogada).hit(baralho.pegarCarta(),0);
+	}
+	
+	public void ativarDouble() {
+		for(Jogador j : jogadores) {
+			if(j.fichasTotalJogador()>=jogadorAposta.get(j.getNomeJogador())) {
+				j.putDobrar();
+			}
+		}
 	}
 	
 	public void pedirDouble() {
-//		@Zejogadores.get(jogada).dobrar(apostaDoMontante);
-//		jogadores.get(jogada).recebeCarta(baralho.pegarCarta(),0);
+		if(jogadores.get(jogada).checkDobrar()) {
+			jogadores.get(jogada).dobrar(jogadorAposta.get(jogadores.get(jogada).getNomeJogador()));
+			jogadores.get(jogada).recebeCarta(baralho.pegarCarta(),0);
+		}
 	}
-	
+		
 	// .... Metodos para cada possivel interação
 	
 	
@@ -232,7 +241,7 @@ public class ModelAPI {
 	
 	
 	//Zera o montade
-	private void zerarMontade() {
+	private void zerarMontante() {
 		jogadorAposta.forEach((key, value) -> {
 			   value = 0;
 			});

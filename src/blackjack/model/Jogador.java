@@ -114,14 +114,13 @@ class Jogador {
 	public void hit(Carta a,int mao) {
 		this.maoJogador[mao].add(a);
 		this.setMaoVazia(false);
+		this.clearDobrar();
 	}
 	
 	public void dobrar(int apostaDoMontante) {
-		if(this.fichasTotalJogador()>=apostaDoMontante) {
 			this.pagarFichas(apostaDoMontante);
-			this.setStand(true);
-			this.setDobrar(true);
-		}	
+			this.putStand();
+			this.clearDobrar();
 	}	
 	
 	public void split() {

@@ -126,10 +126,9 @@ public class jogadorTest {
 	@Test
 	public void dobrarTesteSucesso() {
 		Jogador j1 = new Jogador("Maria");
-		assertFalse(j1.checkDobrar());
 		assertFalse(j1.checkStand());
 		j1.dobrar(50);
-		assertTrue(j1.checkDobrar());
+		assertFalse(j1.checkDobrar());
 		assertTrue(j1.checkStand());
 	}
 	
