@@ -37,7 +37,7 @@ class Carta {
 		
 		
 		if(pontos.equals("a")) {
-			return -1;// retorna valor indefinido
+			return 11;// retorna valor indefinido
 		}else if(pontos.equals("k")){
 			return 10;
 		}else if(pontos.equals("q")) {

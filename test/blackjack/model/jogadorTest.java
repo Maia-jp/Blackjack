@@ -24,6 +24,13 @@ public class jogadorTest {
 	}
 	
 	@Test
+	public void setNomeJogadorTesteSucesso() {
+		Jogador j1 = new Jogador("Maria");
+		j1.setNomeJogador("João");
+		assertEquals("João",j1.getNomeJogador());
+	}
+	
+	@Test
 	public void getMaoJogadorTesteSucesso() {
 		Jogador j1 = new Jogador("Maria");
 		assertNotNull(j1.getMaoJogador(0));
@@ -73,6 +80,12 @@ public class jogadorTest {
 	}
 	
 	@Test
+	public void getFichasJogadorTesteSucesso() {
+		Jogador j1 = new Jogador("Maria");
+		assertNotNull(j1.getFichasJogador());
+	}
+	
+	@Test
 	public void receberFichasTesteSucesso() {
 		Jogador j1 = new Jogador("Maria");
 		j1.receberFichas(50);
@@ -87,11 +100,49 @@ public class jogadorTest {
 	}
 	
 	@Test
+	public void blackjackTesteSucesso() {
+		Jogador j1 = new Jogador("Maria");
+		Carta carta1 = new Carta("Hk");
+		Carta carta2 = new Carta("Hj");
+		j1.recebeCarta(carta1, 0);
+		j1.recebeCarta(carta2, 0);
+		assertFalse(j1.blackjack());
+		j1.limparMaoJogador(0);
+		Carta carta3 = new Carta("Hk");
+		Carta carta4 = new Carta("Ha");
+		j1.recebeCarta(carta3, 0);
+		j1.recebeCarta(carta4, 0);
+		assertTrue(j1.blackjack());
+	}
+	
+	@Test
 	public void hitTesteSucesso() {
 		Jogador j1 = new Jogador("Maria");
 		Carta carta1 = new Carta("Hk");
 		j1.hit(carta1, 0);
 		assertFalse(j1.isMaoVazia());
+	}
+	
+	@Test
+	public void dobrarTesteSucesso() {
+		Jogador j1 = new Jogador("Maria");
+		assertFalse(j1.checkDobrar());
+		assertFalse(j1.checkStand());
+		j1.dobrar(50);
+		assertTrue(j1.checkDobrar());
+		assertTrue(j1.checkStand());
+	}
+	
+	@Test
+	public void splitTesteSucesso() {
+		Jogador j1 = new Jogador("Maria");
+		Carta carta1 = new Carta("Hk");
+		Carta carta2 = new Carta("Hj");
+		j1.recebeCarta(carta1, 0);
+		j1.recebeCarta(carta2, 0);
+		j1.split();
+		assertEquals(1, j1.getMaoJogador(0).size());
+		assertEquals(1, j1.getMaoJogador(1).size());
 	}
 	
 	@Test
@@ -116,6 +167,37 @@ public class jogadorTest {
 		assertFalse(j1.checkStand());
 	}
 	
-
+	@Test
+	public void checkDobrarTesteSucesso() {
+		Jogador j1 = new Jogador("Maria");
+		assertFalse(j1.checkDobrar());
+	}
 	
+	@Test
+	public void putDobrarTesteSucesso() {
+		Jogador j1 = new Jogador("Maria");
+		j1.putDobrar();;
+		assertTrue(j1.checkDobrar());
+	}
+	
+	@Test
+	public void clearDobrarTesteSucesso() {
+		Jogador j1 = new Jogador("Maria");
+		j1.putDobrar();;
+		assertTrue(j1.checkDobrar());
+		j1.clearDobrar();
+		assertFalse(j1.checkDobrar());
+	}
+
+	@Test
+	public void checkSplitTesteSucesso() {
+		Jogador j1 = new Jogador("Maria");
+		Carta carta1 = new Carta("Hk");
+		Carta carta2 = new Carta("Hj");
+		j1.recebeCarta(carta1, 0);
+		j1.recebeCarta(carta2, 0);
+		assertFalse(j1.checkSplit());
+		j1.split();
+		assertTrue(j1.checkSplit());
+	}
 }

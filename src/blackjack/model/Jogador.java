@@ -120,6 +120,7 @@ class Jogador {
 		if(this.fichasTotalJogador()>=apostaDoMontante) {
 			this.pagarFichas(apostaDoMontante);
 			this.setStand(true);
+			this.setDobrar(true);
 		}	
 	}	
 	
@@ -162,7 +163,7 @@ class Jogador {
 		this.setDobrar(false);
 	}
 	
-	public boolean checkSlipt() {
+	public boolean checkSplit() {
 		if(this.maoJogador[1].isEmpty()) {
 			return false;
 		}else {
