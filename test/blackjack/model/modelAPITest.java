@@ -351,9 +351,6 @@ public class modelAPITest {
 		
 	}
 	
-
-	
-	
 	@Test
 	public void testSingletonSucesso() {
 		ModelAPI testClass = ModelAPI.iniciar();
@@ -363,10 +360,24 @@ public class modelAPITest {
 		
 	}
 	
+	@Test
+	public void testconfereGanhadores() {
+		ModelAPI testClass = ModelAPI.iniciar();
+		testClass.adicionarJogador("Ivan");
+		testClass.distribuirCartas();
+		testClass.apostar(20);
+		testClass.confereGanhadores();
+		assertEquals(0,testClass.totalMontante());
+	}
 	
-	
-	
-	
+	@Test
+	public void testDealerAcao() {
+		ModelAPI testClass = ModelAPI.iniciar();
+		testClass.adicionarJogador("Jorge");
+		testClass.distribuirCartas();
+		testClass.dealerAcao();
+		assertEquals(3, testClass.dealerMao().size());
+	}
 	
 	
 	//
@@ -376,8 +387,8 @@ public class modelAPITest {
 	//
 	@Test
 	public void rodarTestIterativo() throws IOException {
-		if(true)	// comente essa linha para iniciar o teste iterativo
-			return; // comente essa linha para iniciar o teste iterativo
+		if(true)	// COMENTE ESSA LINHA PARA INICIAR O TESTE INTERATIVO
+			return; // COMENTE ESSA LINHA PARA INICIAR O TESTE INTERATIVO
 		ModelAPI testClass = ModelAPI.iniciar();
 		rotinaDeJogoTest(testClass);
 	}

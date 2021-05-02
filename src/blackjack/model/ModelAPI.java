@@ -24,25 +24,19 @@ public class ModelAPI {
 	//
 	
 	public void confereGanhadores() {
-		//@ Ze confere black jack
-		 
-		//CASO UM OUTRO JOGADOR TENHA BLACK JACK DA EMPATE --> verificar o que acontece no empate. <--
-		if (dealer.veBlackJackDealer() == true /*  && Jogador nï¿½o possui Black Jack */) {
-			//possui um BLACKJACK
-			zerarMontante();
-			novaRodada();//Chama uma nova rodada;
-		}
 		
 		for(Jogador j: jogadores) {
-			if(j.blackjack()) {
+			if((j.blackjack()) && (dealer.blackJackDealer() == false)) {
 				j.receberFichas((int)(jogadorAposta.get(j.getNomeJogador())*1.5 + jogadorAposta.get(j.getNomeJogador())));
 			}
-			if(j.valorMao(0) > dealer.valorMao())
+			if((j.valorMao(0) > dealer.valorMao()) || (j.blackjack()) && (dealer.blackJackDealer() == true)) {
 				j.receberFichas(jogadorAposta.get(j.getNomeJogador()));
-// @ze		if(j.checkRendicao())
+			}
+//			Proxima iteração
+//			if(j.checkRendicao() && dealer.blackJackDealer() == false)
 //				j.receberFichas(jogadorAposta.get(j.getNomeJogador())/2);
-			
 		}
+		
 		zerarMontante();
 		novaRodada();
 	}
@@ -190,8 +184,9 @@ public class ModelAPI {
 			dealer.receberCarta(baralho.pegarCarta());
 		}
 		else {
-			//verificar cartas para, fim da rodada, ou proximo jogador.
-			proximoJogador();// <-------------------- em duvida?
+			//APENAS PARA VERIFICAR NOS TESTES
+			//proximoJogador();// <--------------------?
+			dealer.receberCarta(baralho.pegarCarta());
 		}
 	}
 	

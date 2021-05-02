@@ -51,7 +51,7 @@ class Dealer extends Jogador{
 	private int verificaValorAs(int to)	
 	/*As ESCOLHAS DO DEALER SOBRE O ÁS AINDA ESTÃO SIMPLES 
 	 * sera implementado uma estrategia 
-	melhor na proxima interação */
+	melhor na proxima iteração */
 	{
 		//verifica se o total vai ser maior ou menor que 21 com a escolha do Ás
 		if(to + 11 > 21) {
@@ -103,7 +103,7 @@ class Dealer extends Jogador{
 		//TESTADO
 	}
 	
-	boolean veBlackJackDealer() {
+	boolean blackJackDealer() {
 		boolean blackjack = false;
 		if (this.cartasDealer.size() == 2 && contagem() == 21) {
 			blackjack = true;

@@ -107,7 +107,7 @@ public class DealerTest {
 		d.receberCarta(teste1);
 		//Adicionando cartas na mão do jogador  Ás e Reis o dealer vai escolher o Ás = 11
 		//BLACKJACK
-		assertTrue(d.veBlackJackDealer());
+		assertTrue(d.blackJackDealer());
 	}
 	
 	@Test
@@ -120,7 +120,7 @@ public class DealerTest {
 		Carta teste1 = new Carta("H4");
 		d.receberCarta(teste1);
 		//Não deu BlackJack
-		assertFalse(d.veBlackJackDealer());
+		assertFalse(d.blackJackDealer());
 	}
 	
 	@Test
@@ -138,7 +138,7 @@ public class DealerTest {
 		
 		//Adicionando mais de duas cartas na mão do jogador iqual a 21
 		//Não deu BLACKJACK
-		assertFalse(d.veBlackJackDealer());
+		assertFalse(d.blackJackDealer());
 	}
 	
 	@Test
