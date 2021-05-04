@@ -104,11 +104,10 @@ class Dealer extends Jogador{
 	}
 	
 	boolean blackJackDealer() {
-		boolean blackjack = false;
-		if (this.cartasDealer.size() == 2 && contagem() == 21) {
-			blackjack = true;
+		if((this.cartasDealer.get(0).getValor() == 11 || this.cartasDealer.get(1).getValor()== 11) && (this.cartasDealer.get(1).getValor()== 10 || this.cartasDealer.get(0).getValor()== 10)){
+			return true;
 		}
-		return blackjack;
+		return false;
 		//TESTADO
 	}
 	
