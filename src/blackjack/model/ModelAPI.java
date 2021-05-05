@@ -29,7 +29,7 @@ public class ModelAPI {
 			if((j.blackjack()) && (dealer.blackJackDealer() == false)) {
 				j.receberFichas((int)(jogadorAposta.get(j.getNomeJogador())*1.5 + jogadorAposta.get(j.getNomeJogador())));
 			}
-			if((j.valorMao(0) > dealer.valorMao()) || (j.blackjack()) && (dealer.blackJackDealer() == true)) {
+			if((j.valorMao(0) > dealer.valorMao() && dealer.valorMao() < 21) || (j.blackjack() && dealer.blackJackDealer() == true)) {
 				j.receberFichas(jogadorAposta.get(j.getNomeJogador()));
 			}
 //			Proxima iteração
