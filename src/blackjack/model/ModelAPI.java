@@ -27,10 +27,10 @@ public class ModelAPI {
 		
 		for(Jogador j: jogadores) {
 			if((j.blackjack()) && (dealer.blackJackDealer() == false)) {
-				j.receberFichas((int)(jogadorAposta.get(j.getNomeJogador())*1.5 + jogadorAposta.get(j.getNomeJogador())));
+				//j.receberFichas((int)(jogadorAposta.get(j.getNomeJogador())*1.5 + jogadorAposta.get(j.getNomeJogador())));
 			}
 			if((j.valorMao(0) > dealer.valorMao() && dealer.valorMao() < 21) || (j.blackjack() && dealer.blackJackDealer() == true)) {
-				j.receberFichas(jogadorAposta.get(j.getNomeJogador()));
+				//j.receberFichas(jogadorAposta.get(j.getNomeJogador()));
 			}
 //			Proxima iteração
 //			if(j.checkRendicao() && dealer.blackJackDealer() == false)
@@ -192,18 +192,18 @@ public class ModelAPI {
 	
 	//Jogador atual faz uma aposta
 	public void apostar(int n) {
-		jogadores.get(jogada).pagarFichas(n);
+	//	jogadores.get(jogada).pagarFichas(n);
 		adicionarAMontante(jogadores.get(jogada),n);
 	}
 	
 	//Jogador atual recebe
 	public void receber(int n) {
-		jogadores.get(jogada).receberFichas(n);
+		//jogadores.get(jogada).receberFichas(n);
 	}
 	
 	//Jogador especifico recebe
 	public void receberJogador(Jogador j,int n) {
-		j.receberFichas(n);
+		//j.receberFichas(n);
 	}
 	
 	public void pedirStand() {

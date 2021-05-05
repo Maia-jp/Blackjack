@@ -88,14 +88,14 @@ public class jogadorTest {
 	@Test
 	public void receberFichasTesteSucesso() {
 		Jogador j1 = new Jogador("Maria");
-		j1.receberFichas(50);
+		//j1.receberFichas(50);
 		assertEquals(550,j1.fichasTotalJogador());
 	}
 	
 	@Test
 	public void pagarFichasTesteSucesso() {
 		Jogador j1 = new Jogador("Maria");
-		j1.pagarFichas(100);
+		//j1.pagarFichas(100);
 		assertEquals(400,j1.fichasTotalJogador());
 	}
 	

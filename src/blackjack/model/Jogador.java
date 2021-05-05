@@ -81,26 +81,14 @@ class Jogador {
 		this.totalFichasJogador=500;
 	}
 	
-	public void receberFichas(int quantia) {
-		this.totalFichasJogador=this.totalFichasJogador+quantia;
-		for (Map.Entry<String, Integer> entry : this.fichasJogador.entrySet()) {
-		    this.fichasJogador.replace(entry.getKey(),entry.getValue()+quantia/Integer.parseInt(entry.getKey()));
-		    quantia=quantia%Integer.parseInt(entry.getKey());
-		    if(quantia==0){
-		        break;
-		    }
-        }
+	public void receberFichas(String ficha, int qtd) {
+		this.totalFichasJogador=this.totalFichasJogador+(Integer.parseInt(ficha)*qtd);
+		this.fichasJogador.replace(ficha,fichasJogador.get(ficha)+qtd);
 	}
 	
-	public void pagarFichas(int aposta) {
-		this.totalFichasJogador=this.totalFichasJogador-aposta;
-		for (Map.Entry<String, Integer> entry : this.fichasJogador.entrySet()) {
-		    this.fichasJogador.replace(entry.getKey(),entry.getValue()-aposta/Integer.parseInt(entry.getKey()));
-		    aposta=aposta%Integer.parseInt(entry.getKey());
-		    if(aposta==0){
-		        break;
-		    }
-        }
+	public void pagarFichas(String ficha, int qtd) {
+		this.totalFichasJogador=this.totalFichasJogador-(Integer.parseInt(ficha)*qtd);
+		this.fichasJogador.replace(ficha,fichasJogador.get(ficha)-qtd);
 	}
 	
 	public boolean blackjack() {
