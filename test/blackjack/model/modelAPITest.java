@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 
 import org.junit.Before;
@@ -111,7 +112,7 @@ public class modelAPITest {
         
         testClass.proximoJogador();
         
-        testClass.apostar(10);
+        testClass.apostar("100",10);
         
         testClass.novaRodada();
         
@@ -239,9 +240,9 @@ public class modelAPITest {
 	public void testTotalMontante() {
 		ModelAPI testClass = ModelAPI.iniciar();
 		testClass.adicionarJogador("Gama");
-		testClass.apostar(10);
+		testClass.apostar("100",10);
 		
-		assertEquals(testClass.totalMontante(),10);
+		assertEquals(testClass.totalMontante(),1000);
 		
 	}
 	
@@ -254,9 +255,9 @@ public class modelAPITest {
 	public void testApostar() {
 		ModelAPI testClass = ModelAPI.iniciar();
 		testClass.adicionarJogador("alpha");
-		testClass.apostar(10);
+		testClass.apostar("5",10);
 		
-		assertEquals(testClass.totalMontante(),10);
+		assertEquals(testClass.totalMontante(),50);
 	}
 	
 	
@@ -365,7 +366,7 @@ public class modelAPITest {
 		ModelAPI testClass = ModelAPI.iniciar();
 		testClass.adicionarJogador("Ivan");
 		testClass.distribuirCartas();
-		testClass.apostar(20);
+		testClass.apostar("5",20);
 		testClass.confereGanhadores();
 		assertEquals(0,testClass.totalMontante());
 	}
@@ -378,6 +379,95 @@ public class modelAPITest {
 		testClass.dealerAcao();
 		assertEquals(3, testClass.dealerMao().size());
 	}
+	
+	@Test
+	public void testjogadorEspecificoCarteira() {
+		ModelAPI testClass = ModelAPI.iniciar();
+		testClass.adicionarJogador("Bach");
+		testClass.adicionarJogador("Vivaldi");
+		testClass.adicionarJogador("Handel");
+		
+		
+		testClass.apostar("5", 1);
+	
+		
+		assertTrue(testClass.jogadorEspecificoCarteiraTotal(1)>testClass.jogadorAtualCarteiraTotal());
+		
+	}
+	
+	@Test
+	public void testjogadorAtualCarteiraTotal() {
+		ModelAPI testClass = ModelAPI.iniciar();
+		testClass.adicionarJogador("Bach");
+		
+		assertEquals(500,testClass.jogadorAtualCarteiraTotal());
+	}
+	
+	@Test
+	public void testjogadorEspecificoCarteiraTotal() {
+		ModelAPI testClass = ModelAPI.iniciar();
+		testClass.adicionarJogador("Bach");
+		testClass.adicionarJogador("Beethoven");
+		
+		testClass.apostar("50", 1);
+		
+		assertTrue(testClass.jogadorEspecificoCarteiraTotal(1)>testClass.jogadorAtualCarteiraTotal());
+		assertEquals(500,testClass.jogadorEspecificoCarteiraTotal(1));
+	
+	}
+	
+	@SuppressWarnings("deprecation")
+	@Test
+	public void testFichaNaMesaTotal() {
+		ModelAPI testClass = ModelAPI.iniciar();
+		testClass.adicionarJogador("Handel");
+		testClass.adicionarJogador("Paganini");
+		
+		testClass.apostar("100", 1);
+		
+		Map<String, Integer> testMap = testClass.fichasNaMesaTotal();
+		
+		assertNull(testMap.get("1"));
+		assertNull(testMap.get("5"));
+		assertNull(testMap.get("10"));
+		assertNull(testMap.get("20"));
+		assertNull(testMap.get("50"));
+		assertEquals(testMap.get("100"),new Integer(1));
+		
+		
+	}
+	
+	@Test
+	public void testMontanteTotal(){
+		ModelAPI testClass = ModelAPI.iniciar();
+		testClass.adicionarJogador("Handel");
+		testClass.adicionarJogador("Paganini");
+		
+		testClass.apostar("5", 1);
+		
+		Map<String, Map<String, Integer>> testMapMap = testClass.montanteTotal();
+		
+		Map<String, Integer> testMap = testMapMap.get("Handel");
+		assertNull(testMap.get("1"));
+		assertEquals(testMap.get("5"),new Integer(1));
+		assertNull(testMap.get("10"));
+		assertNull(testMap.get("20"));
+		assertNull(testMap.get("50"));
+		assertNull(testMap.get("100"));
+		
+	}
+	
+	@Test
+	public void testJogadorAtualQuantidadeFichas() {
+		ModelAPI testClass = ModelAPI.iniciar();
+		testClass.adicionarJogador("Handel");
+		
+		testClass.apostar("100", 1);
+		
+		assertEquals(1,testClass.jogadorAtualQuantidadeFichas("100"));
+		
+	}
+	
 	
 	
 	//
@@ -414,7 +504,7 @@ public class modelAPITest {
 		//simplificar o teste todos os jogadores irão apostar 1 vez um 20 moedas 
 		boolean loop = true;
 		while(loop) {
-			testClass.apostar(20);
+			testClass.apostar("1",20);
 			testClass.pedirStand();
 			testClass.proximaJogada();
 			

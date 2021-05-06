@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 public class ModelAPI {
 	//Info principal
@@ -13,7 +14,8 @@ public class ModelAPI {
 	private List<Jogador> jogadores;
 	private Dealer dealer;
 	//Info secundaria
-	static private Map<String, Integer> jogadorAposta = new HashMap<String, Integer>();
+	static private Map<String,Map<String, Integer>> jogadorAposta = 
+			new HashMap<String, Map<String, Integer>>();
 	private String ID;
 	private int jogada;
 	private int rodada;
@@ -32,7 +34,7 @@ public class ModelAPI {
 			if((j.valorMao(0) > dealer.valorMao() && dealer.valorMao() < 21) || (j.blackjack() && dealer.blackJackDealer() == true)) {
 				//j.receberFichas(jogadorAposta.get(j.getNomeJogador()));
 			}
-//			Proxima iteraÁ„o
+//			Proxima iteraÔøΩÔøΩo
 //			if(j.checkRendicao() && dealer.blackJackDealer() == false)
 //				j.receberFichas(jogadorAposta.get(j.getNomeJogador())/2);
 		}
@@ -50,7 +52,7 @@ public class ModelAPI {
         jogada = 0;
         
         for(Jogador j :jogadores ) {
-            //Tira carta da m„o de todos os jogadores
+            //Tira carta da mÔøΩo de todos os jogadores
             j.limparMaoJogador(0);;
             
             //Tira do double
@@ -135,6 +137,35 @@ public class ModelAPI {
 		return jogadores.get(jogada).getFichasJogador();
 	}
 	
+	public int jogadorAtualQuantidadeFichas(String ficha) {
+		return jogadorEspecificoQuantidadeFichas(jogada,ficha);
+	}
+	
+	public int jogadorEspecificoQuantidadeFichas(int j,String ficha) {
+		return jogadores.get(j).getFichasJogador().get(ficha);
+	}
+	
+	public int jogadorAtualCarteiraTotal() {
+		int i =0;
+		for(String key : jogadores.get(jogada).getFichasJogador().keySet()) {
+			i = i + Integer.parseInt(key) * jogadores.get(jogada).getFichasJogador().get(key);
+		}
+		return i;
+	}
+	
+	public int jogadorEspecificoCarteiraTotal(int n) {
+		int i =0;
+		for(String key : jogadores.get(n).getFichasJogador().keySet()) {
+			i = i + Integer.parseInt(key) * jogadores.get(n).getFichasJogador().get(key);
+		}
+		return i;
+	}
+	
+	public Map<String, Integer> jogadorEspecificoCarteira(int n){
+		return jogadores.get(n).getFichasJogador();
+
+	}
+	
 	public boolean jogadorAtualCheckStand() {
 		return jogadores.get(jogada).checkStand();
 	}
@@ -166,11 +197,34 @@ public class ModelAPI {
 	
 	public int totalMontante() {
 		int i=0;
-		for (int f : jogadorAposta.values()) {
-		    i = i+f;
+		for(String key : jogadorAposta.keySet()) {
+			for(String key2 :jogadorAposta.get(key).keySet()) {
+				i = i + Integer.parseInt(key2) * jogadorAposta.get(key).get(key2);
+			}
 		}
 		return i;
 	}
+	
+	public Map<String, Integer> fichasNaMesaTotal(){
+		 Map<String, Integer> fichasTotaisNaMesa = new HashMap<String, Integer>();
+		for(String key : jogadorAposta.keySet()) {
+			for(String key2 :jogadorAposta.get(key).keySet()) {
+				if(fichasTotaisNaMesa.containsKey(key2)) {
+					int nvVal = jogadorAposta.get(key).get(key2);
+					fichasTotaisNaMesa.computeIfPresent(key2, (k, v) -> v + nvVal);
+				}else {
+					fichasTotaisNaMesa.put(key2, jogadorAposta.get(key).get(key2));
+				}
+			}
+		}
+		return fichasTotaisNaMesa;
+		
+	}
+	
+	public Map<String,Map<String,Integer>> montanteTotal(){
+		return jogadorAposta;
+	}
+	
 
 	
 	//
@@ -191,19 +245,19 @@ public class ModelAPI {
 	}
 	
 	//Jogador atual faz uma aposta
-	public void apostar(int n) {
-	//	jogadores.get(jogada).pagarFichas(n);
-		adicionarAMontante(jogadores.get(jogada),n);
+	public void apostar(String ficha, int quantidade) {
+		jogadores.get(jogada).pagarFichas(ficha,quantidade); 
+		adicionarAMontante(jogadores.get(jogada),ficha,quantidade);
 	}
 	
 	//Jogador atual recebe
-	public void receber(int n) {
-		//jogadores.get(jogada).receberFichas(n);
+	public void receber(String ficha, int quantidade) {
+		jogadores.get(jogada).receberFichas(ficha,quantidade);
 	}
 	
 	//Jogador especifico recebe
-	public void receberJogador(Jogador j,int n) {
-		//j.receberFichas(n);
+	public void receberJogador(Jogador j,String ficha, int quantidade) {
+		j.receberFichas(ficha,quantidade);
 	}
 	
 	public void pedirStand() {
@@ -215,18 +269,20 @@ public class ModelAPI {
 	}
 	
 	public void ativarDouble() {
-		for(Jogador j : jogadores) {
-			if(j.fichasTotalJogador()>=jogadorAposta.get(j.getNomeJogador())) {
-				j.putDobrar();
-			}
-		}
+		// @ Ze
+//		for(Jogador j : jogadores) {
+//			if(j.fichasTotalJogador()>=jogadorAposta.get(j.getNomeJogador())) {
+//				j.putDobrar();
+//			}
+//		}
 	}
 	
 	public void pedirDouble() {
-		if(jogadores.get(jogada).checkDobrar()) {
-			jogadores.get(jogada).dobrar(jogadorAposta.get(jogadores.get(jogada).getNomeJogador()));
-			jogadores.get(jogada).recebeCarta(baralho.pegarCarta(),0);
-		}
+		// @ Ze
+//		if(jogadores.get(jogada).checkDobrar()) {
+//			jogadores.get(jogada).dobrar(jogadorAposta.get(jogadores.get(jogada).getNomeJogador()));
+//			jogadores.get(jogada).recebeCarta(baralho.pegarCarta(),0);
+//		}
 	}
 		
 	// .... Metodos para cada possivel intera√ß√£o
@@ -243,19 +299,23 @@ public class ModelAPI {
     }
 	
 	//adiciona um valor da aposta de determinado montante do jogador
-	private void adicionarAMontante(Jogador j, int valor){
+	private void adicionarAMontante(Jogador j, String ficha, int quantidade){
 		if(!jogadorAposta.containsKey(j.getNomeJogador())) {
-			jogadorAposta.put(j.getNomeJogador(), valor);
+			Map<String, Integer> novoMapa = new HashMap<String, Integer>();
+			novoMapa.put(ficha, quantidade);
+	
+			jogadorAposta.put(j.getNomeJogador(),novoMapa);
+			jogadorAposta.get(j.getNomeJogador()).put(ficha, quantidade);
 			
 		}else {
-			jogadorAposta.computeIfPresent(j.getNomeJogador(), (k, v) -> v + valor);
+			jogadorAposta.get(j.getNomeJogador()).computeIfPresent(ficha, (k, v) -> v + quantidade);
 		}
 	}
 	
 	//remove um valor da aposta de determinado montante do jogador
 	@SuppressWarnings("unused")
-	private void removerAMontante(Jogador j, int valor){
-		jogadorAposta.computeIfPresent(j.getNomeJogador(), (k, v) -> v - valor);
+	private void removerAMontante(Jogador j, String ficha, int quantidade){
+		jogadorAposta.get(j.getNomeJogador()).computeIfPresent(ficha, (k, v) -> v + quantidade);
 	}
 	
 	//Passa para a proxima jogada
