@@ -9,6 +9,7 @@ public class Main {
 		GUIService GUI =  GUIService.iniciar();
 		try {
 			GUI.exibir();
+			System.out.print("123");
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

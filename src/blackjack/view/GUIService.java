@@ -13,7 +13,6 @@ import java.util.*;
 
 public class GUIService {
 	private String ID;
-	private JFrame rootFrame = new JFrame("BlackJack - Tela Incial");
 	//bitmap -> exibindo tela inical, exibindo carregamento de partida, exibindo jogo
 	private static BitSet estado = new BitSet(3);
 	
@@ -41,24 +40,25 @@ public class GUIService {
 	
 	//Janela inicial
 	
-	private void telaInicial() {
-		rootFrame.setSize(500, 350); // frame: width=1200, height = 700
+	private void exibirTelaInicial() {
+		TelaIncial telaInicial = new TelaIncial();
+		telaInicial.setVisible(true);
 		
-		JButton bIniciar=new JButton("Iniciar");
-		JButton bCarregar=new JButton("Carregar");
-        
-		bIniciar.setBounds(500/2-110, 350/2-50,200,30); 
-		rootFrame.add(bIniciar);
+		telaInicial.addWindowListener(new WindowAdapter() {
+
+	        @Override
+	        public void windowClosing(WindowEvent arg0) {
+	            	telaInicial.setVisible(false);
+	                System.out.println("closed");
+	        }
+
+	    });
 		
-		bCarregar.setBounds(500/2-110, 350/2,200,30);
-		rootFrame.add(bCarregar);
-		
-		rootFrame.setLayout(null);
-		
-		// Display the frame
-		rootFrame.show();
 		
 	}
+	
+	
+	
 	
 	//Exibir
 	public void exibir() throws Exception {
@@ -67,12 +67,13 @@ public class GUIService {
 		}
 		
 		if(estado.get(0)) {
-			telaInicial();
+			exibirTelaInicial();
 		}
 		
 		
 	}
 	
+
 	
 	
 }
