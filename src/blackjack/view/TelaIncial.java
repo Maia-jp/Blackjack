@@ -27,6 +27,8 @@ public class TelaIncial extends JFrame{
 	
 	private JLabel lblJogadoresSelecionados;
 	
+	public JButton btnComeçarPartida;
+	
 	public TelaIncial() {
 		initialize();
 	}
@@ -91,12 +93,8 @@ public class TelaIncial extends JFrame{
 		jogador4Nome.setBounds(105, 87, 159, 20);
 		lblj2.add(jogador4Nome);
 		
-		JButton btnComeçarPartida = new JButton("Começar partida");
-		btnComeçarPartida.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				System.out.print("123");
-			}
-		});
+		btnComeçarPartida = new JButton("Começar partida");
+		
 		btnComeçarPartida.setBounds(351, 84, 150, 23);
 		lblj2.add(btnComeçarPartida);
 		
@@ -117,6 +115,8 @@ public class TelaIncial extends JFrame{
 		jogador2Nome.getDocument().addDocumentListener(dl);
 		jogador3Nome.getDocument().addDocumentListener(dl);
 		jogador4Nome.getDocument().addDocumentListener(dl);
+		
+		btnComeçarPartida.addActionListener(btnPartidaAction);
 		
 		
 	
@@ -160,9 +160,41 @@ public class TelaIncial extends JFrame{
         }
     };
     
+    ActionListener btnPartidaAction = new ActionListener() {
+    	public void actionPerformed(ActionEvent e) {
+    		try {
+				btnComecarCallback();
+			} catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		}
+    };
+  
     
+    //Callbacks
+    private void btnComecarCallback() throws Exception {
+    	if(jogador1Nome.getText().length()>0)
+        	jogadores.add(jogador1Nome.getText());
+        if(jogador2Nome.getText().length()>0)
+        	jogadores.add(jogador2Nome.getText());
+        if(jogador3Nome.getText().length()>0)
+        	jogadores.add(jogador3Nome.getText());
+        if(jogador4Nome.getText().length()>0)
+        	jogadores.add(jogador4Nome.getText());
+        
+        if(jogadores.size() < 1) {
+        	throw new Exception("Lista de jogadores nao pode ser vaiza");
+        }else {
+        	this.setVisible(false);
+        }
+
+    }
     
-	
+    List<String> getJogadores() {
+    	return jogadores;
+    }
+    
 
 	
 }
