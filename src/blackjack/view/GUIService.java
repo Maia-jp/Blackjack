@@ -59,9 +59,9 @@ public class GUIService {
 		telaInicial.setVisible(true);
 		
 		telaInicial.addWindowListener(wAListner);
-		telaInicial.btnComeçarPartida.addActionListener(new ActionListener() {
+		telaInicial.btnComecarPartida.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				telaInicialComeçarCallback();
+				telaInicialComecarCallback();
 			}});
 		
 	}
@@ -110,7 +110,7 @@ public class GUIService {
 	
 	//
 	//Callbacks e observers
-	private void telaInicialComeçarCallback(){
+	private void telaInicialComecarCallback(){
 		System.out.print("Tela inicial callback");
 		 List<String> jogadores = telaInicial.getJogadores();
 		 jogadores.forEach((j) -> api.adicionarJogador(j));
