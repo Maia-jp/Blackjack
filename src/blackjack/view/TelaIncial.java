@@ -27,7 +27,7 @@ public class TelaIncial extends JFrame{
 	
 	private JLabel lblJogadoresSelecionados;
 	
-	public JButton btnComeçarPartida;
+	public JButton btnComecarPartida;
 	
 	public TelaIncial() {
 		initialize();
@@ -93,10 +93,10 @@ public class TelaIncial extends JFrame{
 		jogador4Nome.setBounds(105, 87, 159, 20);
 		lblj2.add(jogador4Nome);
 		
-		btnComeçarPartida = new JButton("Começar partida");
+		btnComecarPartida = new JButton("Comecar partida");
 		
-		btnComeçarPartida.setBounds(351, 84, 150, 23);
-		lblj2.add(btnComeçarPartida);
+		btnComecarPartida.setBounds(351, 84, 150, 23);
+		lblj2.add(btnComecarPartida);
 		
 		
 		lblJogadoresSelecionados = new JLabel("x jogadores selecionados");
@@ -116,7 +116,7 @@ public class TelaIncial extends JFrame{
 		jogador3Nome.getDocument().addDocumentListener(dl);
 		jogador4Nome.getDocument().addDocumentListener(dl);
 		
-		btnComeçarPartida.addActionListener(btnPartidaAction);
+		btnComecarPartida.addActionListener(btnPartidaAction);
 		
 		
 	
