@@ -24,10 +24,11 @@ public class GUIService {
 	//Telas
 	TelaIncial telaInicial;
 	TelaJogador telaJogador;
+	TelaBanca telaBanca;
 	
-	
-	
-	
+	//
+	CarregaImagens cI;
+	Observer ob = new Observer(api);
 	//
 	//Singleton
 	//
@@ -48,9 +49,7 @@ public class GUIService {
 			instanciaUnica = new GUIService();
 		return instanciaUnica;
 	}
-	
-	
-	
+		
 	//
 	//Janelas
 	//
@@ -72,12 +71,17 @@ public class GUIService {
 		telaJogador.addWindowListener(wAListner);
 	}
 	
+	private void exibirTelaBanca() {
+		this.telaBanca = new TelaBanca(cI, ob.getDealermao(), ob.getValorMaoDealer());
+		telaBanca.setVisible(true);
+		telaBanca.addWindowListener(wAListner);
+	}
 	
 	//
 	//Exibir
 	//
 	public void exibir() throws Exception {
-		if(estado.get(0) && estado.get(1)&& estado.get(2)) {
+		if(estado.get(0) && estado.get(1) && estado.get(2)) {
 			throw new Exception("Mais um de estado se encontra ativo");
 		}
 		
@@ -85,26 +89,28 @@ public class GUIService {
 			exibirTelaInicial();
 		}
 		if(estado.get(1)) {
+			this.cI = new CarregaImagens();
 			exibirTelaJogador();
+			exibirTelaBanca();
 		}
-		
 	}
 	
 	//
 	//Listners
 	//
 	WindowAdapter wAListner = new WindowAdapter() {
-        
 		public void windowClosing(WindowEvent arg0) {
-            	telaInicial.setVisible(false);
-            	telaInicial.dispose();
-            	
-            	telaJogador.setVisible(false);
-            	telaJogador.disable();
-            	
-                System.exit(0);
+        	telaInicial.setVisible(false);
+        	telaInicial.dispose();
+        	
+        	telaJogador.setVisible(false);
+        	telaJogador.disable();
+        	
+        	telaBanca.setVisible(false);
+        	telaBanca.disable();
+        	
+            System.exit(0);
         }
-
 	};
 	
 	
