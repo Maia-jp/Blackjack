@@ -195,6 +195,11 @@ public class ModelAPI {
 		return cartasString;
 	}
 	
+	//NOVO
+	public int valorDealerMao() {
+		return dealer.valorMao();
+	}
+	
 	public int totalMontante() {
 		int i=0;
 		for(String key : jogadorAposta.keySet()) {
@@ -368,7 +373,7 @@ public class ModelAPI {
 		this.jogada = 0;
 		this.rodada = 0;
 		this.jogadorAposta.clear();
-		
+		distribuirCartas();
 	}
 	
 	private String gerarID() {
