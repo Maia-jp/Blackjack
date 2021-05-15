@@ -12,7 +12,7 @@ import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 
-public class TelaBanca extends JFrame{
+public class TelaBanca extends JFrame implements Observador{
 	private final int LARG_DEFAULT=891;
 	private final int ALT_DEFAULT=700;
 	public TelaBanca(CarregaImagens cI, List<String> m, int valorDealer) {
@@ -31,6 +31,20 @@ public class TelaBanca extends JFrame{
         add(s);
         s.repaint();
         
+	}
+	
+	//Metodos Observador
+	@Override
+	public void executar(Object obj,int ID) {
+		System.out.println("OBSERVADOR");
+		switch (ID)
+		{
+		     case 1:
+		     System.out.println(obj);
+		     ;
+		     
+		}
+				
 	}
 	
 }

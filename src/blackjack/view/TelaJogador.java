@@ -9,12 +9,15 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 
 public class TelaJogador extends JFrame {
+	String nomeJogador;
 	
-	public TelaJogador() {
+	public TelaJogador(String nomeJogador) {
+		this.nomeJogador = nomeJogador;
 		initialize();
 	}
 	
 	private void initialize() {
+		System.out.println("Jogador incializado:" + nomeJogador);
 		this.getContentPane().setBackground(Color.DARK_GRAY);
 		this.getContentPane().setLayout(null);
 		this.setResizable(false);
@@ -40,7 +43,7 @@ public class TelaJogador extends JFrame {
 		this.getContentPane().add(panel2);
 		panel2.setLayout(null);
 		
-		Label label = new Label("Nome do Jogador");
+		Label label = new Label(nomeJogador);
 		label.setAlignment(Label.CENTER);
 		label.setBounds(45, 10, 98, 22);
 		panel1.add(label);
@@ -55,7 +58,7 @@ public class TelaJogador extends JFrame {
 		label_1_1.setBounds(10, 66, 98, 22);
 		panel1.add(label_1_1);
 		
-		Label label_1_1_1 = new Label("Valor da mão");
+		Label label_1_1_1 = new Label("Valor da mao");
 		label_1_1_1.setAlignment(Label.CENTER);
 		label_1_1_1.setBounds(45, 10, 98, 22);
 		panel2.add(label_1_1_1);

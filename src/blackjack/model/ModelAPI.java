@@ -8,7 +8,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-public class ModelAPI {
+import blackjack.view.Observador;
+
+public class ModelAPI implements Observado {
 	//Info principal
 	private Baralho baralho;
 	private List<Jogador> jogadores;
@@ -103,13 +105,16 @@ public class ModelAPI {
 	}
 	
 	//distribui cartas
-	void distribuirCartas() {
+	public void distribuirCartas() {
 		for(Jogador j : jogadores) {
 			j.recebeCarta(baralho.pegarCarta(),0);
 			j.recebeCarta(baralho.pegarCarta(),0);
 		}
 		 dealer.receberCarta(baralho.pegarCarta());
 		 dealer.receberCarta(baralho.pegarCarta());
+		 
+		 //Observer
+		 notificar(dealer,1);
 	}
 	
 	//Pula para o proximo jogador 
@@ -402,6 +407,21 @@ public class ModelAPI {
 			instanciaUnica = new ModelAPI();
 		instanciaUnica.reinicar();
 		return instanciaUnica;
+	}
+	
+	//
+	// OBSERVADO
+	//
+	public static final List<Observador> observadores = new ArrayList<>();
+	
+	@Override
+	public void adicionarObservador(Observador o) {
+		observadores.add(o);
+	}
+	
+	@Override
+	public void notificar(Object obj,int idAction) {
+		observadores.forEach((o) -> o.executar(obj,idAction));
 	}
 	
 }
