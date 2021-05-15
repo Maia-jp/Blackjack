@@ -4,12 +4,17 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Label;
 import java.awt.Panel;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 
-public class TelaJogador extends JFrame {
+public class TelaJogador extends JFrame implements Observador {
 	String nomeJogador;
+	List<String> cartas = new ArrayList<>();
 	
 	public TelaJogador(String nomeJogador) {
 		this.nomeJogador = nomeJogador;
@@ -93,5 +98,44 @@ public class TelaJogador extends JFrame {
 		
 		
 	}
+	
+	//Observador
+	public void executar(Object obj,int ID) {
+		switch (ID)
+		{
+		     case 2:
+		    	 if(obj.getClass().equals(HashMap.class)) {
+		    		 HashMap<String,List<String>> maoDosJogadores = (HashMap<String, List<String>>) obj;
+		    		 alterarMao(maoDosJogadores.get(nomeJogador));
+		    	 }else {
+		    		 System.out.println("[ERRO][Tela jogador][Observer] ID 2 deve receber um hashMap, foi recebido:" + obj.getClass());
+		    	 }
+		    	 break
+		     ;
+		     case 3:
+		    	 if(obj.getClass().equals(HashMap.class)) {
+		    		 Map<String,Integer> maoValorDosJogadores = (HashMap<String, Integer>) obj;
+		    		 
+		    		 atualizarValorDaMao(maoValorDosJogadores.get(nomeJogador));
+		    	 }else {
+		    		 System.out.println("[ERRO][Tela jogador][Observer] ID 3 deve receber um HashMap, foi recebido:" + obj.getClass());
+		    	 }
+		    	 break
+		     ;
+		     
+		}
+		
+	}
+	
+	//Metodos de execucao observer
+	private void alterarMao(List<String> novaMao) {
+		System.out.println(novaMao);
+
+	}
+	
+	private void atualizarValorDaMao(Integer novoValor) {
+		System.out.println("Novo valor "+novoValor);
+	}
+	
 	
 }

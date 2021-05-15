@@ -114,7 +114,20 @@ public class ModelAPI implements Observado {
 		 dealer.receberCarta(baralho.pegarCarta());
 		 
 		 //Observer
+		 //-Envia mao do dealer para o dealer
 		 notificar(dealer,1);
+		 
+		 //-Envia mao para cada jogador
+		 Map<String,List<String>> maoDosJogadores = new HashMap<String,List<String>>();
+		 jogadores.forEach((j) -> maoDosJogadores.put(j.getNomeJogador(), jogadorMao(jogadores.indexOf(j))));
+	
+		 notificar(maoDosJogadores,2);
+		 
+		 //Envia valor da mao para cada jogador
+		 Map<String,Integer> maoValorDosJogadores = new HashMap<String,Integer>();
+		 jogadores.forEach((j) -> maoValorDosJogadores.put(j.getNomeJogador(),j.valorMao(0)));
+		 
+		 notificar(maoValorDosJogadores,3);
 	}
 	
 	//Pula para o proximo jogador 

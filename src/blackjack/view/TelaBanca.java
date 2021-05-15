@@ -36,7 +36,6 @@ public class TelaBanca extends JFrame implements Observador{
 	//Metodos Observador
 	@Override
 	public void executar(Object obj,int ID) {
-		System.out.println("OBSERVADOR");
 		switch (ID)
 		{
 		     case 1:

@@ -136,6 +136,7 @@ public class GUIService {
 		}
 		 jogadores.forEach((j) -> api.adicionarJogador(j));
 		 jogadores.forEach((j) -> telasJogador.add(new TelaJogador(j)));
+		 telasJogador.forEach((j) -> api.adicionarObservador(j));
 		 telaInicial.dispose();
 		 
 		 estado.flip(0);
