@@ -12,8 +12,10 @@ import java.util.Map;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 
+
 public class TelaJogador extends JFrame implements Observador {
 	String nomeJogador;
+	private int valor;
 	List<String> cartas = new ArrayList<>();
 	
 	public TelaJogador(String nomeJogador) {
@@ -63,7 +65,7 @@ public class TelaJogador extends JFrame implements Observador {
 		label_1_1.setBounds(10, 66, 98, 22);
 		panel1.add(label_1_1);
 		
-		Label label_1_1_1 = new Label("Valor da mao");
+		Label label_1_1_1 = new Label("Valor da mao: " + valor);
 		label_1_1_1.setAlignment(Label.CENTER);
 		label_1_1_1.setBounds(45, 10, 98, 22);
 		panel2.add(label_1_1_1);
@@ -96,10 +98,10 @@ public class TelaJogador extends JFrame implements Observador {
 		jb4.setBackground(Color.LIGHT_GRAY);
 		panel.add(jb4);
 		
-		
 	}
 	
 	//Observador
+	@Override
 	public void executar(Object obj,int ID) {
 		switch (ID)
 		{
@@ -115,7 +117,6 @@ public class TelaJogador extends JFrame implements Observador {
 		     case 3:
 		    	 if(obj.getClass().equals(HashMap.class)) {
 		    		 Map<String,Integer> maoValorDosJogadores = (HashMap<String, Integer>) obj;
-		    		 
 		    		 atualizarValorDaMao(maoValorDosJogadores.get(nomeJogador));
 		    	 }else {
 		    		 System.out.println("[ERRO][Tela jogador][Observer] ID 3 deve receber um HashMap, foi recebido:" + obj.getClass());
@@ -135,6 +136,10 @@ public class TelaJogador extends JFrame implements Observador {
 	
 	private void atualizarValorDaMao(Integer novoValor) {
 		System.out.println("Novo valor "+novoValor);
+	}
+	
+	public int valorDaMaoInterface(int valor) {
+		 return valor;
 	}
 	
 	

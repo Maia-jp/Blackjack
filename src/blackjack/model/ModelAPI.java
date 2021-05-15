@@ -425,7 +425,7 @@ public class ModelAPI implements Observado {
 	//
 	// OBSERVADO
 	//
-	public static final List<Observador> observadores = new ArrayList<>();
+	public List<Observador> observadores = new ArrayList<>();
 	
 	@Override
 	public void adicionarObservador(Observador o) {

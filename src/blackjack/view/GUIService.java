@@ -10,6 +10,7 @@ import java.awt.event.*;
 import java.time.Instant;
 import java.util.*;
 import java.util.List;
+import blackjack.model.Observado;
 
 
 public class GUIService {
@@ -137,6 +138,7 @@ public class GUIService {
 		 jogadores.forEach((j) -> api.adicionarJogador(j));
 		 jogadores.forEach((j) -> telasJogador.add(new TelaJogador(j)));
 		 telasJogador.forEach((j) -> api.adicionarObservador(j));
+		 //System.out.println(api.observadores.size());
 		 telaInicial.dispose();
 		 
 		 estado.flip(0);
