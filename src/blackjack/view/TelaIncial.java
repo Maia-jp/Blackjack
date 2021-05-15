@@ -93,10 +93,10 @@ public class TelaIncial extends JFrame{
 		jogador4Nome.setBounds(105, 87, 159, 20);
 		lblj2.add(jogador4Nome);
 		
-		btnComecarPartida = new JButton("Comecar partida");
+		this.btnComecarPartida = new JButton("Comecar partida");
 		
-		btnComecarPartida.setBounds(351, 84, 150, 23);
-		lblj2.add(btnComecarPartida);
+		this.btnComecarPartida.setBounds(351, 84, 150, 23);
+		lblj2.add(this.btnComecarPartida);
 		
 		
 		lblJogadoresSelecionados = new JLabel("x jogadores selecionados");
@@ -115,8 +115,6 @@ public class TelaIncial extends JFrame{
 		jogador2Nome.getDocument().addDocumentListener(dl);
 		jogador3Nome.getDocument().addDocumentListener(dl);
 		jogador4Nome.getDocument().addDocumentListener(dl);
-		
-		btnComecarPartida.addActionListener(btnPartidaAction);
 		
 		
 	
@@ -160,13 +158,12 @@ public class TelaIncial extends JFrame{
         }
     };
     
-    ActionListener btnPartidaAction = new ActionListener() {
+    public ActionListener btnPartidaAction = new ActionListener() {
     	public void actionPerformed(ActionEvent e) {
     		try {
 				btnComecarCallback();
 			} catch (Exception e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
+				System.out.println("Erro[btnPartidaAction] ao chamar btnComecarCallback()");
 			}
 		}
     };
@@ -183,6 +180,7 @@ public class TelaIncial extends JFrame{
         if(jogador4Nome.getText().length()>0)
         	jogadores.add(jogador4Nome.getText());
         
+        
         if(jogadores.size() < 1) {
         	throw new Exception("Lista de jogadores nao pode ser vaiza");
         }else {
@@ -191,7 +189,9 @@ public class TelaIncial extends JFrame{
 
     }
     
-    List<String> getJogadores() {
+    List<String> getJogadores() throws Exception {
+    	if(jogadores.isEmpty())
+    		throw new Exception("Nao existem jogadores");
     	return jogadores;
     }
     

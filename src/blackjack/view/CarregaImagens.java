@@ -22,7 +22,7 @@ public class CarregaImagens {
 	
 	public CarregaImagens() {
 	        try {
-	        	fundoBanca = ImageIO.read(getClass().getResourceAsStream("/blackjackBKG.png"));
+	        	fundoBanca = ImageIO.read(getClass().getResource("/blackjackBKG.png"));
 	        	fichaV1 = ImageIO.read(getClass().getResource("/ficha 1$.png"));
 	        	fichaV5 = ImageIO.read(getClass().getResource("/ficha 5$.png"));
 	        	fichaV10 = ImageIO.read(getClass().getResource("/ficha 10$.png"));
@@ -110,10 +110,10 @@ public class CarregaImagens {
 	}
 	
 	private void setMapBaralho(LinkedHashMap <String, BufferedImage> mapBaralho) {
-        this.mapBaralho.put("ca",vetBaralho[0]);
-        this.mapBaralho.put("da",vetBaralho[1]);
-        this.mapBaralho.put("ha",vetBaralho[2]);
-        this.mapBaralho.put("sa",vetBaralho[3]);
+        this.mapBaralho.put("Ca",vetBaralho[0]);
+        this.mapBaralho.put("Da",vetBaralho[1]);
+        this.mapBaralho.put("Ha",vetBaralho[2]);
+        this.mapBaralho.put("Sa",vetBaralho[3]);
         
         this.mapBaralho.put("C2",vetBaralho[4]);
         this.mapBaralho.put("D2",vetBaralho[5]);
@@ -160,20 +160,20 @@ public class CarregaImagens {
         this.mapBaralho.put("H10",vetBaralho[38]);
         this.mapBaralho.put("S10",vetBaralho[39]);
         
-        this.mapBaralho.put("cj",vetBaralho[40]);
-        this.mapBaralho.put("dj",vetBaralho[41]);
-        this.mapBaralho.put("hj",vetBaralho[42]);
-        this.mapBaralho.put("sj",vetBaralho[43]);
+        this.mapBaralho.put("Cj",vetBaralho[40]);
+        this.mapBaralho.put("Dj",vetBaralho[41]);
+        this.mapBaralho.put("Hj",vetBaralho[42]);
+        this.mapBaralho.put("Sj",vetBaralho[43]);
         
-        this.mapBaralho.put("cq",vetBaralho[44]);
-        this.mapBaralho.put("dq",vetBaralho[45]);
-        this.mapBaralho.put("hq",vetBaralho[46]);
-        this.mapBaralho.put("sq",vetBaralho[47]);
+        this.mapBaralho.put("Cq",vetBaralho[44]);
+        this.mapBaralho.put("Dq",vetBaralho[45]);
+        this.mapBaralho.put("Hq",vetBaralho[46]);
+        this.mapBaralho.put("Sq",vetBaralho[47]);
         
-        this.mapBaralho.put("ck",vetBaralho[48]);
-        this.mapBaralho.put("dk",vetBaralho[49]);
-        this.mapBaralho.put("hk",vetBaralho[50]);
-        this.mapBaralho.put("sk",vetBaralho[51]);
+        this.mapBaralho.put("Ck",vetBaralho[48]);
+        this.mapBaralho.put("Dk",vetBaralho[49]);
+        this.mapBaralho.put("Hk",vetBaralho[50]);
+        this.mapBaralho.put("Sk",vetBaralho[51]);
     }
 	
 	BufferedImage getFundoBanca() {

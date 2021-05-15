@@ -23,7 +23,7 @@ public class GUIService {
 	
 	//Telas
 	TelaIncial telaInicial;
-	TelaJogador telaJogador;
+	static List<TelaJogador> telasJogador = new ArrayList<>();
 	TelaBanca telaBanca;
 	
 	//
@@ -54,6 +54,7 @@ public class GUIService {
 	//Janelas
 	//
 	private void exibirTelaInicial() {
+		
 		this.telaInicial = new TelaIncial();
 		telaInicial.setVisible(true);
 		
@@ -63,16 +64,21 @@ public class GUIService {
 				telaInicialComecarCallback();
 			}});
 		
+		telaInicial.btnComecarPartida.
+			addActionListener(telaInicial.btnPartidaAction);
+		
 	}
 	
 	private void exibirTelaJogador() {
-		this.telaJogador = new TelaJogador();
-		telaJogador.setVisible(true);
-		telaJogador.addWindowListener(wAListner);
+		
+		telasJogador.forEach((tela) -> tela.setTitle(tela.nomeJogador));
+		telasJogador.forEach((tela) -> tela.setVisible(true));
+		telasJogador.forEach((tela) -> tela.addWindowListener(wAListner));
 	}
 	
 	private void exibirTelaBanca() {
 		this.telaBanca = new TelaBanca(cI, ob.getDealermao(), ob.getValorMaoDealer());
+		api.adicionarObservador(telaBanca);
 		telaBanca.setVisible(true);
 		telaBanca.addWindowListener(wAListner);
 	}
@@ -92,6 +98,8 @@ public class GUIService {
 			this.cI = new CarregaImagens();
 			exibirTelaJogador();
 			exibirTelaBanca();
+			//DISTRIBUIR AS CARTAS
+			api.distribuirCartas();
 		}
 	}
 	
@@ -103,8 +111,9 @@ public class GUIService {
         	telaInicial.setVisible(false);
         	telaInicial.dispose();
         	
-        	telaJogador.setVisible(false);
-        	telaJogador.disable();
+        	
+        	telasJogador.forEach((tela) -> tela.setVisible(false));
+    		telasJogador.forEach((tela) -> tela.setVisible(false));
         	
         	telaBanca.setVisible(false);
         	telaBanca.disable();
@@ -118,20 +127,25 @@ public class GUIService {
 	//Callbacks e observers
 	private void telaInicialComecarCallback(){
 		System.out.print("Tela inicial callback");
-		 List<String> jogadores = telaInicial.getJogadores();
+		 List<String> jogadores = new ArrayList<>();
+		try {
+			jogadores = telaInicial.getJogadores();
+		} catch (Exception e1) {
+			e1.printStackTrace();
+			System.exit(1);
+		}
 		 jogadores.forEach((j) -> api.adicionarJogador(j));
+		 jogadores.forEach((j) -> telasJogador.add(new TelaJogador(j)));
+		 telasJogador.forEach((j) -> api.adicionarObservador(j));
 		 telaInicial.dispose();
-		 
-			//Nova intancia da janela do jogador
-			//Nova instancia da janela do Dealer
 		 
 		 estado.flip(0);
 		 estado.flip(1);
-		 
+		 System.out.print(jogadores);
 		 try {
 			exibir();
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
+			System.out.println("Erro[telaInicialComecarCallback] ao chamar exibir()");
 			e.printStackTrace();
 		}
 	}
