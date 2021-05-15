@@ -115,7 +115,8 @@ public class ModelAPI implements Observado {
 		 
 		 //Observer
 		 //-Envia mao do dealer para o dealer
-		 notificar(dealer,1);
+		 List<String> cartasDealer = dealerMao();
+		 notificar(cartasDealer,1);
 		 
 		 //-Envia mao para cada jogador
 		 Map<String,List<String>> maoDosJogadores = new HashMap<String,List<String>>();

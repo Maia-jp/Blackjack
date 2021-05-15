@@ -7,6 +7,8 @@ import java.awt.GridLayout;
 import java.awt.Label;
 import java.awt.Panel;
 import java.awt.Toolkit;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -39,8 +41,13 @@ public class TelaBanca extends JFrame implements Observador{
 		switch (ID)
 		{
 		     case 1:
-		     System.out.println(obj);
-		     ;
+		    	 if(obj.getClass().equals(ArrayList.class)) {
+		    		 ArrayList<String> maoDealer = (ArrayList<String>) obj;
+		    		 System.out.println("DEALER:"+maoDealer);
+		    
+		    	 }else {
+		    		 System.out.println("[ERRO][Tela Banca][Observer] ID 1 deve receber um ArrayList, foi recebido:" + obj.getClass());
+		    	 }
 		     
 		}
 				
