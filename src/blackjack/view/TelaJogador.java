@@ -11,10 +11,12 @@ import java.util.Map;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 
 
 public class TelaJogador extends JFrame implements Observador {
 	String nomeJogador;
+	Label labelValor;
 	private int valor;
 	List<String> cartas = new ArrayList<>();
 	
@@ -65,10 +67,10 @@ public class TelaJogador extends JFrame implements Observador {
 		label_1_1.setBounds(10, 66, 98, 22);
 		panel1.add(label_1_1);
 		
-		Label label_1_1_1 = new Label("Valor da mao: " + valor);
-		label_1_1_1.setAlignment(Label.CENTER);
-		label_1_1_1.setBounds(45, 10, 98, 22);
-		panel2.add(label_1_1_1);
+		this.labelValor = new Label("Valor da mao: " + valor);
+		this.labelValor.setAlignment(Label.CENTER);
+		this.labelValor.setBounds(45, 10, 98, 22);
+		panel2.add(this.labelValor);
 		
 		JButton jb = new JButton("HIT");
 		jb.setBounds(118,597,100,33);
@@ -135,7 +137,7 @@ public class TelaJogador extends JFrame implements Observador {
 	}
 	
 	private void atualizarValorDaMao(Integer novoValor) {
-		System.out.println("Novo valor "+novoValor);
+		this.labelValor.setText("Novo Valor: " + novoValor);
 	}
 	
 	public int valorDaMaoInterface(int valor) {
