@@ -16,6 +16,7 @@ public class ImagensTela extends JPanel{
     	chave = m;
      }
     public void paintComponent(Graphics g) {
+    	
     	g.drawImage(cI.getFundoBanca(),0,0, null);
         g.drawImage(cI.getFichaV1(), 60, 500, null);
         g.drawImage(cI.getFichaV5(), 190, 550, null);
