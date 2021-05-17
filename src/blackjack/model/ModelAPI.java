@@ -20,6 +20,7 @@ public class ModelAPI implements Observado {
 			new HashMap<String, Map<String, Integer>>();
 	private String ID;
 	private int jogada;
+	private int jogadaDealer;
 	private int rodada;
 	
 	
@@ -53,6 +54,8 @@ public class ModelAPI implements Observado {
         //Coloca em 0 a jogada
         jogada = 0;
         
+        //Jogda Dealer = 0
+        jogadaDealer = 0;
         for(Jogador j :jogadores ) {
             //Tira carta da m�o de todos os jogadores
             j.limparMaoJogador(0);;
@@ -114,7 +117,13 @@ public class ModelAPI implements Observado {
 		 dealer.receberCarta(baralho.pegarCarta());
 		 
 		 //Observer
-		 //-Envia mao do dealer para o dealer
+		 //-Envia mao do dealer para o dealer, valor total cartas e Jogada
+		 
+		 int []tCartasRoda = new int[2];
+		 tCartasRoda[0] = valorDealerMao();
+		 tCartasRoda[1] = this.jogadaDealer;
+		 notificar(tCartasRoda,10);
+		 
 		 List<String> cartasDealer = dealerMao();
 		 notificar(cartasDealer,1);
 		 
@@ -258,8 +267,10 @@ public class ModelAPI implements Observado {
 	
 	//Dealer age conforme as regras
 	public void dealerAcao() {
+		jogadaDealer++;
 		if(dealer.checkEstrategia() == 2) {
 			dealer.receberCarta(baralho.pegarCarta());
+			
 		}
 		else {
 			//APENAS PARA VERIFICAR NOS TESTES
@@ -391,8 +402,8 @@ public class ModelAPI implements Observado {
 		this.jogadores = new ArrayList<>();
 		this.jogada = 0;
 		this.rodada = 0;
+		this.jogadaDealer = 0;
 		this.jogadorAposta.clear();
-		distribuirCartas();
 	}
 	
 	private String gerarID() {
@@ -412,6 +423,7 @@ public class ModelAPI implements Observado {
 		this.dealer = new Dealer("0x00");
 		this.jogadores = new ArrayList<>();
 		this.jogada = 0;
+		this.jogadaDealer = 0;
 		this.ID = gerarID();
 		
 	}

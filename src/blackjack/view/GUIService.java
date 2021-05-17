@@ -24,11 +24,11 @@ public class GUIService {
 	//Telas
 	TelaIncial telaInicial;
 	static List<TelaJogador> telasJogador = new ArrayList<>();
-	TelaBanca telaBanca;
 	
 	//
-	CarregaImagens cI;
-	Observer ob = new Observer(api);
+	CarregaImagens cI = new CarregaImagens();
+	
+	TelaBanca telaBanca = new TelaBanca(cI);
 	//
 	//Singleton
 	//
@@ -77,7 +77,6 @@ public class GUIService {
 	}
 	
 	private void exibirTelaBanca() {
-		this.telaBanca = new TelaBanca(cI, ob.getDealermao(), ob.getValorMaoDealer());
 		api.adicionarObservador(telaBanca);
 		telaBanca.setVisible(true);
 		telaBanca.addWindowListener(wAListner);
@@ -95,11 +94,11 @@ public class GUIService {
 			exibirTelaInicial();
 		}
 		if(estado.get(1)) {
-			this.cI = new CarregaImagens();
 			exibirTelaJogador();
 			exibirTelaBanca();
 			//DISTRIBUIR AS CARTAS
 			api.distribuirCartas();
+			telaBanca.repaint();
 		}
 	}
 	

@@ -97,11 +97,6 @@ public class modelAPITest {
 	}
 	
 	@Test
-	public void confereGanhadores() {
-		//@ Ale
-	}
-	
-	@Test
     public void testNovaRodada() {
         ModelAPI testClass = ModelAPI.iniciar();
         testClass.adicionarJogador("alpha");
@@ -246,11 +241,6 @@ public class modelAPITest {
 		
 	}
 	
-	
-	//testar dealer acao @Ale
-	
-	
-	
 	@Test
 	public void testApostar() {
 		ModelAPI testClass = ModelAPI.iniciar();
@@ -369,6 +359,14 @@ public class modelAPITest {
 		testClass.apostar("5",20);
 		testClass.confereGanhadores();
 		assertEquals(0,testClass.totalMontante());
+	}
+	
+	@Test
+	public void testValorMaoDealer() {
+		ModelAPI testClass = ModelAPI.iniciar();
+		testClass.adicionarJogador("Ivan");
+		testClass.distribuirCartas();
+		assertEquals(int.class, testClass.valorDealerMao());
 	}
 	
 	@Test
