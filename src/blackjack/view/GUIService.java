@@ -98,7 +98,6 @@ public class GUIService {
 			exibirTelaBanca();
 			//DISTRIBUIR AS CARTAS
 			api.distribuirCartas();
-			telaBanca.repaint();
 		}
 	}
 	
