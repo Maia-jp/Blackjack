@@ -1,6 +1,7 @@
 package blackjack.view;
 import java.awt.Canvas;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
@@ -9,24 +10,28 @@ import java.awt.Panel;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 
-public class TelaBanca extends JFrame implements Observador{
+public class TelaBanca extends JFrame implements Observador, MouseListener{
 	
 	private final int LARG_DEFAULT=891;
 	private final int ALT_DEFAULT=700;
 	private ImagensTela telaI;
 	private CarregaImagens cI;
-	JButton novaRodada;
-	JButton encerrrar;
-	JButton salvar;
+	private JButton novaRodada;
+	private JButton encerrrar;
+	private JButton salvar;
 	
 	public TelaBanca(CarregaImagens cI) {
 		super("Banca");
 		this.cI = cI;
+		addMouseListener(this);
 		inicializar();
 	}
 	
@@ -68,6 +73,54 @@ public class TelaBanca extends JFrame implements Observador{
 				}
 		}
 				
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		//CHAMAR Controller
+		if (e.getX() >= 60 && e.getX() <= 119 && e.getY() >= 500 && e.getY() <=  559) {
+			System.out.println("Ficha 1");
+		}
+		
+		else if (e.getX() >= 190 && e.getX() <= 249 && e.getY() >= 550 && e.getY() <=  609) {
+			System.out.println("Ficha 5");
+		}
+		
+		else if (e.getX() >= 320 && e.getX() <= 379 && e.getY() >= 590 && e.getY() <=  649) {
+			System.out.println("Ficha 10");
+		}
+		
+		else if (e.getX() >= 460 && e.getX() <= 519 && e.getY() >= 590 && e.getY() <=  649) {
+			System.out.println("Ficha 20");
+		}
+		
+		else if (e.getX() >= 590 && e.getX() <= 649 && e.getY() >= 560 && e.getY() <=  619) {
+			System.out.println("Ficha 50");
+		}
+		
+		else if (e.getX() >= 720 && e.getX() <= 779 && e.getY() >= 520 && e.getY() <=  579) {
+			System.out.println("Ficha 100");
+		}
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		
 	}
 	
 }
