@@ -10,6 +10,7 @@ import java.awt.event.*;
 import java.time.Instant;
 import java.util.*;
 import java.util.List;
+import blackjack.model.Observado;
 
 
 public class GUIService {
@@ -22,13 +23,12 @@ public class GUIService {
 	public ModelAPI api = ModelAPI.iniciar();
 	
 	//Telas
+	CarregaImagens cI = new CarregaImagens();
 	TelaIncial telaInicial;
 	static List<TelaJogador> telasJogador = new ArrayList<>();
+	TelaBanca telaBanca;
 	
 	//
-	CarregaImagens cI = new CarregaImagens();
-	
-	TelaBanca telaBanca = new TelaBanca(cI);
 	//
 	//Singleton
 	//
@@ -37,7 +37,7 @@ public class GUIService {
 	private GUIService() {
 		this.ID = gerarID();
 		estado.clear();
-		estado.set(0); //Estado iniciar é exibir a tela inicial
+		estado.set(0); //Estado iniciar Ã© exibir a tela inicial
 	}
 	
 	private String gerarID() {
@@ -77,6 +77,7 @@ public class GUIService {
 	}
 	
 	private void exibirTelaBanca() {
+		this.telaBanca = new TelaBanca(cI, ob.getDealermao(), ob.getValorMaoDealer());
 		api.adicionarObservador(telaBanca);
 		telaBanca.setVisible(true);
 		telaBanca.addWindowListener(wAListner);
@@ -133,8 +134,9 @@ public class GUIService {
 			System.exit(1);
 		}
 		 jogadores.forEach((j) -> api.adicionarJogador(j));
-		 jogadores.forEach((j) -> telasJogador.add(new TelaJogador(j)));
+		 jogadores.forEach((j) -> telasJogador.add(new TelaJogador(j,cI)));
 		 telasJogador.forEach((j) -> api.adicionarObservador(j));
+		 //System.out.println(api.observadores.size());
 		 telaInicial.dispose();
 		 
 		 estado.flip(0);
