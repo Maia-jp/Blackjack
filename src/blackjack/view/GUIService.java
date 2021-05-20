@@ -29,7 +29,6 @@ public class GUIService {
 	TelaBanca telaBanca;
 	
 	//
-	Observer ob = new Observer(api);
 	//
 	//Singleton
 	//
@@ -38,7 +37,7 @@ public class GUIService {
 	private GUIService() {
 		this.ID = gerarID();
 		estado.clear();
-		estado.set(0); //Estado iniciar é exibir a tela inicial
+		estado.set(0); //Estado iniciar Ã© exibir a tela inicial
 	}
 	
 	private String gerarID() {
