@@ -128,6 +128,13 @@ public class ModelAPI implements Observado {
 		 jogadores.forEach((j) -> maoValorDosJogadores.put(j.getNomeJogador(),j.valorMao(0)));
 		 
 		 notificar(maoValorDosJogadores,3);
+		 
+		//Envia a quantia de dinheiro para cada jogador
+		 Map<String,Integer> dinheiroJogador = new HashMap<String,Integer>();
+		 jogadores.forEach((j) -> dinheiroJogador.put(j.getNomeJogador(),j.fichasTotalJogador()));
+		 
+		 notificar(dinheiroJogador,4);
+		 
 	}
 	
 	//Pula para o proximo jogador 

@@ -23,12 +23,12 @@ public class GUIService {
 	public ModelAPI api = ModelAPI.iniciar();
 	
 	//Telas
+	CarregaImagens cI = new CarregaImagens();
 	TelaIncial telaInicial;
 	static List<TelaJogador> telasJogador = new ArrayList<>();
 	TelaBanca telaBanca;
 	
 	//
-	CarregaImagens cI;
 	Observer ob = new Observer(api);
 	//
 	//Singleton
@@ -96,7 +96,6 @@ public class GUIService {
 			exibirTelaInicial();
 		}
 		if(estado.get(1)) {
-			this.cI = new CarregaImagens();
 			exibirTelaJogador();
 			exibirTelaBanca();
 			//DISTRIBUIR AS CARTAS
@@ -136,7 +135,7 @@ public class GUIService {
 			System.exit(1);
 		}
 		 jogadores.forEach((j) -> api.adicionarJogador(j));
-		 jogadores.forEach((j) -> telasJogador.add(new TelaJogador(j)));
+		 jogadores.forEach((j) -> telasJogador.add(new TelaJogador(j,cI)));
 		 telasJogador.forEach((j) -> api.adicionarObservador(j));
 		 //System.out.println(api.observadores.size());
 		 telaInicial.dispose();

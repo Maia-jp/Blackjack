@@ -2,6 +2,7 @@ package blackjack.view;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.Label;
 import java.awt.Panel;
 import java.util.ArrayList;
@@ -9,18 +10,22 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import java.awt.Image;
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
-
+import javax.swing.JPanel;
+import javax.swing.ImageIcon;
 
 public class TelaJogador extends JFrame implements Observador {
 	String nomeJogador;
+	HashMap<String,List<String>> maoDosJogadores;
 	Label labelValor;
-	private int valor;
-	List<String> cartas = new ArrayList<>();
+	Label labelDinheiro;
+	CarregaImagens cI;
+	ImageIcon fundo = new ImageIcon(getClass().getResource("/blackjackBKG.png"));
 	
-	public TelaJogador(String nomeJogador) {
+	public TelaJogador(String nomeJogador,CarregaImagens cI) {
+		this.cI = cI;
 		this.nomeJogador = nomeJogador;
 		initialize();
 	}
@@ -30,25 +35,29 @@ public class TelaJogador extends JFrame implements Observador {
 		this.getContentPane().setBackground(Color.DARK_GRAY);
 		this.getContentPane().setLayout(null);
 		this.setResizable(false);
+		this.setBounds(0, 50, 1120, 700);
+
+		//vamo ver
+		List<String> lista = new ArrayList<String>();  
+		lista.add("C9");
+		lista.add("Dj");
 		
-	
 		Panel panel = new Panel();
 		panel.setBackground(Color.WHITE);
-		panel.setBounds(10, 10, 713, 641);
+		panel.setBounds(10, 10, 880, 641);
 		this.getContentPane().add(panel);
-		this.setBounds(0, 50, 950, 700);
 		panel.setLayout(null);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		Panel panel1 = new Panel();
 		panel1.setBackground(Color.WHITE);
-		panel1.setBounds(729, 10, 195, 133);
-		this.getContentPane().add(panel1);
+		panel1.setBounds(901, 10, 195, 133);
+		this.getContentPane().add(panel1).setBackground(getBackground());;;
 		panel1.setLayout(null);
 		
 		Panel panel2 = new Panel();
 		panel2.setBackground(Color.WHITE);
-		panel2.setBounds(729, 518, 195, 133);
+		panel2.setBounds(901, 518, 195, 133);
 		this.getContentPane().add(panel2);
 		panel2.setLayout(null);
 		
@@ -62,45 +71,61 @@ public class TelaJogador extends JFrame implements Observador {
 		label_1.setBounds(10, 38, 98, 22);
 		panel1.add(label_1);
 		
-		Label label_1_1 = new Label("Dinheiro Total: ");
-		label_1_1.setAlignment(Label.CENTER);
-		label_1_1.setBounds(10, 66, 98, 22);
-		panel1.add(label_1_1);
+		this.labelDinheiro = new Label();
+		this.labelDinheiro.setAlignment(Label.CENTER);
+		this.labelDinheiro.setBounds(10, 66, 98, 22);
+		panel1.add(this.labelDinheiro);
 		
-		this.labelValor = new Label("Valor da mao: " + valor);
+		this.labelValor = new Label();
 		this.labelValor.setAlignment(Label.CENTER);
 		this.labelValor.setBounds(45, 10, 98, 22);
 		panel2.add(this.labelValor);
 		
 		JButton jb = new JButton("HIT");
-		jb.setBounds(118,597,100,33);
+		jb.setBounds(209,597,100,36);
 		jb.setFont(new Font("Helvetica", Font.BOLD, 15));
 		jb.setForeground(Color.DARK_GRAY);
 		jb.setBackground(Color.LIGHT_GRAY);
 		panel.add(jb);
 		
 		JButton jb2 = new JButton("STAND");
-		jb2.setBounds(238,597,100,33);
+		jb2.setBounds(329,597,100,36);
 		jb2.setFont(new Font("Helvetica", Font.BOLD, 15));
 		jb2.setForeground(Color.DARK_GRAY);
 		jb2.setBackground(Color.LIGHT_GRAY);
 		panel.add(jb2);
 		
 		JButton jb3 = new JButton("DOUBLE");
-		jb3.setBounds(358,597,100,33);
+		jb3.setBounds(449,597,100,36);
 		jb3.setFont(new Font("Helvetica", Font.BOLD, 15));
 		jb3.setForeground(Color.DARK_GRAY);
 		jb3.setBackground(Color.LIGHT_GRAY);
 		panel.add(jb3);
 		
 		JButton jb4 = new JButton("SPLIT");
-		jb4.setBounds(478,597,100,33);
+		jb4.setBounds(569,597,100,36);
 		jb4.setFont(new Font("Helvetica", Font.BOLD, 15));
 		jb4.setForeground(Color.DARK_GRAY);
 		jb4.setBackground(Color.LIGHT_GRAY);
 		panel.add(jb4);
 		
 	}
+	
+	public class Panel extends JPanel{
+		public void paintComponent(Graphics g) {
+			super.paintComponent(g);
+			g.drawImage(cI.getFundoBanca(), 0, 0, this);
+			if(maoDosJogadores!=null) {
+				List<String> tmp=maoDosJogadores.get(nomeJogador);
+				int indice = 1;
+		    	for(String i : tmp) {
+		    		g.drawImage(cI.getmapBaralho(i), indice+400,380, null);
+		    		indice+=20;
+		    	}
+			}
+		}
+	}
+	
 	
 	//Observador
 	@Override
@@ -109,7 +134,8 @@ public class TelaJogador extends JFrame implements Observador {
 		{
 		     case 2:
 		    	 if(obj.getClass().equals(HashMap.class)) {
-		    		 HashMap<String,List<String>> maoDosJogadores = (HashMap<String, List<String>>) obj;
+		    		 maoDosJogadores = (HashMap<String, List<String>>) obj;
+		    		 repaint();
 		    		 alterarMao(maoDosJogadores.get(nomeJogador));
 		    	 }else {
 		    		 System.out.println("[ERRO][Tela jogador][Observer] ID 2 deve receber um hashMap, foi recebido:" + obj.getClass());
@@ -122,6 +148,15 @@ public class TelaJogador extends JFrame implements Observador {
 		    		 atualizarValorDaMao(maoValorDosJogadores.get(nomeJogador));
 		    	 }else {
 		    		 System.out.println("[ERRO][Tela jogador][Observer] ID 3 deve receber um HashMap, foi recebido:" + obj.getClass());
+		    	 }
+		    	 break
+		     ;
+		     case 4:
+		    	 if(obj.getClass().equals(HashMap.class)) {
+		    		 Map<String,Integer> dinheiroJogador = (HashMap<String, Integer>) obj;
+		    		 dinheiroTotalJogador(dinheiroJogador.get(nomeJogador));
+		    	 }else {
+		    		 System.out.println("[ERRO][Tela jogador][Observer] ID 4 deve receber um HashMap, foi recebido:" + obj.getClass());
 		    	 }
 		    	 break
 		     ;
@@ -140,8 +175,8 @@ public class TelaJogador extends JFrame implements Observador {
 		this.labelValor.setText("Novo Valor: " + novoValor);
 	}
 	
-	public int valorDaMaoInterface(int valor) {
-		 return valor;
+	private void dinheiroTotalJogador(Integer din) {
+		this.labelDinheiro.setText("Novo Valor: " + din);
 	}
 	
 	
