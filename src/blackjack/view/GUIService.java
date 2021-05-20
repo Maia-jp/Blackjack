@@ -26,7 +26,7 @@ public class GUIService {
 	CarregaImagens cI = new CarregaImagens();
 	TelaIncial telaInicial;
 	static List<TelaJogador> telasJogador = new ArrayList<>();
-	TelaBanca telaBanca;
+	TelaBanca telaBanca = new TelaBanca(cI);
 	
 	//
 	//
@@ -77,7 +77,6 @@ public class GUIService {
 	}
 	
 	private void exibirTelaBanca() {
-		this.telaBanca = new TelaBanca(cI, ob.getDealermao(), ob.getValorMaoDealer());
 		api.adicionarObservador(telaBanca);
 		telaBanca.setVisible(true);
 		telaBanca.addWindowListener(wAListner);
