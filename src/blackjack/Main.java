@@ -1,14 +1,15 @@
 package blackjack;
 
+import blackjack.controller.ControllerAPI;
 import blackjack.model.ModelAPI;
 import blackjack.view.GUIService;
 
 public class Main {
 
 	public static void main(String[] args) {
-		GUIService GUI =  GUIService.iniciar();
+		ControllerAPI game =  ControllerAPI.iniciar();
 		try {
-			GUI.exibir();
+			game.start();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

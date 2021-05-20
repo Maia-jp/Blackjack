@@ -13,14 +13,16 @@ import java.util.List;
 import blackjack.model.Observado;
 
 
-public class GUIService {
+public class GUIService{
+	
 	
 	private String ID;
 	
+	//Model API para operações simples
+	public ModelAPI api; 
+	
 	//bitmap -> exibindo tela inical, exibindo carregamento de partida, exibindo jogo
 	private static BitSet estado = new BitSet(3);
-	
-	public ModelAPI api = ModelAPI.iniciar();
 	
 	//Telas
 	CarregaImagens cI = new CarregaImagens();
@@ -34,7 +36,8 @@ public class GUIService {
 	//
 	private static GUIService instanciaUnica;
 	
-	private GUIService() {
+	private GUIService(ModelAPI api) {
+		this.api = api;
 		this.ID = gerarID();
 		estado.clear();
 		estado.set(0); //Estado iniciar Ã© exibir a tela inicial
@@ -44,9 +47,9 @@ public class GUIService {
 		return ""+Instant.now().getEpochSecond();
 	}
 	
-	public static synchronized GUIService iniciar() {
+	public static synchronized GUIService iniciar(ModelAPI api) {
 		if(instanciaUnica == null)
-			instanciaUnica = new GUIService();
+			instanciaUnica = new GUIService(api);
 		return instanciaUnica;
 	}
 		
@@ -56,16 +59,9 @@ public class GUIService {
 	private void exibirTelaInicial() {
 		
 		this.telaInicial = new TelaIncial();
+		observadores.forEach(o->this.telaInicial.adicionarObservador(o));
 		telaInicial.setVisible(true);
-		
 		telaInicial.addWindowListener(wAListner);
-		telaInicial.btnComecarPartida.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				telaInicialComecarCallback();
-			}});
-		
-		telaInicial.btnComecarPartida.
-			addActionListener(telaInicial.btnPartidaAction);
 		
 	}
 	
@@ -123,30 +119,31 @@ public class GUIService {
 	
 	//
 	//Callbacks e observers
-	private void telaInicialComecarCallback(){
-		System.out.print("Tela inicial callback");
-		 List<String> jogadores = new ArrayList<>();
-		try {
-			jogadores = telaInicial.getJogadores();
-		} catch (Exception e1) {
-			e1.printStackTrace();
-			System.exit(1);
-		}
+	
+	public void telaInicialCriarJogadores(List<String> jogadores){
 		 jogadores.forEach((j) -> api.adicionarJogador(j));
 		 jogadores.forEach((j) -> telasJogador.add(new TelaJogador(j,cI)));
 		 telasJogador.forEach((j) -> api.adicionarObservador(j));
-		 //System.out.println(api.observadores.size());
 		 telaInicial.dispose();
 		 
 		 estado.flip(0);
 		 estado.flip(1);
-		 System.out.print(jogadores);
+		 System.out.print("Jogadores adicionados com sucesso");
 		 try {
 			exibir();
 		} catch (Exception e) {
 			System.out.println("Erro[telaInicialComecarCallback] ao chamar exibir()");
 			e.printStackTrace();
 		}
+	}
+	
+	//
+	// OBSERVADO
+	//
+	public List<Observador> observadores = new ArrayList<>();
+	
+	public void adicionarObservador(Observador o) {
+		observadores.add(o);
 	}
 
 	
