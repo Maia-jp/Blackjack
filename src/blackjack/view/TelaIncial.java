@@ -17,7 +17,10 @@ import javax.swing.border.BevelBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
-public class TelaIncial extends JFrame{
+import blackjack.controller.CodigosObservadorView;
+import blackjack.model.Observado;
+
+public class TelaIncial extends JFrame implements Observado{
 	private static List<String> jogadores = new ArrayList<>();
 	
 	private JTextField jogador1Nome;
@@ -94,7 +97,7 @@ public class TelaIncial extends JFrame{
 		lblj2.add(jogador4Nome);
 		
 		this.btnComecarPartida = new JButton("Comecar partida");
-		
+		btnComecarPartida.addActionListener(btnPartidaAction);
 		this.btnComecarPartida.setBounds(351, 84, 150, 23);
 		lblj2.add(this.btnComecarPartida);
 		
@@ -163,7 +166,7 @@ public class TelaIncial extends JFrame{
     		try {
 				btnComecarCallback();
 			} catch (Exception e1) {
-				System.out.println("Erro[btnPartidaAction] ao chamar btnComecarCallback()");
+				System.out.println("Erro[btnPartidaAction] ao chamar btnComecarCallback()"+e1);
 			}
 		}
     };
@@ -186,6 +189,8 @@ public class TelaIncial extends JFrame{
         }else {
         	this.setVisible(false);
         }
+        System.out.print("Passa 1; ");
+        notificar(this.getJogadores(),CodigosObservadorView.BOTAO_COMECAR_TELA_INICIAL.valor);
 
     }
     
@@ -194,6 +199,21 @@ public class TelaIncial extends JFrame{
     		throw new Exception("Nao existem jogadores");
     	return jogadores;
     }
+
+    //
+	// OBSERVADO pela Controller
+	//
+	public List<Observador> observadores = new ArrayList<>();
+	
+	@Override
+	public void adicionarObservador(Observador o) {
+		observadores.add(o);
+	}
+	
+	@Override
+	public void notificar(Object obj,int idAction) {
+		observadores.forEach((o) -> o.executar(obj,idAction));
+	}
     
 
 	

@@ -1,5 +1,6 @@
 package blackjack.model;
 
+import blackjack.controller.CodigosObservador;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -8,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import blackjack.controller.CodigosObservador;
 import blackjack.view.Observador;
 
 public class ModelAPI implements Observado {
@@ -122,28 +124,28 @@ public class ModelAPI implements Observado {
 		 int []tCartasRoda = new int[2];
 		 tCartasRoda[0] = valorDealerMao();
 		 tCartasRoda[1] = this.jogadaDealer;
-		 notificar(tCartasRoda,10);
+		 notificar(tCartasRoda,10); //@ Ale , colocar padrão enum
 		 
 		 List<String> cartasDealer = dealerMao();
-		 notificar(cartasDealer,1);
+		 notificar(cartasDealer,CodigosObservador.CARTAS_DO_DEALER.valor);
 		 
 		 //-Envia mao para cada jogador
 		 Map<String,List<String>> maoDosJogadores = new HashMap<String,List<String>>();
 		 jogadores.forEach((j) -> maoDosJogadores.put(j.getNomeJogador(), jogadorMao(jogadores.indexOf(j))));
 	
-		 notificar(maoDosJogadores,2);
+		 notificar(maoDosJogadores,CodigosObservador.MAO_DOS_JOGADORES.valor);
 		 
 		 //Envia valor da mao para cada jogador
 		 Map<String,Integer> maoValorDosJogadores = new HashMap<String,Integer>();
 		 jogadores.forEach((j) -> maoValorDosJogadores.put(j.getNomeJogador(),j.valorMao(0)));
 		 
-		 notificar(maoValorDosJogadores,3);
+		 notificar(maoValorDosJogadores,CodigosObservador.MAO_VALOR_DOS_JOGADORES.valor);
 		 
 		//Envia a quantia de dinheiro para cada jogador
 		 Map<String,Integer> dinheiroJogador = new HashMap<String,Integer>();
 		 jogadores.forEach((j) -> dinheiroJogador.put(j.getNomeJogador(),j.fichasTotalJogador()));
 		 
-		 notificar(dinheiroJogador,4);
+		 notificar(dinheiroJogador,CodigosObservador.DINHEIRO_DOS_JOGADORES.valor);
 		 
 	}
 	

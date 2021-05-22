@@ -1,5 +1,7 @@
 package blackjack.view;
 
+
+import blackjack.controller.CodigosObservador;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -16,7 +18,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.ImageIcon;
 
-public class TelaJogador extends JFrame implements Observador {
+public class TelaJogador extends JFrame implements Observador{
 	String nomeJogador;
 	HashMap<String,List<String>> maoDosJogadores;
 	Label labelValor;
@@ -128,7 +130,6 @@ public class TelaJogador extends JFrame implements Observador {
 	
 	
 	//Observador
-	@Override
 	public void executar(Object obj,int ID) {
 		switch (ID)
 		{
@@ -164,20 +165,19 @@ public class TelaJogador extends JFrame implements Observador {
 		}
 		
 	}
-	
 	//Metodos de execucao observer
-	private void alterarMao(List<String> novaMao) {
-		System.out.println(novaMao);
+		private void alterarMao(List<String> novaMao) {
+			System.out.println(novaMao);
 
-	}
-	
-	private void atualizarValorDaMao(Integer novoValor) {
-		this.labelValor.setText("Novo Valor: " + novoValor);
-	}
-	
-	private void dinheiroTotalJogador(Integer din) {
-		this.labelDinheiro.setText("Novo Valor: " + din);
-	}
+		}
+		
+		private void atualizarValorDaMao(Integer novoValor) {
+			this.labelValor.setText("Novo Valor: " + novoValor);
+		}
+		
+		private void dinheiroTotalJogador(Integer din) {
+			this.labelDinheiro.setText("Novo Valor: " + din);
+		}
 	
 	
 }
