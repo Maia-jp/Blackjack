@@ -123,7 +123,7 @@ public class GUIService{
 	public void telaInicialCriarJogadores(List<String> jogadores){
 		 jogadores.forEach((j) -> api.adicionarJogador(j));
 		 jogadores.forEach((j) -> telasJogador.add(new TelaJogador(j,cI)));
-		 telasJogador.forEach((j) -> api.adicionarObservador(j));
+		 //telasJogador.forEach((j) -> api.adicionarObservador(j));
 		 telaInicial.dispose();
 		 
 		 estado.flip(0);
