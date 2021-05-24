@@ -26,7 +26,10 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.ImageIcon;
 
+import blackjack.controller.CodigosObservadorView;
+
 public class TelaJogador extends JFrame implements Observado{
+	CodigosObservadorView codView;
 	String nomeJogador;
 	HashMap<String,List<String>> maoDosJogadores;
 	CarregaImagens cI;
@@ -157,11 +160,15 @@ public class TelaJogador extends JFrame implements Observado{
 	    };
 	
 	
-	/*public ActionListener btnAcionarHit = new ActionListener() {
+	public ActionListener btnAcionarHit = new ActionListener() {
     	public void actionPerformed(ActionEvent e) {
-    		JOptionPane.showMessageDialog(null, e);
+    		try {
+    			notificar("HIT",codView.BOTAO_HIT_JOGADOR.valor);
+			} catch (Exception e1) {
+				System.out.println("Erro[btnPartidaAction] ao chamar btnComecarCallback()"+e1);
+			}
 		}
-    };*/
+    };
 	
 	
 	public class Panel extends JPanel{

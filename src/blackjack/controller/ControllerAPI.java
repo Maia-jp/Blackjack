@@ -28,6 +28,12 @@ public class ControllerAPI implements Observador{
 			else
 				telaInicialComecarCallback((ArrayList<String>)obj);
 		}
+		if(CodigosObservadorView.BOTAO_HIT_JOGADOR.valor==ID) {
+			if(CodigosObservadorView.BOTAO_HIT_JOGADOR.classe != obj.getClass())
+				System.out.print("[ERRO][Controller] Classe passada no metodo executar nao corresponde ao correto, foi passado:"+obj.getClass());
+			else
+				telaJogadorHit(null);
+		}
 		
 	}
 	
@@ -42,7 +48,11 @@ public class ControllerAPI implements Observador{
 			System.exit(1);
 		}
 		System.out.print("Passa 3; "+jogadores);
-		view.telaInicialCriarJogadores(jogadores);
+		view.telaInicialCriarJogadores(jogadores,this);
+	}
+	
+	private void telaJogadorHit(String s) {
+		return;
 	}
 	
 	//

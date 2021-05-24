@@ -120,10 +120,10 @@ public class GUIService{
 	//
 	//Callbacks e observers
 	
-	public void telaInicialCriarJogadores(List<String> jogadores){
+	public void telaInicialCriarJogadores(List<String> jogadores, Observador o){
 		 jogadores.forEach((j) -> api.adicionarJogador(j));
 		 jogadores.forEach((j) -> telasJogador.add(new TelaJogador(j,cI)));
-		 //telasJogador.forEach((j) -> api.adicionarObservador(j));
+		 telasJogador.forEach((j) -> j.adicionarObservador(o));
 		 telaInicial.dispose();
 		 
 		 estado.flip(0);

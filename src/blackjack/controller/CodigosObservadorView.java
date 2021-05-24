@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public enum CodigosObservadorView {
 	
 	BOTAO_COMECAR_TELA_INICIAL(100,ArrayList.class),
-	//BOTAO_HIT_JOGADOR(101,)
+	BOTAO_HIT_JOGADOR(101,String.class),
 	TESTE(-1,String.class);
 	
 	public int valor;
