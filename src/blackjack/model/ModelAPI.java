@@ -65,7 +65,7 @@ public class ModelAPI implements Observado {
             //Tira do double
             j.clearDobrar();
             
-            //Tira do stand
+            //Tira do 
             j.clearStand();
             
             //Tira do split
@@ -129,17 +129,7 @@ public class ModelAPI implements Observado {
 		 List<String> cartasDealer = dealerMao();
 		 notificar(cartasDealer,CodigosObservador.CARTAS_DO_DEALER.valor);
 		 
-		 //-Envia mao para cada jogador
-		 Map<String,List<String>> maoDosJogadores = new HashMap<String,List<String>>();
-		 jogadores.forEach((j) -> maoDosJogadores.put(j.getNomeJogador(), jogadorMao(jogadores.indexOf(j))));
-	
-		 notificar(maoDosJogadores,CodigosObservador.MAO_DOS_JOGADORES.valor);
-		 
-		 //Envia valor da mao para cada jogador
-		 Map<String,Integer> maoValorDosJogadores = new HashMap<String,Integer>();
-		 jogadores.forEach((j) -> maoValorDosJogadores.put(j.getNomeJogador(),j.valorMao(0)));
-		 
-		 notificar(maoValorDosJogadores,CodigosObservador.MAO_VALOR_DOS_JOGADORES.valor);
+		 enviarInfoMaoJogador();
 		 
 		//Envia a quantia de dinheiro para cada jogador
 		 Map<String,Integer> dinheiroJogador = new HashMap<String,Integer>();
@@ -147,6 +137,48 @@ public class ModelAPI implements Observado {
 		 
 		 notificar(dinheiroJogador,CodigosObservador.DINHEIRO_DOS_JOGADORES.valor);
 		 
+	}
+	
+	public void pedirHit(Object nome) {
+		for(Jogador j : jogadores) {
+			if(j.getNomeJogador()==nome && j.checkStand()==false) {
+				j.hit(baralho.pegarCarta(),0);
+			}
+		}
+		enviarInfoMaoJogador();
+	}
+
+	public void pedirStand(Object nome) {
+		for(Jogador j : jogadores) {
+			if(j.getNomeJogador()==nome) {
+				j.putStand();
+				System.out.println("coloco como stand o " + nome);
+			}
+		}
+	}
+	
+	// fazer depois do alexandre fazer a função para pegar a aposta inicialdos jogadores
+	/*public void pedirDouble(Object nome) {
+		for(Jogador j : jogadores) {
+			if(j.getNomeJogador()==nome) {
+				j.hit(baralho.pegarCarta(),0);
+			}
+		}
+		enviarInfoMaoJogador();
+
+	}*/
+	
+	private void enviarInfoMaoJogador() {
+		
+		//-Envia mao para cada jogador
+		 Map<String,List<String>> maoDosJogadores = new HashMap<String,List<String>>();
+		 jogadores.forEach((j) -> maoDosJogadores.put(j.getNomeJogador(), jogadorMao(jogadores.indexOf(j))));
+		 notificar(maoDosJogadores,CodigosObservador.MAO_DOS_JOGADORES.valor);
+		 
+		 //Envia valor da mao para cada jogador
+		 Map<String,Integer> maoValorDosJogadores = new HashMap<String,Integer>();
+		 jogadores.forEach((j) -> maoValorDosJogadores.put(j.getNomeJogador(),j.valorMao(0)));
+		 notificar(maoValorDosJogadores,CodigosObservador.MAO_VALOR_DOS_JOGADORES.valor);
 	}
 	
 	//Pula para o proximo jogador 
@@ -304,28 +336,12 @@ public class ModelAPI implements Observado {
 		j.receberFichas(ficha,quantidade);
 	}
 	
-	public void pedirStand() {
-		jogadores.get(jogada).putStand();
-	}
-	
-	public void pedirHit() {
-		jogadores.get(jogada).hit(baralho.pegarCarta(),0);
-	}
-	
 	public void ativarDouble() {
 		// @ Ze
 //		for(Jogador j : jogadores) {
 //			if(j.fichasTotalJogador()>=jogadorAposta.get(j.getNomeJogador())) {
 //				j.putDobrar();
 //			}
-//		}
-	}
-	
-	public void pedirDouble() {
-		// @ Ze
-//		if(jogadores.get(jogada).checkDobrar()) {
-//			jogadores.get(jogada).dobrar(jogadorAposta.get(jogadores.get(jogada).getNomeJogador()));
-//			jogadores.get(jogada).recebeCarta(baralho.pegarCarta(),0);
 //		}
 	}
 		

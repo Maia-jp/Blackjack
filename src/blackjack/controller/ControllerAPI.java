@@ -32,7 +32,25 @@ public class ControllerAPI implements Observador{
 			if(CodigosObservadorView.BOTAO_HIT_JOGADOR.classe != obj.getClass())
 				System.out.print("[ERRO][Controller] Classe passada no metodo executar nao corresponde ao correto, foi passado:"+obj.getClass());
 			else
-				telaJogadorHit(null);
+				telaJogadorHit(obj);
+		}
+		if(CodigosObservadorView.BOTAO_STAND_JOGADOR.valor==ID) {
+			if(CodigosObservadorView.BOTAO_STAND_JOGADOR.classe != obj.getClass())
+				System.out.print("[ERRO][Controller] Classe passada no metodo executar nao corresponde ao correto, foi passado:"+obj.getClass());
+			else
+				telaJogadorStand(obj);
+		}
+		if(CodigosObservadorView.BOTAO_DOUBLE_JOGADOR.valor==ID) {
+			if(CodigosObservadorView.BOTAO_DOUBLE_JOGADOR.classe != obj.getClass())
+				System.out.print("[ERRO][Controller] Classe passada no metodo executar nao corresponde ao correto, foi passado:"+obj.getClass());
+			else
+				telaJogadorDouble(null);
+		}
+		if(CodigosObservadorView.BOTAO_SPLIT_JOGADOR.valor==ID) {
+			if(CodigosObservadorView.BOTAO_SPLIT_JOGADOR.classe != obj.getClass())
+				System.out.print("[ERRO][Controller] Classe passada no metodo executar nao corresponde ao correto, foi passado:"+obj.getClass());
+			else
+				telaJogadorSplit(null);
 		}
 		
 	}
@@ -51,9 +69,22 @@ public class ControllerAPI implements Observador{
 		view.telaInicialCriarJogadores(jogadores,this);
 	}
 	
-	private void telaJogadorHit(String s) {
+	private void telaJogadorHit(Object nome) {
+		api.pedirHit(nome);
+	}
+	
+	private void telaJogadorStand(Object nome) {
+		api.pedirStand(nome);
+	}
+	
+	private void telaJogadorDouble(String s) {
 		return;
 	}
+	
+	private void telaJogadorSplit(String s) {
+		return;
+	}
+	
 	
 	//
 	//Singleton
