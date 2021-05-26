@@ -2,11 +2,14 @@ package blackjack.view;
 
 
 import blackjack.controller.CodigosObservador;
+import blackjack.model.Observado;
+
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Label;
-import java.awt.Panel;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -15,16 +18,27 @@ import java.util.Map;
 import java.awt.Image;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.ImageIcon;
 
-public class TelaJogador extends JFrame implements Observador{
+import blackjack.controller.CodigosObservadorView;
+
+public class TelaJogador extends JFrame implements Observado,Observador{
 	String nomeJogador;
 	HashMap<String,List<String>> maoDosJogadores;
-	Label labelValor;
-	Label labelDinheiro;
 	CarregaImagens cI;
 	ImageIcon fundo = new ImageIcon(getClass().getResource("/blackjackBKG.png"));
+	
+	private JLabel labelValor;
+	private JLabel labelDinheiro;
+	private JButton hit;
+	private JButton stand;
+	private JButton dobrar;
+	private JButton split;
 	
 	public TelaJogador(String nomeJogador,CarregaImagens cI) {
 		this.cI = cI;
@@ -73,46 +87,95 @@ public class TelaJogador extends JFrame implements Observador{
 		label_1.setBounds(10, 38, 98, 22);
 		panel1.add(label_1);
 		
-		this.labelDinheiro = new Label();
-		this.labelDinheiro.setAlignment(Label.CENTER);
+		this.labelDinheiro = new JLabel();
+		this.labelDinheiro.setAlignmentX(CENTER_ALIGNMENT);
 		this.labelDinheiro.setBounds(10, 66, 98, 22);
 		panel1.add(this.labelDinheiro);
 		
-		this.labelValor = new Label();
-		this.labelValor.setAlignment(Label.CENTER);
+		this.labelValor = new JLabel();
+		this.labelValor.setAlignmentX(CENTER_ALIGNMENT);
 		this.labelValor.setBounds(45, 10, 98, 22);
 		panel2.add(this.labelValor);
 		
-		JButton jb = new JButton("HIT");
-		jb.setBounds(209,597,100,36);
-		jb.setFont(new Font("Helvetica", Font.BOLD, 15));
-		jb.setForeground(Color.DARK_GRAY);
-		jb.setBackground(Color.LIGHT_GRAY);
-		panel.add(jb);
+		this.hit = new JButton("HIT");
+		this.hit.setBounds(209,597,100,36);
+		this.hit.setFont(new Font("Helvetica", Font.BOLD, 15));
+		this.hit.setForeground(Color.DARK_GRAY);
+		this.hit.setBackground(Color.LIGHT_GRAY);
+		panel.add(this.hit);
+		this.hit.addActionListener(btnAcionarHit);
 		
-		JButton jb2 = new JButton("STAND");
-		jb2.setBounds(329,597,100,36);
-		jb2.setFont(new Font("Helvetica", Font.BOLD, 15));
-		jb2.setForeground(Color.DARK_GRAY);
-		jb2.setBackground(Color.LIGHT_GRAY);
-		panel.add(jb2);
+		this.stand = new JButton("STAND");
+		this.stand.setBounds(329,597,100,36);
+		this.stand.setFont(new Font("Helvetica", Font.BOLD, 15));
+		this.stand.setForeground(Color.DARK_GRAY);
+		this.stand.setBackground(Color.LIGHT_GRAY);
+		panel.add(this.stand);
+		this.stand.addActionListener(btnAcionarStand);
+
 		
-		JButton jb3 = new JButton("DOUBLE");
-		jb3.setBounds(449,597,100,36);
-		jb3.setFont(new Font("Helvetica", Font.BOLD, 15));
-		jb3.setForeground(Color.DARK_GRAY);
-		jb3.setBackground(Color.LIGHT_GRAY);
-		panel.add(jb3);
+		this.dobrar = new JButton("DOUBLE");
+		this.dobrar.setBounds(449,597,100,36);
+		this.dobrar.setFont(new Font("Helvetica", Font.BOLD, 15));
+		this.dobrar.setForeground(Color.DARK_GRAY);
+		this.dobrar.setBackground(Color.LIGHT_GRAY);
+		panel.add(this.dobrar);
+		this.dobrar.addActionListener(btnAcionarDouble);
 		
-		JButton jb4 = new JButton("SPLIT");
-		jb4.setBounds(569,597,100,36);
-		jb4.setFont(new Font("Helvetica", Font.BOLD, 15));
-		jb4.setForeground(Color.DARK_GRAY);
-		jb4.setBackground(Color.LIGHT_GRAY);
-		panel.add(jb4);
+		this.split = new JButton("SPLIT");
+		this.split.setBounds(569,597,100,36);
+		this.split.setFont(new Font("Helvetica", Font.BOLD, 15));
+		this.split.setForeground(Color.DARK_GRAY);
+		this.split.setBackground(Color.LIGHT_GRAY);
+		panel.add(this.split);
+		this.split.addActionListener(btnAcionarSplit);
 		
 	}
+		
+	public ActionListener btnAcionarHit = new ActionListener() {
+    	public void actionPerformed(ActionEvent e) {
+    		try {
+    			notificar(nomeJogador,CodigosObservadorView.BOTAO_HIT_JOGADOR.valor);
+				System.out.println("JOGADOR ATIVOU HIT: " + nomeJogador);
+			} catch (Exception e1) {
+				System.out.println("Erro[btnAcionarHit] ao chamar btnComecarCallback()"+e1);
+			}
+		}
+    };
 	
+    public ActionListener btnAcionarStand = new ActionListener() {
+    	public void actionPerformed(ActionEvent e) {
+    		try {
+    			notificar(nomeJogador,CodigosObservadorView.BOTAO_STAND_JOGADOR.valor);
+				System.out.println("JOGADOR ATIVOU STAND: " + nomeJogador);
+			} catch (Exception e1) {
+				System.out.println("Erro[btnAcionarStand] ao chamar btnComecarCallback()"+e1);
+			}
+		}
+    };
+    
+    public ActionListener btnAcionarDouble = new ActionListener() {
+    	public void actionPerformed(ActionEvent e) {
+    		try {
+    			notificar(nomeJogador,CodigosObservadorView.BOTAO_DOUBLE_JOGADOR.valor);
+				System.out.println("JOGADOR ATIVOU DOUBLE: " + nomeJogador);
+			} catch (Exception e1) {
+				System.out.println("Erro[btnAcionarDouble] ao chamar btnComecarCallback()"+e1);
+			}
+		}
+    };
+    
+    public ActionListener btnAcionarSplit = new ActionListener() {
+    	public void actionPerformed(ActionEvent e) {
+    		try {
+    			notificar(nomeJogador,CodigosObservadorView.BOTAO_SPLIT_JOGADOR.valor);
+				System.out.println("JOGADOR ATIVOU SPLIT: " + nomeJogador);
+			} catch (Exception e1) {
+				System.out.println("Erro[btnAcionarSplit] ao chamar btnComecarCallback()"+e1);
+			}
+		}
+    };
+    
 	public class Panel extends JPanel{
 		public void paintComponent(Graphics g) {
 			super.paintComponent(g);
@@ -127,7 +190,6 @@ public class TelaJogador extends JFrame implements Observador{
 			}
 		}
 	}
-	
 	
 	//Observador
 	public void executar(Object obj,int ID) {
@@ -162,22 +224,36 @@ public class TelaJogador extends JFrame implements Observador{
 		    	 break
 		     ;
 		     
-		}
-		
+		}	
 	}
-	//Metodos de execucao observer
-		private void alterarMao(List<String> novaMao) {
-			System.out.println(novaMao);
-
-		}
-		
-		private void atualizarValorDaMao(Integer novoValor) {
-			this.labelValor.setText("Novo Valor: " + novoValor);
-		}
-		
-		private void dinheiroTotalJogador(Integer din) {
-			this.labelDinheiro.setText("Novo Valor: " + din);
-		}
 	
+	//Metodos de execucao observer
+	private void alterarMao(List<String> novaMao) {
+		System.out.println(novaMao);
+
+	}
+		
+	private void atualizarValorDaMao(Integer novoValor) {
+		this.labelValor.setText("Novo Valor: " + novoValor);
+	}
+		
+	private void dinheiroTotalJogador(Integer din) {
+		this.labelDinheiro.setText("Novo Valor: " + din);
+	}
+			
+	//
+	// OBSERVADO pela Controller
+	//
+	public List<Observador> observadores = new ArrayList<>();
+		
+	@Override
+	public void adicionarObservador(Observador o) {
+		observadores.add(o);
+	}
+		
+	@Override
+	public void notificar(Object obj,int idAction) {
+		observadores.forEach((o) -> o.executar(obj,idAction));
+	}
 	
 }

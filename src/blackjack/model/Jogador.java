@@ -105,8 +105,8 @@ class Jogador {
 		this.clearDobrar();
 	}
 	
-	public void dobrar(int apostaDoMontante) {
-			// @ ze this.pagarFichas(apostaDoMontante);
+	public void dobrar(String ficha,int apostaDoMontante) {
+			this.pagarFichas(ficha,apostaDoMontante);
 			this.putStand();
 			this.clearDobrar();
 	}	
