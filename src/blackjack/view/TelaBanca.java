@@ -14,11 +14,15 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 
-public class TelaBanca extends JFrame implements Observador, MouseListener{
+import blackjack.controller.CodigosObservadorView;
+import blackjack.model.Observado;
+
+public class TelaBanca extends JFrame implements Observado,Observador, MouseListener{
 	
 	private final int LARG_DEFAULT=891;
 	private final int ALT_DEFAULT=700;
@@ -79,26 +83,32 @@ public class TelaBanca extends JFrame implements Observador, MouseListener{
 	public void mouseClicked(MouseEvent e) {
 		//CHAMAR Controller
 		if (e.getX() >= 60 && e.getX() <= 119 && e.getY() >= 500 && e.getY() <=  559) {
+			notificar("1",CodigosObservadorView.BOTAO_APOSTA_INICIAL.valor);
 			System.out.println("Ficha 1");
 		}
 		
 		else if (e.getX() >= 190 && e.getX() <= 249 && e.getY() >= 550 && e.getY() <=  609) {
+			notificar("5",CodigosObservadorView.BOTAO_APOSTA_INICIAL.valor);
 			System.out.println("Ficha 5");
 		}
 		
 		else if (e.getX() >= 320 && e.getX() <= 379 && e.getY() >= 590 && e.getY() <=  649) {
+			notificar("10",CodigosObservadorView.BOTAO_APOSTA_INICIAL.valor);
 			System.out.println("Ficha 10");
 		}
 		
 		else if (e.getX() >= 460 && e.getX() <= 519 && e.getY() >= 590 && e.getY() <=  649) {
+			notificar("20",CodigosObservadorView.BOTAO_APOSTA_INICIAL.valor);
 			System.out.println("Ficha 20");
 		}
 		
 		else if (e.getX() >= 590 && e.getX() <= 649 && e.getY() >= 560 && e.getY() <=  619) {
+			notificar("50",CodigosObservadorView.BOTAO_APOSTA_INICIAL.valor);
 			System.out.println("Ficha 50");
 		}
 		
 		else if (e.getX() >= 720 && e.getX() <= 779 && e.getY() >= 520 && e.getY() <=  579) {
+			notificar("100",CodigosObservadorView.BOTAO_APOSTA_INICIAL.valor);
 			System.out.println("Ficha 100");
 		}
 	}
@@ -121,6 +131,18 @@ public class TelaBanca extends JFrame implements Observador, MouseListener{
 	@Override
 	public void mouseExited(MouseEvent e) {
 		
+	}
+	
+	public List<Observador> observadores = new ArrayList<>();
+	
+	@Override
+	public void adicionarObservador(Observador o) {
+		observadores.add(o);
+	}
+		
+	@Override
+	public void notificar(Object obj,int idAction) {
+		observadores.forEach((o) -> o.executar(obj,idAction));
 	}
 	
 }

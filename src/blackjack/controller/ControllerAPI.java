@@ -52,6 +52,12 @@ public class ControllerAPI implements Observador{
 			else
 				telaJogadorSplit(null);
 		}
+		if(CodigosObservadorView.BOTAO_APOSTA_INICIAL.valor == ID) {
+			if(CodigosObservadorView.BOTAO_APOSTA_INICIAL.classe != obj.getClass())
+				System.out.print("[ERRO][Controller] Classe passada no metodo executar nao corresponde ao correto, foi passado:"+obj.getClass());
+			else
+				telaBancaAposta(obj);
+		}
 		
 	}
 	
@@ -83,6 +89,12 @@ public class ControllerAPI implements Observador{
 	
 	private void telaJogadorSplit(String s) {
 		return;
+	}
+	
+	//Banca
+	
+	private void telaBancaAposta(Object s) {
+		api.adicionaApostaInicial(s);
 	}
 	
 	
