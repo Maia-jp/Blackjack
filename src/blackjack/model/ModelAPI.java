@@ -152,7 +152,6 @@ public class ModelAPI implements Observado {
 		for(Jogador j : jogadores) {
 			if(j.getNomeJogador()==nome) {
 				j.putStand();
-				System.out.println("coloco como stand o " + nome);
 			}
 		}
 	}
