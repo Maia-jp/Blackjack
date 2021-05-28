@@ -58,6 +58,12 @@ public class ControllerAPI implements Observador{
 			else
 				telaBancaAposta(obj);
 		}
+		if(CodigosObservadorView.BOTAO_APOSTA_INCIAL_REALIZAR.valor == ID) {
+			if(CodigosObservadorView.BOTAO_APOSTA_INCIAL_REALIZAR.classe != obj.getClass())
+				System.out.print("[ERRO][Controller] Classe passada no metodo executar nao corresponde ao correto, foi passado:"+obj.getClass());
+			else
+				telaBancaApostainicialrealizar(obj);
+		}
 		
 	}
 	
@@ -97,6 +103,10 @@ public class ControllerAPI implements Observador{
 		api.adicionaApostaInicial(s);
 	}
 	
+	
+	private void telaBancaApostainicialrealizar(Object s) {
+		api.finalizaApostaInicial(s);
+	}
 	
 	//
 	//Singleton

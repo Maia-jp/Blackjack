@@ -376,29 +376,51 @@ public class ModelAPI implements Observado {
 		}
 	}
 	
+	//FUNÇÔES APOSTA INCIAL
+	private void verificaJogadaApostaInicial() {
+		//Fazer Teste Unitario
+		if(this.jogada == numeroDeJogadores()) {	
+			this.ifOkApostaInicial = false;
+			this.jogada = 0;
+			carteiraJogadorApostaInicial.clear();
+			geracarteiraJogadorApostaInicial();
+			notificar(false, CodigosObservador.VERIFICA_APOSTA_INICAL_EFETUADA.valor);
+			distribuirCartas();
+		}
+	}
+	
+	public void finalizaApostaInicial(Object s) {
+		//Fazer Teste Unitario
+		if(this.valorApostaInicial >= 20) {
+			this.valorApostaInicial = 0;
+			carteiraJogadorApostaInicial.clear();
+			geracarteiraJogadorApostaInicial();
+			notificar(false, CodigosObservador.VERIFICA_APOSTA_INICAL_EFETUADA.valor);
+			this.jogada += 1;
+			verificaJogadaApostaInicial();
+		}
+	}
+	
 	public void adicionaApostaInicial(Object s) {
 		//Fazer Teste Unitario
-		if(this.ifOkApostaInicial) {
-			
+		if(this.ifOkApostaInicial == true) {
 			Map<String, Integer> carteiraJogadorAtual = jogadorEspecificoCarteira(this.jogada);
-			
-			if((carteiraJogadorAtual.get(s) - carteiraJogadorApostaInicial.get(s)) > 0) {
+			if((carteiraJogadorAtual.get(s) + carteiraJogadorApostaInicial.get(s)) > 0) {
+				
 				carteiraJogadorApostaInicial.replace(s.toString(), carteiraJogadorApostaInicial.get(s)-1);
-				valorApostaInicial += Integer.parseInt(s.toString());
+				this.valorApostaInicial += Integer.parseInt(s.toString());
 				notificar(s.toString(), CodigosObservador.VERIFICA_APOSTA_INICIAL_OK_REPAINT.valor);
+			
 			}
-			if(valorApostaInicial >= 20) {
-				notificar(true, CodigosObservador.VERIFICA_APOSTA_INICIAL_OK.valor);
+			if(this.valorApostaInicial >= 20) {
+				
+				notificar(true, CodigosObservador.VERIFICA_APOSTA_INICIAL_OK_BOTAO_APOSTAR.valor);
 			}
-			if(valorApostaInicial < 20) {
-				notificar(false, CodigosObservador.VERIFICA_APOSTA_INICIAL_OK.valor);
+			if(this.valorApostaInicial < 20) {
+				
+				notificar(false, CodigosObservador.VERIFICA_APOSTA_INICIAL_OK_BOTAO_APOSTAR.valor);
 			}
-			if(this.jogada == numeroDeJogadores()) {
-				this.ifOkApostaInicial = false;
-				carteiraJogadorApostaInicial.clear();
-				geracarteiraJogadorApostaInicial();
-				distribuirCartas();
-			}
+			verificaJogadaApostaInicial();
 		}
 	}
 	

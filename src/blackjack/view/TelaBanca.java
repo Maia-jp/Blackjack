@@ -70,11 +70,38 @@ public class TelaBanca extends JFrame implements Observado,Observador, MouseList
 		    	 }else {
 		    		 System.out.println("[ERRO][Tela Banca][Observer] ID 1 deve receber um ArrayList, foi recebido:" + obj.getClass());
 		    	 }
+		    	 break;
 			case 10:
 				if(obj.getClass().equals(int[].class)) {
 					int [] conteudoDealer = (int[]) obj;
 					this.telaI.redesenhar(conteudoDealer);
-				}
+				}else {
+		    		 System.out.println("[ERRO][Tela Banca][Observer] ID 10 deve receber um ArrayList, foi recebido:" + obj.getClass());
+		    	}
+				break;
+			case 11:
+				if(obj.getClass().equals(Boolean.class)) {
+					boolean valorFicha = (boolean) obj;
+					this.telaI.redesenhar(valorFicha);
+				}else {
+		    		 System.out.println("[ERRO][Tela Banca][Observer] ID 11 deve receber um ArrayList, foi recebido:" + obj.getClass());
+		    	}
+				break;
+			case 12:
+				if(obj.getClass().equals(String.class)) {
+					String valorFicha = (String) obj;
+					this.telaI.redesenhar(valorFicha);
+				}else {
+		    		 System.out.println("[ERRO][Tela Banca][Observer] ID 12 deve receber um ArrayList, foi recebido:" + obj.getClass());
+		    	}
+				break;
+			case 13:
+				if(obj.getClass().equals(Boolean.class)) {
+					this.telaI.redesenhar();
+				}else {
+		    		 System.out.println("[ERRO][Tela Banca][Observer] ID 12 deve receber um ArrayList, foi recebido:" + obj.getClass());
+		    	}
+				break;
 		}
 				
 	}
@@ -84,32 +111,29 @@ public class TelaBanca extends JFrame implements Observado,Observador, MouseList
 		//CHAMAR Controller
 		if (e.getX() >= 60 && e.getX() <= 119 && e.getY() >= 500 && e.getY() <=  559) {
 			notificar("1",CodigosObservadorView.BOTAO_APOSTA_INICIAL.valor);
-			System.out.println("Ficha 1");
 		}
 		
 		else if (e.getX() >= 190 && e.getX() <= 249 && e.getY() >= 550 && e.getY() <=  609) {
 			notificar("5",CodigosObservadorView.BOTAO_APOSTA_INICIAL.valor);
-			System.out.println("Ficha 5");
 		}
 		
 		else if (e.getX() >= 320 && e.getX() <= 379 && e.getY() >= 590 && e.getY() <=  649) {
 			notificar("10",CodigosObservadorView.BOTAO_APOSTA_INICIAL.valor);
-			System.out.println("Ficha 10");
 		}
 		
 		else if (e.getX() >= 460 && e.getX() <= 519 && e.getY() >= 590 && e.getY() <=  649) {
 			notificar("20",CodigosObservadorView.BOTAO_APOSTA_INICIAL.valor);
-			System.out.println("Ficha 20");
 		}
 		
 		else if (e.getX() >= 590 && e.getX() <= 649 && e.getY() >= 560 && e.getY() <=  619) {
 			notificar("50",CodigosObservadorView.BOTAO_APOSTA_INICIAL.valor);
-			System.out.println("Ficha 50");
 		}
 		
 		else if (e.getX() >= 720 && e.getX() <= 779 && e.getY() >= 520 && e.getY() <=  579) {
 			notificar("100",CodigosObservadorView.BOTAO_APOSTA_INICIAL.valor);
-			System.out.println("Ficha 100");
+		}
+		else if (e.getX() >= 700 && e.getX() <= 891 && e.getY() >= 290 && e.getY() <=  320) {
+			notificar(true,CodigosObservadorView.BOTAO_APOSTA_INCIAL_REALIZAR.valor);
 		}
 	}
 
