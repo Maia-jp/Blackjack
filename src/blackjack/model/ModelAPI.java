@@ -8,6 +8,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import blackjack.controller.CodigosObservador;
 import blackjack.view.Observador;
@@ -389,9 +390,25 @@ public class ModelAPI implements Observado {
 		}
 	}
 	
+	private void realizaApostaInicial() {
+		//Fazer Teste Unitario
+		Set<String> chaves = carteiraJogadorApostaInicial.keySet();
+		for(Jogador j: jogadores ) {
+			if(j.getNomeJogador() == jogadorNome(jogada)) {
+				for(String chave : chaves) {
+					if(carteiraJogadorApostaInicial.get(chave) != 0) {
+						adicionarAMontante(j, chave, carteiraJogadorApostaInicial.get(chave)*(-1));
+						apostar(chave, carteiraJogadorApostaInicial.get(chave)*(-1));
+					}
+				}
+			}
+		}
+	}
+	
 	public void finalizaApostaInicial(Object s) {
 		//Fazer Teste Unitario
 		if(this.valorApostaInicial >= 20) {
+			realizaApostaInicial();
 			this.valorApostaInicial = 0;
 			carteiraJogadorApostaInicial.clear();
 			geracarteiraJogadorApostaInicial();
@@ -425,6 +442,7 @@ public class ModelAPI implements Observado {
 	}
 	
 	private void geracarteiraJogadorApostaInicial() {
+		//Fazer Teste Unitario
 		carteiraJogadorApostaInicial.put("100", 0);
 		carteiraJogadorApostaInicial.put("50", 0);
 		carteiraJogadorApostaInicial.put("20", 0);
