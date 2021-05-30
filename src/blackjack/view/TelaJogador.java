@@ -136,7 +136,7 @@ public class TelaJogador extends JFrame implements Observado,Observador{
     	public void actionPerformed(ActionEvent e) {
     		try {
     			notificar(nomeJogador,CodigosObservadorView.BOTAO_HIT_JOGADOR.valor);
-				System.out.println("JOGADOR ATIVOU HIT: " + nomeJogador);
+				System.out.println("HIT ACIONADO PELO JOGADOR: " + nomeJogador);
 			} catch (Exception e1) {
 				System.out.println("Erro[btnAcionarHit] ao chamar btnComecarCallback()"+e1);
 			}
@@ -147,7 +147,7 @@ public class TelaJogador extends JFrame implements Observado,Observador{
     	public void actionPerformed(ActionEvent e) {
     		try {
     			notificar(nomeJogador,CodigosObservadorView.BOTAO_STAND_JOGADOR.valor);
-				System.out.println("JOGADOR ATIVOU STAND: " + nomeJogador);
+				System.out.println("STAND ACIONADO PELO JOGADOR: " + nomeJogador);
 			} catch (Exception e1) {
 				System.out.println("Erro[btnAcionarStand] ao chamar btnComecarCallback()"+e1);
 			}
@@ -158,7 +158,7 @@ public class TelaJogador extends JFrame implements Observado,Observador{
     	public void actionPerformed(ActionEvent e) {
     		try {
     			notificar(nomeJogador,CodigosObservadorView.BOTAO_DOUBLE_JOGADOR.valor);
-				System.out.println("JOGADOR ATIVOU DOUBLE: " + nomeJogador);
+				System.out.println("DOUBLE ACIONADO PELO JOGADOR: " + nomeJogador);
 			} catch (Exception e1) {
 				System.out.println("Erro[btnAcionarDouble] ao chamar btnComecarCallback()"+e1);
 			}
@@ -169,7 +169,7 @@ public class TelaJogador extends JFrame implements Observado,Observador{
     	public void actionPerformed(ActionEvent e) {
     		try {
     			notificar(nomeJogador,CodigosObservadorView.BOTAO_SPLIT_JOGADOR.valor);
-				System.out.println("JOGADOR ATIVOU SPLIT: " + nomeJogador);
+				System.out.println("SPLIT ACIONADO PELO JOGADOR: " + nomeJogador);
 			} catch (Exception e1) {
 				System.out.println("Erro[btnAcionarSplit] ao chamar btnComecarCallback()"+e1);
 			}

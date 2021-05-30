@@ -141,8 +141,12 @@ public class ModelAPI implements Observado {
 	
 	public void pedirHit(Object nome) {
 		for(Jogador j : jogadores) {
-			if(j.getNomeJogador()==nome && j.checkStand()==false) {
-				j.hit(baralho.pegarCarta(),0);
+			if(j.getNomeJogador()==nome){
+				if(j.checkStand()==false) {
+					j.hit(baralho.pegarCarta(),0);
+				}else {
+					System.out.println("STAND ATIVADO, LOGO HIT NÃO PODE SER ACIONADO");
+				}
 			}
 		}
 		enviarInfoMaoJogador();
