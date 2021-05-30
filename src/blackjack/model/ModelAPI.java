@@ -8,6 +8,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import blackjack.controller.CodigosObservador;
 import blackjack.view.Observador;
@@ -25,6 +26,10 @@ public class ModelAPI implements Observado {
 	private int jogadaDealer;
 	private int rodada;
 	
+	//Variaveis necessarias para aposta incial
+	private boolean ifOkApostaInicial;
+	private Map<String, Integer> carteiraJogadorApostaInicial = new HashMap<String, Integer>();
+	private int valorApostaInicial = 0;
 	
 	//
 	//Fun√ßoes principais de controle de partida
@@ -124,7 +129,7 @@ public class ModelAPI implements Observado {
 		 int []tCartasRoda = new int[2];
 		 tCartasRoda[0] = valorDealerMao();
 		 tCartasRoda[1] = this.jogadaDealer;
-		 notificar(tCartasRoda,10); //@ Ale , colocar padr√£o enum
+		 notificar(tCartasRoda,CodigosObservador.INFOS_DEALER.valor); //@ Ale , colocar padr√£o enum
 		 
 		 List<String> cartasDealer = dealerMao();
 		 notificar(cartasDealer,CodigosObservador.CARTAS_DO_DEALER.valor);
@@ -375,6 +380,80 @@ public class ModelAPI implements Observado {
 		}
 	}
 	
+	//FUN«‘ES APOSTA INCIAL
+	private void verificaJogadaApostaInicial() {
+		//Fazer Teste Unitario
+		if(this.jogada == numeroDeJogadores()) {	
+			this.ifOkApostaInicial = false;
+			this.jogada = 0;
+			carteiraJogadorApostaInicial.clear();
+			geracarteiraJogadorApostaInicial();
+			notificar(false, CodigosObservador.VERIFICA_APOSTA_INICAL_EFETUADA.valor);
+			distribuirCartas();
+		}
+	}
+	
+	private void realizaApostaInicial() {
+		//Fazer Teste Unitario
+		Set<String> chaves = carteiraJogadorApostaInicial.keySet();
+		for(Jogador j: jogadores ) {
+			if(j.getNomeJogador() == jogadorNome(jogada)) {
+				for(String chave : chaves) {
+					if(carteiraJogadorApostaInicial.get(chave) != 0) {
+						adicionarAMontante(j, chave, carteiraJogadorApostaInicial.get(chave)*(-1));
+						apostar(chave, carteiraJogadorApostaInicial.get(chave)*(-1));
+					}
+				}
+			}
+		}
+	}
+	
+	public void finalizaApostaInicial(Object s) {
+		//Fazer Teste Unitario
+		if(this.valorApostaInicial >= 20) {
+			realizaApostaInicial();
+			this.valorApostaInicial = 0;
+			carteiraJogadorApostaInicial.clear();
+			geracarteiraJogadorApostaInicial();
+			notificar(false, CodigosObservador.VERIFICA_APOSTA_INICAL_EFETUADA.valor);
+			this.jogada += 1;
+			verificaJogadaApostaInicial();
+		}
+	}
+	
+	public void adicionaApostaInicial(Object s) {
+		//Fazer Teste Unitario
+		if(this.ifOkApostaInicial == true) {
+			Map<String, Integer> carteiraJogadorAtual = jogadorEspecificoCarteira(this.jogada);
+			if((carteiraJogadorAtual.get(s) + carteiraJogadorApostaInicial.get(s)) > 0) {
+				
+				carteiraJogadorApostaInicial.replace(s.toString(), carteiraJogadorApostaInicial.get(s)-1);
+				this.valorApostaInicial += Integer.parseInt(s.toString());
+				notificar(s.toString(), CodigosObservador.VERIFICA_APOSTA_INICIAL_OK_REPAINT.valor);
+			
+			}
+			if(this.valorApostaInicial >= 20) {
+				
+				notificar(true, CodigosObservador.VERIFICA_APOSTA_INICIAL_OK_BOTAO_APOSTAR.valor);
+			}
+			if(this.valorApostaInicial < 20) {
+				
+				notificar(false, CodigosObservador.VERIFICA_APOSTA_INICIAL_OK_BOTAO_APOSTAR.valor);
+			}
+			verificaJogadaApostaInicial();
+		}
+	}
+	
+	private void geracarteiraJogadorApostaInicial() {
+		//Fazer Teste Unitario
+		carteiraJogadorApostaInicial.put("100", 0);
+		carteiraJogadorApostaInicial.put("50", 0);
+		carteiraJogadorApostaInicial.put("20", 0);
+		carteiraJogadorApostaInicial.put("10", 0);
+		carteiraJogadorApostaInicial.put("5", 0);
+		carteiraJogadorApostaInicial.put("1", 0);
+	}
+	
 	//remove um valor da aposta de determinado montante do jogador
 	@SuppressWarnings("unused")
 	private void removerAMontante(Jogador j, String ficha, int quantidade){
@@ -432,6 +511,9 @@ public class ModelAPI implements Observado {
 		this.rodada = 0;
 		this.jogadaDealer = 0;
 		this.jogadorAposta.clear();
+		this.ifOkApostaInicial = true;
+		carteiraJogadorApostaInicial.clear();
+		geracarteiraJogadorApostaInicial();
 	}
 	
 	private String gerarID() {
@@ -452,7 +534,9 @@ public class ModelAPI implements Observado {
 		this.jogadores = new ArrayList<>();
 		this.jogada = 0;
 		this.jogadaDealer = 0;
+		this.ifOkApostaInicial = true;
 		this.ID = gerarID();
+		geracarteiraJogadorApostaInicial();
 		
 	}
 	

@@ -74,6 +74,7 @@ public class GUIService{
 	
 	private void exibirTelaBanca() {
 		api.adicionarObservador(telaBanca);
+		observadores.forEach((o) -> telaBanca.adicionarObservador(o));
 		telaBanca.setVisible(true);
 		telaBanca.addWindowListener(wAListner);
 	}
@@ -93,7 +94,7 @@ public class GUIService{
 			exibirTelaJogador();
 			exibirTelaBanca();
 			//DISTRIBUIR AS CARTAS
-			api.distribuirCartas();
+			//api.distribuirCartas();
 		}
 	}
 	

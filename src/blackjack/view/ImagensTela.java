@@ -13,9 +13,12 @@ public class ImagensTela extends JPanel{
 	private CarregaImagens cI;
     private List<String> chave;
     private int [] conteudo;
+    private String valorFicha;
+    private boolean botaoOk;
     
     public ImagensTela(CarregaImagens cI) {
     	this.cI = cI;
+    	this.botaoOk = false;
      }
     
     public void paintComponent(Graphics g) {
@@ -45,6 +48,31 @@ public class ImagensTela extends JPanel{
 	    		g2d.drawString("Pontos Dealer "+Integer.toString(conteudo[0]), 360, 110);
 	    	}
     	}
+    	if(valorFicha != null) {
+    		if(valorFicha == "1") {
+    			g2d.drawImage(cI.getFichaV1(), 750, 200, null);
+    		}
+    		else if(valorFicha == "5") {
+    			g2d.drawImage(cI.getFichaV5(), 750, 200, null);
+    		}
+    		else if(valorFicha == "10") {
+    			g2d.drawImage(cI.getFichaV10(), 750, 200, null);
+    		}
+    		else if(valorFicha == "20") {
+    			g2d.drawImage(cI.getFichaV20(), 750, 200, null);
+    		}
+    		else if(valorFicha == "50") {
+    			g2d.drawImage(cI.getFichaV50(), 750, 200, null);
+    		}
+    		else if(valorFicha == "100") {
+    			g2d.drawImage(cI.getFichaV100(), 750, 200, null);
+    		}
+    	}
+    	if(botaoOk == true) {
+    		g2d.setFont(new Font("Helvetica", Font.BOLD, 15));
+    		g2d.setColor(Color.RED);
+    		g2d.drawString("Clique aqui para apostar", 700, 290);
+    	}
     }
     
     public void redesenhar(List<String> mao) {
@@ -54,6 +82,22 @@ public class ImagensTela extends JPanel{
     
     public void redesenhar(int [] conteudo) {
     	this.conteudo = conteudo;
+    	repaint();
+    }
+    
+    public void redesenhar(String valorFicha) {
+    	this.valorFicha = valorFicha;
+    	repaint();
+    }
+    
+    public void redesenhar(boolean botaoOk) {
+    	this.botaoOk = botaoOk;
+    	repaint();
+    }
+    
+    public void redesenhar() {
+    	this.botaoOk = false;
+    	this.valorFicha = null;
     	repaint();
     }
 }
