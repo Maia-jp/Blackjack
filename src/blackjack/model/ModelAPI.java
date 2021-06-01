@@ -319,13 +319,10 @@ public class ModelAPI implements Observado {
 		jogadaDealer++;
 		if(dealer.checkEstrategia() == 2) {
 			dealer.receberCarta(baralho.pegarCarta());
-			
 		}
 		else {
-			//APENAS PARA VERIFICAR NOS TESTES
-			//proximoJogador();// <--------------------?
-			dealer.receberCarta(baralho.pegarCarta());
-		}
+			confereGanhadores();
+			}
 	}
 	
 	//Jogador atual faz uma aposta
@@ -418,6 +415,7 @@ public class ModelAPI implements Observado {
 			notificar(false, CodigosObservador.VERIFICA_APOSTA_INICAL_EFETUADA.valor);
 			this.jogada += 1;
 			verificaJogadaApostaInicial();
+			exibeNomeJogadores();
 		}
 	}
 	
@@ -443,6 +441,11 @@ public class ModelAPI implements Observado {
 			}
 			verificaJogadaApostaInicial();
 		}
+	}
+	
+	public void exibeNomeJogadores() {
+		String nomeAtual = jogadorNome(jogada);
+		notificar(nomeAtual, CodigosObservador.NOME_JOGADOR_ATUAL_APOSTA_INICIAL.valor);
 	}
 	
 	private void geracarteiraJogadorApostaInicial() {

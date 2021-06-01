@@ -79,6 +79,7 @@ public class ControllerAPI implements Observador{
 		}
 		System.out.print("Passa 3; "+jogadores);
 		view.telaInicialCriarJogadores(jogadores,this);
+		api.exibeNomeJogadores();
 	}
 	
 	private void telaJogadorHit(Object nome) {

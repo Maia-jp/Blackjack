@@ -15,6 +15,7 @@ public class ImagensTela extends JPanel{
     private int [] conteudo;
     private String valorFicha;
     private String apostaInicialTotal;
+    private String nomeJogador;
     private boolean botaoOk;
     
     public ImagensTela(CarregaImagens cI) {
@@ -34,6 +35,10 @@ public class ImagensTela extends JPanel{
     	g2d.drawImage(cI.getFichaV100(), 720,520, null);
     	g2d.drawImage(cI.getBaralhoAzul(), 340,340, null);
     	g2d.drawImage(cI.getBaralhoVermelho(), 460,340, null);
+    	
+    	g2d.setFont(new Font("Helvetica", Font.BOLD, 15));
+		g2d.setColor(Color.RED);
+		g2d.drawString("Jogador: "+nomeJogador, 340, 500);
     	int indice = 1;
     	if(chave != null) {
 	    	for(String i : chave) {
@@ -103,6 +108,11 @@ public class ImagensTela extends JPanel{
     public void redesenhar() {
     	this.botaoOk = false;
     	this.valorFicha = null;
+    	repaint();
+    }
+    
+    public void redesenhar(String nomeJogador) {
+    	this.nomeJogador = nomeJogador;
     	repaint();
     }
 }

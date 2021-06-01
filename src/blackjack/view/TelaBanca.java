@@ -12,7 +12,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -56,7 +55,6 @@ public class TelaBanca extends JFrame implements Observado,Observador, MouseList
 		telaI.add(salvar);
 	}
     
-	//Metodos Observador
 	@Override
 	public void executar(Object obj,int ID) {
 		switch (ID)
@@ -76,7 +74,7 @@ public class TelaBanca extends JFrame implements Observado,Observador, MouseList
 					int [] conteudoDealer = (int[]) obj;
 					this.telaI.redesenhar(conteudoDealer);
 				}else {
-		    		 System.out.println("[ERRO][Tela Banca][Observer] ID 10 deve receber um ArrayList, foi recebido:" + obj.getClass());
+		    		 System.out.println("[ERRO][Tela Banca][Observer] ID 10 deve receber um int[], foi recebido:" + obj.getClass());
 		    	}
 				break;
 			case 11:
@@ -84,7 +82,7 @@ public class TelaBanca extends JFrame implements Observado,Observador, MouseList
 					boolean valorFicha = (boolean) obj;
 					this.telaI.redesenhar(valorFicha);
 				}else {
-		    		 System.out.println("[ERRO][Tela Banca][Observer] ID 11 deve receber um ArrayList, foi recebido:" + obj.getClass());
+		    		 System.out.println("[ERRO][Tela Banca][Observer] ID 11 deve receber um Boolean, foi recebido:" + obj.getClass());
 		    	}
 				break;
 			case 12:
@@ -92,23 +90,29 @@ public class TelaBanca extends JFrame implements Observado,Observador, MouseList
 					String[] valorFicha = (String[]) obj;
 					this.telaI.redesenhar(valorFicha);
 				}else {
-		    		 System.out.println("[ERRO][Tela Banca][Observer] ID 12 deve receber um ArrayList, foi recebido:" + obj.getClass());
+		    		 System.out.println("[ERRO][Tela Banca][Observer] ID 12 deve receber um String[], foi recebido:" + obj.getClass());
 		    	}
 				break;
 			case 13:
 				if(obj.getClass().equals(Boolean.class)) {
 					this.telaI.redesenhar();
 				}else {
-		    		 System.out.println("[ERRO][Tela Banca][Observer] ID 12 deve receber um ArrayList, foi recebido:" + obj.getClass());
+		    		 System.out.println("[ERRO][Tela Banca][Observer] ID 13 deve receber um Boolean, foi recebido:" + obj.getClass());
 		    	}
 				break;
+			case 14:
+				if(obj.getClass().equals(String.class)) {
+					String nomeJogador = (String) obj;
+					this.telaI.redesenhar(nomeJogador);
+				}else {
+		    		 System.out.println("[ERRO][Tela Banca][Observer] ID 14 deve receber um String, foi recebido:" + obj.getClass());
+		    	}
 		}
 				
 	}
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		//CHAMAR Controller
 		if (e.getX() >= 60 && e.getX() <= 119 && e.getY() >= 500 && e.getY() <=  559) {
 			notificar("1",CodigosObservadorView.BOTAO_APOSTA_INICIAL.valor);
 		}

@@ -93,8 +93,6 @@ public class GUIService{
 		if(estado.get(1)) {
 			exibirTelaJogador();
 			exibirTelaBanca();
-			//DISTRIBUIR AS CARTAS
-			//api.distribuirCartas();
 		}
 	}
 	
