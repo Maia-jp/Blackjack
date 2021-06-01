@@ -64,6 +64,12 @@ public class ControllerAPI implements Observador{
 			else
 				telaBancaApostainicialrealizar(obj);
 		}
+		if(CodigosObservadorView.BOTAO_REMOVE_FICHA_APOSTA.valor == ID) {
+			if(CodigosObservadorView.BOTAO_REMOVE_FICHA_APOSTA.classe != obj.getClass())
+				System.out.print("[ERRO][Controller] Classe passada no metodo executar nao corresponde ao correto, foi passado:"+obj.getClass());
+			else
+				telaBancaRemoveFichaPilha(obj);
+		}
 		
 	}
 	
@@ -80,6 +86,7 @@ public class ControllerAPI implements Observador{
 		System.out.print("Passa 3; "+jogadores);
 		view.telaInicialCriarJogadores(jogadores,this);
 		api.exibeNomeJogadores();
+		api.notificaViewInfoJogadores();
 	}
 	
 	private void telaJogadorHit(Object nome) {
@@ -107,6 +114,10 @@ public class ControllerAPI implements Observador{
 	
 	private void telaBancaApostainicialrealizar(Object s) {
 		api.finalizaApostaInicial(s);
+	}
+	
+	private void telaBancaRemoveFichaPilha(Object s) {
+		api.removeFichaPilha();
 	}
 	
 	//

@@ -12,6 +12,7 @@ public class ImagensTela extends JPanel{
    
 	private CarregaImagens cI;
     private List<String> chave;
+    private List<String[]> infosJogadores;
     private int [] conteudo;
     private String valorFicha;
     private String apostaInicialTotal;
@@ -54,6 +55,24 @@ public class ImagensTela extends JPanel{
 	    		g2d.drawString("Pontos Dealer "+Integer.toString(conteudo[0]), 360, 110);
 	    	}
     	}
+    	
+    	if(infosJogadores != null) {
+    		int y = 200;
+        	for(String[] i : infosJogadores) {
+        		g2d.setFont(new Font("Helvetica", Font.BOLD, 11));
+        		g2d.setColor(Color.RED);
+        		g2d.drawString("Nome: "+i[0], 30,y);
+        		g2d.drawString("Qtd fichas 1: "+i[1], 30,y+11);
+        		g2d.drawString("Qtd fichas 5: "+i[2], 30,y+22);
+        		g2d.drawString("Qtd fichas 10: "+i[3], 30,y+33);
+        		g2d.drawString("Qtd fichas 20: "+i[4], 30,y+44);
+        		g2d.drawString("Qtd fichas 50: "+i[5], 30,y+55);
+        		g2d.drawString("Qtd fichas 100: "+i[6], 30,y+66);
+        		g2d.drawString("Qtd fichas totais: "+i[7], 30,y+77);
+        		y += 90;
+        	}
+    	}
+    	
     	if(valorFicha != null) {
     		if(valorFicha == "1") {
     			g2d.drawImage(cI.getFichaV1(), 750, 200, null);
@@ -113,6 +132,11 @@ public class ImagensTela extends JPanel{
     
     public void redesenhar(String nomeJogador) {
     	this.nomeJogador = nomeJogador;
+    	repaint();
+    }
+    
+    public void redesenhar2(List<String[]> infosJogadores) {
+    	this.infosJogadores = infosJogadores;
     	repaint();
     }
 }

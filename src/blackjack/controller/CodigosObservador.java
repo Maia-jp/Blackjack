@@ -14,6 +14,7 @@ public enum CodigosObservador {
 	VERIFICA_APOSTA_INICIAL_OK_REPAINT(12, String[].class),
 	VERIFICA_APOSTA_INICAL_EFETUADA(13, Boolean.class),
 	NOME_JOGADOR_ATUAL_APOSTA_INICIAL(14, String.class),
+	INFOS_JOGADORES(15, List.class),
 	TESTE(-1,String.class);
 	
 	
