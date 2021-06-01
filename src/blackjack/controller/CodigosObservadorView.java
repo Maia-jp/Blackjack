@@ -11,6 +11,7 @@ public enum CodigosObservadorView {
 	BOTAO_SPLIT_JOGADOR(104,String.class),
 	BOTAO_APOSTA_INICIAL(105, String.class),
 	BOTAO_APOSTA_INCIAL_REALIZAR(106, Boolean.class),
+	BOTAO_SALVAR_TELA_DEALER(107, Boolean.class),
 	TESTE(-1,String.class);
 	
 	public int valor;
