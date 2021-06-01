@@ -42,9 +42,7 @@ class Baralho{
 	private List<Carta> adicionarBaralho(){
 
 		String[] naipes = {"H","S","C","D"};
-		String[] valores = {"2","3","4","5",
-				"6","7","8","9","10","j","q",
-				"k","a"};
+		String[] valores = {"2"};
 		
 		List<Carta> cartas = new ArrayList<>();
 		

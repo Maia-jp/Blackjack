@@ -12,6 +12,7 @@ import java.util.Set;
 
 import blackjack.controller.CodigosObservador;
 import blackjack.view.Observador;
+import blackjack.view.TelaJogador;
 
 public class ModelAPI implements Observado {
 	//Info principal
@@ -165,6 +166,12 @@ public class ModelAPI implements Observado {
 		}
 	}
 	
+	public void pedirSplit(Object nome) {
+		jogadores.get(Integer.parseInt(nome.toString())).split();
+		enviarInfoMaoJogador();
+		enviarInfoMaoJogadorSplit();
+	}
+	
 	// fazer depois do alexandre fazer a função para pegar a aposta inicialdos jogadores
 	/*public void pedirDouble(Object nome) {
 		for(Jogador j : jogadores) {
@@ -180,7 +187,7 @@ public class ModelAPI implements Observado {
 		
 		//-Envia mao para cada jogador
 		 Map<String,List<String>> maoDosJogadores = new HashMap<String,List<String>>();
-		 jogadores.forEach((j) -> maoDosJogadores.put(j.getNomeJogador(), jogadorMao(jogadores.indexOf(j))));
+		 jogadores.forEach((j) -> maoDosJogadores.put(j.getNomeJogador(), jogadorMao(jogadores.indexOf(j),0)));
 		 notificar(maoDosJogadores,CodigosObservador.MAO_DOS_JOGADORES.valor);
 		 
 		 //Envia valor da mao para cada jogador
@@ -188,6 +195,20 @@ public class ModelAPI implements Observado {
 		 jogadores.forEach((j) -> maoValorDosJogadores.put(j.getNomeJogador(),j.valorMao(0)));
 		 notificar(maoValorDosJogadores,CodigosObservador.MAO_VALOR_DOS_JOGADORES.valor);
 	}
+	
+	private void enviarInfoMaoJogadorSplit() {
+		
+		//-Envia mao para cada jogador
+		 Map<String,List<String>> maoDosJogadores = new HashMap<String,List<String>>();
+		 jogadores.forEach((j) -> maoDosJogadores.put(j.getNomeJogador(), jogadorMao(jogadores.indexOf(j),1)));
+		 notificar(maoDosJogadores,CodigosObservador.MAO_DOS_JOGADORES_SPLIT.valor);
+		 
+		 //Envia valor da mao para cada jogador
+		 Map<String,Integer> maoValorDosJogadores = new HashMap<String,Integer>();
+		 jogadores.forEach((j) -> maoValorDosJogadores.put(j.getNomeJogador(),j.valorMao(1)));
+		 notificar(maoValorDosJogadores,CodigosObservador.MAO_VALOR_DOS_JOGADORES_SPLIT.valor);
+	}
+	
 	
 	//Pula para o proximo jogador 
 	public void proximoJogador() {
@@ -255,9 +276,9 @@ public class ModelAPI implements Observado {
 		return jogadores.get(n).getNomeJogador();
 	}
 	
-	public List<String> jogadorMao(int n) {
+	public List<String> jogadorMao(int n,int mao) {
 		List<String> cartasString =new ArrayList<>();
-		for(Carta c: jogadores.get(n).getMaoJogador(0)) {
+		for(Carta c: jogadores.get(n).getMaoJogador(mao)) {
 			cartasString.add(c.getInfo());
 		}
 		return cartasString;
