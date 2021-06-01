@@ -1,6 +1,8 @@
 package blackjack.model;
 
 import blackjack.controller.CodigosObservador;
+import blackjack.controller.SaveDTO;
+
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -33,7 +35,7 @@ public class ModelAPI implements Observado {
 	private int valorApostaInicial = 0;
 	
 	//
-	//Funçoes principais de controle de partida
+	//FunÃ§oes principais de controle de partida
 	//
 	
 	public void confereGanhadores() {
@@ -45,7 +47,7 @@ public class ModelAPI implements Observado {
 			if((j.valorMao(0) > dealer.valorMao() && dealer.valorMao() < 21) || (j.blackjack() && dealer.blackJackDealer() == true)) {
 				//j.receberFichas(jogadorAposta.get(j.getNomeJogador()));
 			}
-//			Proxima itera��o
+//			Proxima iteraï¿½ï¿½o
 //			if(j.checkRendicao() && dealer.blackJackDealer() == false)
 //				j.receberFichas(jogadorAposta.get(j.getNomeJogador())/2);
 		}
@@ -54,7 +56,7 @@ public class ModelAPI implements Observado {
 		novaRodada();
 	}
 	
-	//Começa uma rodada
+	//ComeÃ§a uma rodada
 	public void novaRodada() {
         //Incrimenta em 1 a rodada
         rodada++;
@@ -65,7 +67,7 @@ public class ModelAPI implements Observado {
         //Jogda Dealer = 0
         jogadaDealer = 0;
         for(Jogador j :jogadores ) {
-            //Tira carta da m�o de todos os jogadores
+            //Tira carta da mï¿½o de todos os jogadores
             j.limparMaoJogador(0);;
             
             //Tira do double
@@ -130,7 +132,7 @@ public class ModelAPI implements Observado {
 		 int []tCartasRoda = new int[2];
 		 tCartasRoda[0] = valorDealerMao();
 		 tCartasRoda[1] = this.jogadaDealer;
-		 notificar(tCartasRoda,CodigosObservador.INFOS_DEALER.valor); //@ Ale , colocar padrão enum
+		 notificar(tCartasRoda,CodigosObservador.INFOS_DEALER.valor); //@ Ale , colocar padrÃ£o enum
 		 
 		 List<String> cartasDealer = dealerMao();
 		 notificar(cartasDealer,CodigosObservador.CARTAS_DO_DEALER.valor);
@@ -150,7 +152,7 @@ public class ModelAPI implements Observado {
 		if(jogadores.get(Integer.parseInt(String.valueOf(tmp.charAt(0)))).checkStand()==false) {
 			jogadores.get(Integer.parseInt(String.valueOf(tmp.charAt(0)))).hit(baralho.pegarCarta(),Integer.parseInt(String.valueOf(tmp.charAt(1))));
 		}else{
-			System.out.println("STAND ATIVADO, LOGO HIT N�O PODE SER ACIONADO");
+			System.out.println("STAND ATIVADO, LOGO HIT NÃO PODE SER ACIONADO");
 		}
 		enviarInfoMaoJogador();
 		enviarInfoMaoJogadorSplit();
@@ -164,6 +166,7 @@ public class ModelAPI implements Observado {
 		}
 	}
 	
+  
 	public void pedirSplit(Object nome) {
 		jogadores.get(Integer.parseInt(nome.toString())).split();
 		String jogadorMao0=nome.toString();
@@ -174,7 +177,7 @@ public class ModelAPI implements Observado {
 		pedirHit(jogadorMao1);
 	}
 	
-	// fazer depois do alexandre fazer a fun��o para pegar a aposta inicialdos jogadores
+	// fazer depois do alexandre fazer a função para pegar a aposta inicialdos jogadores
 	/*public void pedirDouble(Object nome) {
 		for(Jogador j : jogadores) {
 			if(j.getNomeJogador()==nome) {
@@ -218,7 +221,7 @@ public class ModelAPI implements Observado {
 	}
 	
 	//
-	//Metodos de informacao [obtem informaçao dos jogadores e da partida]
+	//Metodos de informacao [obtem informaÃ§ao dos jogadores e da partida]
 	//
 	
 	public String jogadorAtualNome() {
@@ -376,7 +379,7 @@ public class ModelAPI implements Observado {
 //		}
 	}
 		
-	// .... Metodos para cada possivel interação
+	// .... Metodos para cada possivel interaÃ§Ã£o
 	
 	
 	//
@@ -403,7 +406,7 @@ public class ModelAPI implements Observado {
 		}
 	}
 	
-	//FUN��ES APOSTA INCIAL
+	//FUNÇÔES APOSTA INCIAL
 	private void verificaJogadaApostaInicial() {
 		//Fazer Teste Unitario
 		if(this.jogada == numeroDeJogadores()) {	
@@ -519,6 +522,11 @@ public class ModelAPI implements Observado {
 	//Reinicia o baralho
 	private void reiniciarBaralho() {
 		this.baralho = new Baralho(4);
+	}
+	
+	//Carrega o jogo
+	public void carregarSalvamento(SaveDTO dto) {
+		
 	}
 	
 	

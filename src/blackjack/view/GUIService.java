@@ -30,6 +30,7 @@ public class GUIService{
 	static List<TelaJogador> telasJogador = new ArrayList<>();
 	static List<TelaJogador> telasJogadorSplit = new ArrayList<>();
 	TelaBanca telaBanca = new TelaBanca(cI);
+	static TelaOpcoes opcoes = TelaOpcoes.iniciar();
 	
 	//
 	//
@@ -157,7 +158,13 @@ public class GUIService{
 	}
 	
 	public void telaSplitVisivel(Object indiceJogador) {
-		telasJogadorSplit.get(Integer.parseInt(indiceJogador.toString())).setVisible(true);;
+		telasJogadorSplit.get(Integer.parseInt(indiceJogador.toString())).setVisible(true);
+  }
+  
+	public void exibirOpcoes() {
+		observadores.forEach(o->this.opcoes.adicionarObservador(o));
+		this.opcoes.setVisible(true);
+		this.opcoes.addWindowListener(wAListner);
 	}
 	
 	//

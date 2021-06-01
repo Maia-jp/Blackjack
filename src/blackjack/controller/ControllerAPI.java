@@ -16,6 +16,7 @@ public class ControllerAPI implements Observador{
 	public void start() throws Exception {
 		view.adicionarObservador(this);
 		view.exibir();
+		//view.exibirOpcoes();
 	}
 	
 	
@@ -64,6 +65,13 @@ public class ControllerAPI implements Observador{
 			else
 				telaBancaApostainicialrealizar(obj);
 		}
+		if(CodigosObservadorView.BOTAO_SALVAR_TELA_DEALER.valor == ID) {
+			if(CodigosObservadorView.BOTAO_SALVAR_TELA_DEALER.classe != obj.getClass())
+				System.out.print("[ERRO][Controller] Classe passada no metodo executar nao corresponde ao correto, foi passado:"+obj.getClass());
+			else
+				view.exibirOpcoes();
+		}
+
 		
 	}
 	
