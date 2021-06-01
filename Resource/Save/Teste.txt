@@ -1,0 +1,19 @@
+=====BLACKJACK=====
+Partida: 1622506991
+Jogadores:
+Bach
+Beethoven
+Vivaldi
+Chopin
+Cartas:
+-HK-D10
+-HK-D10
+-HK-D10
+-HK-D10
+Dinheiro:
+1-2-3-4-5-6
+1-2-3-4-5-6
+1-2-3-4-5-6
+1-2-3-4-5-6
+Dealer:
+SK SQ 
