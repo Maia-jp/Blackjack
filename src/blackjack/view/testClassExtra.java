@@ -10,6 +10,7 @@ import javax.swing.JPanel;
 import java.awt.Font;
 import javax.swing.SwingConstants;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JTextField;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
@@ -21,14 +22,17 @@ import javax.swing.SpinnerListModel;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.File;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextPane;
 import javax.swing.JSlider;
 import javax.swing.JRadioButton;
+import javax.swing.JSeparator;
 
 public class testClassExtra {
 
 	private JFrame frmOpoes;
+	JFileChooser chooser;
 
 	/**
 	 * Launch the application.
@@ -58,7 +62,6 @@ public class testClassExtra {
 	 */
 	private void initialize() {
 		frmOpoes = new JFrame();
-		frmOpoes.addKeyListener(new CustomKeyListener());
 		frmOpoes.setTitle("Opçoes");
 		frmOpoes.setBounds(100, 100, 450, 300);
 		frmOpoes.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -67,6 +70,49 @@ public class testClassExtra {
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		tabbedPane.setBounds(10, 11, 414, 239);
 		frmOpoes.getContentPane().add(tabbedPane);
+		
+		JPanel salvarTAB = new JPanel();
+		tabbedPane.addTab("Salvar/Carregar", null, salvarTAB, null);
+		salvarTAB.setLayout(null);
+		
+		JButton btnCarregar = new JButton("Carregar");
+		btnCarregar.setEnabled(false);
+		btnCarregar.setBounds(10, 164, 389, 23);
+		salvarTAB.add(btnCarregar);
+		
+		JLabel lblNewLabel_2 = new JLabel("Carregar");
+		lblNewLabel_2.setBounds(10, 104, 389, 14);
+		salvarTAB.add(lblNewLabel_2);
+		
+		JLabel lblNewLabel_3 = new JLabel("Salvar");
+		lblNewLabel_3.setBounds(10, 11, 389, 14);
+		salvarTAB.add(lblNewLabel_3);
+		
+		JButton btnSelecionarLocal = new JButton("Selecionar Local");
+		btnSelecionarLocal.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				abrirSelecaoDiretorio();
+	         }
+		});
+		btnSelecionarLocal.setBounds(10, 36, 389, 23);
+		salvarTAB.add(btnSelecionarLocal);
+		
+		JSeparator separator = new JSeparator();
+		separator.setBounds(10, 99, 389, 19);
+		salvarTAB.add(separator);
+		
+		JButton btnSalvar = new JButton("Salvar");
+		btnSalvar.setEnabled(false);
+		btnSalvar.setBounds(10, 65, 389, 23);
+		salvarTAB.add(btnSalvar);
+		
+		JButton btnSelecionarArquivo = new JButton("Selecionar Arquivo");
+		btnSelecionarArquivo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		btnSelecionarArquivo.setBounds(10, 130, 389, 23);
+		salvarTAB.add(btnSelecionarArquivo);
 		
 		JPanel tabCarteira = new JPanel();
 		tabbedPane.addTab("Carteira", null, tabCarteira, null);
@@ -112,27 +158,6 @@ public class testClassExtra {
 		rdbtnClassica.setBounds(6, 85, 109, 23);
 		tabRadio.add(rdbtnClassica);
 		
-		JPanel salvarTAB = new JPanel();
-		tabbedPane.addTab("Salvar", null, salvarTAB, null);
-		salvarTAB.setLayout(null);
-		
-		JButton btnNewButton = new JButton("Salvar");
-		btnNewButton.setEnabled(false);
-		btnNewButton.setBounds(10, 103, 389, 23);
-		salvarTAB.add(btnNewButton);
-		
-		JLabel lblNewLabel_2 = new JLabel("Local: SELECIONE");
-		lblNewLabel_2.setBounds(10, 78, 389, 14);
-		salvarTAB.add(lblNewLabel_2);
-		
-		JLabel lblNewLabel_3 = new JLabel("Selecione o Local");
-		lblNewLabel_3.setBounds(10, 11, 91, 14);
-		salvarTAB.add(lblNewLabel_3);
-		
-		JButton btnSelecionarLocal = new JButton("Selecionar Local");
-		btnSelecionarLocal.setBounds(10, 36, 389, 23);
-		salvarTAB.add(btnSelecionarLocal);
-		
 		JPanel creditosTab = new JPanel();
 		tabbedPane.addTab("Creditos", null, creditosTab, null);
 		creditosTab.setLayout(null);
@@ -163,16 +188,19 @@ public class testClassExtra {
 		lblNewLabel_1.setBounds(27, 179, 372, 21);
 		creditosTab.add(lblNewLabel_1);
 	}
+	
+	
+	private void abrirSelecaoDiretorio() {
+		JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        int option = fileChooser.showOpenDialog(frmOpoes);
+        if(option == JFileChooser.APPROVE_OPTION){
+           File file = fileChooser.getSelectedFile();
+          System.out.println("Folder Selected: " + file.getAbsolutePath());
+        }else{
+        	System.out.println("Open command canceled");
+        }
+     }
 }
+	
 
-class CustomKeyListener implements KeyListener{
-    public void keyTyped(KeyEvent e) {
-    	System.out.println(e.getKeyCode());
-    }
-    public void keyPressed(KeyEvent e) {
-       System.out.println(e.getKeyCode());
-    }
-    public void keyReleased(KeyEvent e) {
-    	System.out.println(e.getKeyCode());
-    }   
- }

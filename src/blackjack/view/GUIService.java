@@ -29,6 +29,7 @@ public class GUIService{
 	TelaIncial telaInicial;
 	static List<TelaJogador> telasJogador = new ArrayList<>();
 	TelaBanca telaBanca = new TelaBanca(cI);
+	static TelaOpcoes opcoes = TelaOpcoes.iniciar();
 	
 	//
 	//
@@ -137,6 +138,12 @@ public class GUIService{
 			System.out.println("Erro[telaInicialComecarCallback] ao chamar exibir()");
 			e.printStackTrace();
 		}
+	}
+	
+	public void exibirOpcoes() {
+		observadores.forEach(o->this.opcoes.adicionarObservador(o));
+		this.opcoes.setVisible(true);
+		this.opcoes.addWindowListener(wAListner);
 	}
 	
 	//
