@@ -1,6 +1,8 @@
 package blackjack.model;
 
 import blackjack.controller.CodigosObservador;
+import blackjack.controller.SaveDTO;
+
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -156,7 +158,7 @@ public class ModelAPI implements Observado {
 		}
 	}
 	
-	// fazer depois do alexandre fazer a função para pegar a aposta inicialdos jogadores
+	// fazer depois do alexandre fazer a funï¿½ï¿½o para pegar a aposta inicialdos jogadores
 	/*public void pedirDouble(Object nome) {
 		for(Jogador j : jogadores) {
 			if(j.getNomeJogador()==nome) {
@@ -413,6 +415,11 @@ public class ModelAPI implements Observado {
 	//Reinicia o baralho
 	private void reiniciarBaralho() {
 		this.baralho = new Baralho(4);
+	}
+	
+	//Carrega o jogo
+	public void carregarSalvamento(SaveDTO dto) {
+		
 	}
 	
 	

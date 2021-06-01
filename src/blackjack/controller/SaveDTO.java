@@ -6,11 +6,11 @@ import java.util.List;
 
 //DTO -> Data transfer object
 public class SaveDTO {
-	boolean[] info = {false,false,false,false};
-	List<String> jogadores;
-	HashMap<String,HashMap<String,Integer>> dinheiro;
-	HashMap<String,List<String>>MaoJogadores;
-	List<String>MaoDealer;
+	boolean[] info = {false,false,false,false,false,false};
+	public List<String> jogadores;
+	public HashMap<String,HashMap<String,Integer>> dinheiro;
+	public HashMap<String,List<String>>MaoJogadores;
+	public List<String>MaoDealer;
 	
 	
 	public SaveDTO() {
@@ -32,6 +32,7 @@ public class SaveDTO {
 				mao.add(carta);
 			}
 		}
+		info[1] = true; //Valida mao adicionada
 		MaoJogadores.put(jogadores.get(jogador), mao);
 	}
 	
@@ -43,7 +44,7 @@ public class SaveDTO {
 		fichas.put("20",Integer.valueOf(money[3]));
 		fichas.put("50",Integer.valueOf(money[4]));
 		fichas.put("100",Integer.valueOf(money[5]));
-		
+		info[3] = true; //Valida Dinheiro adicionado
 		dinheiro.put(jogadores.get(jogador), fichas);
 	}
 	
@@ -53,6 +54,7 @@ public class SaveDTO {
 				MaoDealer.add(carta);
 			}
 		}
+		info[4] = true; //Valida mao dealer
 	}
 	
 }

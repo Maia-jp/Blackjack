@@ -1,5 +1,6 @@
 package blackjack.controller;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
@@ -64,11 +65,59 @@ public class SalvingUtilitiesTeste {
 	
 	@Test
 	public void testSalvar() {
-		//assertTrue(testClass.salvar("./Resource/Save/", "Teste"));
+		assertTrue(testClass.salvar("./Resource/Save/", "Teste"));
 	}
 	
 	@Test
 	public void testCarregar() {
-		testClass.carregar("./Resource/Save/Teste.txt");
+		SaveDTO dto = testClass.carregar("./Resource/Save/Teste.txt");
+		
+		for(int i=0;i<jogadores.size();i++) {
+			assertEquals(jogadores.get(i),dto.jogadores.get(i));
+		}
+		
+		for(String j : jogadores) {
+			assertEquals(dinheiro.get(j).get("1"),dto.dinheiro.get(j).get("1"));
+			assertEquals(dinheiro.get(j).get("5"),dto.dinheiro.get(j).get("5"));
+			assertEquals(dinheiro.get(j).get("10"),dto.dinheiro.get(j).get("10"));
+			assertEquals(dinheiro.get(j).get("20"),dto.dinheiro.get(j).get("20"));
+			assertEquals(dinheiro.get(j).get("50"),dto.dinheiro.get(j).get("50"));
+			assertEquals(dinheiro.get(j).get("100"),dto.dinheiro.get(j).get("100"));
+		}
+		
+		for(String j : jogadores) {
+			assertEquals(MaoJogadores.get(j).get(0),dto.MaoJogadores.get(j).get(0));
+			assertEquals(MaoJogadores.get(j).get(1),dto.MaoJogadores.get(j).get(1));
+		}
+	}
+	
+	@Test
+	public void testSalvarMenosJogadores() {
+		jogadores.subList(0, 2);
+		testClass.gerarModeloSalvar(jogadores, dinheiro, MaoJogadores,maoDealer);
+		assertTrue(testClass.salvar("./Resource/Save/", "Teste2"));
+		
+	}
+	
+	@Test
+	public void testCarregarMenosJogadores() {
+		SaveDTO dto = testClass.carregar("./Resource/Save/Teste2.txt");
+		for(int i=0;i<jogadores.size();i++) {
+			assertEquals(jogadores.get(i),dto.jogadores.get(i));
+		}
+		
+		for(String j : jogadores) {
+			assertEquals(dinheiro.get(j).get("1"),dto.dinheiro.get(j).get("1"));
+			assertEquals(dinheiro.get(j).get("5"),dto.dinheiro.get(j).get("5"));
+			assertEquals(dinheiro.get(j).get("10"),dto.dinheiro.get(j).get("10"));
+			assertEquals(dinheiro.get(j).get("20"),dto.dinheiro.get(j).get("20"));
+			assertEquals(dinheiro.get(j).get("50"),dto.dinheiro.get(j).get("50"));
+			assertEquals(dinheiro.get(j).get("100"),dto.dinheiro.get(j).get("100"));
+		}
+		
+		for(String j : jogadores) {
+			assertEquals(MaoJogadores.get(j).get(0),dto.MaoJogadores.get(j).get(0));
+			assertEquals(MaoJogadores.get(j).get(1),dto.MaoJogadores.get(j).get(1));
+		}
 	}
 }
