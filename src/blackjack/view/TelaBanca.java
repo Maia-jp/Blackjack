@@ -52,7 +52,7 @@ public class TelaBanca extends JFrame implements Observado,Observador, MouseList
 		encerrrar = new JButton("Encerrar Partida");
 		telaI.add(encerrrar);
 		
-		salvar = new JButton("Abrir Opçoes");
+		salvar = new JButton("Abrir Opcoes");
 		salvar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			notificar(true,CodigosObservadorView.BOTAO_SALVAR_TELA_DEALER.valor);

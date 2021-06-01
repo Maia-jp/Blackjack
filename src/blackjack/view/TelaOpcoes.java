@@ -38,7 +38,7 @@ class TelaOpcoes extends JFrame implements Observado{
 	 * Inicializa conteudos da Tela
 	 */
 	private void initialize() {
-		this.setTitle("Opçoes");
+		this.setTitle("Opcoes");
 		this.setBounds(100, 100, 450, 300);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.getContentPane().setLayout(null);
@@ -163,7 +163,7 @@ class TelaOpcoes extends JFrame implements Observado{
 		lblAlexandreBomfim_1_1.setBounds(276, 53, 123, 26);
 		creditosTab.add(lblAlexandreBomfim_1_1);
 		
-		JLabel lblNewLabel_1 = new JLabel("Projeto da disciplina Programaçao Orientada e Objetos, PUC-RIO 2021.1");
+		JLabel lblNewLabel_1 = new JLabel("Projeto da disciplina Programacao Orientada e Objetos, PUC-RIO 2021.1");
 		lblNewLabel_1.setHorizontalAlignment(SwingConstants.LEFT);
 		lblNewLabel_1.setFont(new Font("Verdana", Font.PLAIN, 9));
 		lblNewLabel_1.setBounds(27, 179, 372, 21);

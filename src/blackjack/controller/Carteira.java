@@ -85,8 +85,8 @@ class Carteira {
 		return encrypt(msg,jogador);
 	}
 	
-	public Map<String, Integer> validarCarteira(String endereço,String jogador){
-		String msg = decrypt(endereço,jogador);
+	public Map<String, Integer> validarCarteira(String endereco,String jogador){
+		String msg = decrypt(endereco,jogador);
 		
 		if(!validarNome(msg,jogador)) {
 			return null;
