@@ -11,7 +11,7 @@ public enum CodigosObservador {
 	DINHEIRO_DOS_JOGADORES(4,HashMap.class),
 	INFOS_DEALER(10, int[].class),
 	VERIFICA_APOSTA_INICIAL_OK_BOTAO_APOSTAR(11, Boolean.class),
-	VERIFICA_APOSTA_INICIAL_OK_REPAINT(12, String.class),
+	VERIFICA_APOSTA_INICIAL_OK_REPAINT(12, String[].class),
 	VERIFICA_APOSTA_INICAL_EFETUADA(13, Boolean.class),
 	TESTE(-1,String.class);
 	

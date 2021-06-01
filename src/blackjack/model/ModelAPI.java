@@ -429,7 +429,8 @@ public class ModelAPI implements Observado {
 				
 				carteiraJogadorApostaInicial.replace(s.toString(), carteiraJogadorApostaInicial.get(s)-1);
 				this.valorApostaInicial += Integer.parseInt(s.toString());
-				notificar(s.toString(), CodigosObservador.VERIFICA_APOSTA_INICIAL_OK_REPAINT.valor);
+				String[] infoForTelaBanca = new String[] {s.toString(), String.valueOf(valorApostaInicial)};
+				notificar(infoForTelaBanca, CodigosObservador.VERIFICA_APOSTA_INICIAL_OK_REPAINT.valor);
 			
 			}
 			if(this.valorApostaInicial >= 20) {

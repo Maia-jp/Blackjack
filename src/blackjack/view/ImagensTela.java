@@ -14,6 +14,7 @@ public class ImagensTela extends JPanel{
     private List<String> chave;
     private int [] conteudo;
     private String valorFicha;
+    private String apostaInicialTotal;
     private boolean botaoOk;
     
     public ImagensTela(CarregaImagens cI) {
@@ -67,6 +68,9 @@ public class ImagensTela extends JPanel{
     		else if(valorFicha == "100") {
     			g2d.drawImage(cI.getFichaV100(), 750, 200, null);
     		}
+    		g2d.setFont(new Font("Helvetica", Font.BOLD, 15));
+    		g2d.setColor(Color.RED);
+    		g2d.drawString("Valor Aposta Inicial: "+apostaInicialTotal, 700, 180);
     	}
     	if(botaoOk == true) {
     		g2d.setFont(new Font("Helvetica", Font.BOLD, 15));
@@ -85,8 +89,9 @@ public class ImagensTela extends JPanel{
     	repaint();
     }
     
-    public void redesenhar(String valorFicha) {
-    	this.valorFicha = valorFicha;
+    public void redesenhar(String[] valorFicha) {
+    	this.valorFicha = valorFicha[0];
+    	this.apostaInicialTotal = valorFicha[1];
     	repaint();
     }
     
