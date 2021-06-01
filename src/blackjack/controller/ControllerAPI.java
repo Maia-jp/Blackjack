@@ -80,8 +80,8 @@ public class ControllerAPI implements Observador{
 		view.telaInicialCriarJogadores(jogadores,this);
 	}
 	
-	private void telaJogadorHit(Object nome) {
-		api.pedirHit(nome);
+	private void telaJogadorHit(Object infoJogador) {
+		api.pedirHit(infoJogador);
 	}
 	
 	private void telaJogadorStand(Object nome) {

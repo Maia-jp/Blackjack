@@ -145,17 +145,15 @@ public class ModelAPI implements Observado {
 		 
 	}
 	
-	public void pedirHit(Object nome) {
-		for(Jogador j : jogadores) {
-			if(j.getNomeJogador()==nome){
-				if(j.checkStand()==false) {
-					j.hit(baralho.pegarCarta(),0);
-				}else {
-					System.out.println("STAND ATIVADO, LOGO HIT NÃO PODE SER ACIONADO");
-				}
-			}
+	public void pedirHit(Object infoJogador) {
+		String tmp=infoJogador.toString();
+		if(jogadores.get(Integer.parseInt(String.valueOf(tmp.charAt(0)))).checkStand()==false) {
+			jogadores.get(Integer.parseInt(String.valueOf(tmp.charAt(0)))).hit(baralho.pegarCarta(),Integer.parseInt(String.valueOf(tmp.charAt(1))));
+		}else{
+			System.out.println("STAND ATIVADO, LOGO HIT NÃO PODE SER ACIONADO");
 		}
 		enviarInfoMaoJogador();
+		enviarInfoMaoJogadorSplit();
 	}
 
 	public void pedirStand(Object nome) {
@@ -168,8 +166,12 @@ public class ModelAPI implements Observado {
 	
 	public void pedirSplit(Object nome) {
 		jogadores.get(Integer.parseInt(nome.toString())).split();
-		enviarInfoMaoJogador();
-		enviarInfoMaoJogadorSplit();
+		String jogadorMao0=nome.toString();
+		String jogadorMao1=nome.toString();
+		jogadorMao0 = jogadorMao0+"0";
+		jogadorMao1 = jogadorMao1+"1";		
+		pedirHit(jogadorMao0);
+		pedirHit(jogadorMao1);
 	}
 	
 	// fazer depois do alexandre fazer a função para pegar a aposta inicialdos jogadores

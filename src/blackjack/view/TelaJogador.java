@@ -33,6 +33,7 @@ public class TelaJogador extends JFrame implements Observado,Observador{
 	HashMap<String,List<String>> maoDosJogadores;
 	CarregaImagens cI;
 	Integer maoJogador;
+	String infoJogador;
 	ImageIcon fundo = new ImageIcon(getClass().getResource("/blackjackBKG.png"));
 	
 	private JLabel labelValor;
@@ -47,6 +48,8 @@ public class TelaJogador extends JFrame implements Observado,Observador{
 		this.nomeJogador = nomeJogador;
 		this.indiceJogador=indiceJogador;
 		this.maoJogador=mao;
+		this.infoJogador=Integer.toString(this.indiceJogador);
+		this.infoJogador=this.infoJogador+Integer.toString(this.maoJogador);
 		initialize();
 	}
 	
@@ -139,7 +142,7 @@ public class TelaJogador extends JFrame implements Observado,Observador{
 	public ActionListener btnAcionarHit = new ActionListener() {
     	public void actionPerformed(ActionEvent e) {
     		try {
-    			notificar(nomeJogador,CodigosObservadorView.BOTAO_HIT_JOGADOR.valor);
+    			notificar(infoJogador,CodigosObservadorView.BOTAO_HIT_JOGADOR.valor);
 				System.out.println("HIT ACIONADO PELO JOGADOR: " + nomeJogador);
 			} catch (Exception e1) {
 				System.out.println("Erro[btnAcionarHit] ao chamar btnComecarCallback()"+e1);
