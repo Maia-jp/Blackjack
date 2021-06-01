@@ -13,6 +13,8 @@ public enum CodigosObservador {
 	VERIFICA_APOSTA_INICIAL_OK_BOTAO_APOSTAR(11, Boolean.class),
 	VERIFICA_APOSTA_INICIAL_OK_REPAINT(12, String.class),
 	VERIFICA_APOSTA_INICAL_EFETUADA(13, Boolean.class),
+	MAO_DOS_JOGADORES_SPLIT(14,HashMap.class),
+	MAO_VALOR_DOS_JOGADORES_SPLIT(15,HashMap.class),
 	TESTE(-1,String.class);
 	
 	

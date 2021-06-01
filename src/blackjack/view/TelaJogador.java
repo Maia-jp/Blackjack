@@ -29,8 +29,11 @@ import blackjack.controller.CodigosObservadorView;
 
 public class TelaJogador extends JFrame implements Observado,Observador{
 	String nomeJogador;
+	Integer indiceJogador;
 	HashMap<String,List<String>> maoDosJogadores;
 	CarregaImagens cI;
+	Integer maoJogador;
+	String infoJogador;
 	ImageIcon fundo = new ImageIcon(getClass().getResource("/blackjackBKG.png"));
 	
 	private JLabel labelValor;
@@ -40,9 +43,13 @@ public class TelaJogador extends JFrame implements Observado,Observador{
 	private JButton dobrar;
 	private JButton split;
 	
-	public TelaJogador(String nomeJogador,CarregaImagens cI) {
+	public TelaJogador(String nomeJogador,CarregaImagens cI, Integer mao,Integer indiceJogador) {
 		this.cI = cI;
 		this.nomeJogador = nomeJogador;
+		this.indiceJogador=indiceJogador;
+		this.maoJogador=mao;
+		this.infoJogador=Integer.toString(this.indiceJogador);
+		this.infoJogador=this.infoJogador+Integer.toString(this.maoJogador);
 		initialize();
 	}
 	
@@ -68,7 +75,7 @@ public class TelaJogador extends JFrame implements Observado,Observador{
 		Panel panel1 = new Panel();
 		panel1.setBackground(Color.WHITE);
 		panel1.setBounds(901, 10, 195, 133);
-		this.getContentPane().add(panel1).setBackground(getBackground());;;
+		this.getContentPane().add(panel1);
 		panel1.setLayout(null);
 		
 		Panel panel2 = new Panel();
@@ -135,7 +142,7 @@ public class TelaJogador extends JFrame implements Observado,Observador{
 	public ActionListener btnAcionarHit = new ActionListener() {
     	public void actionPerformed(ActionEvent e) {
     		try {
-    			notificar(nomeJogador,CodigosObservadorView.BOTAO_HIT_JOGADOR.valor);
+    			notificar(infoJogador,CodigosObservadorView.BOTAO_HIT_JOGADOR.valor);
 				System.out.println("HIT ACIONADO PELO JOGADOR: " + nomeJogador);
 			} catch (Exception e1) {
 				System.out.println("Erro[btnAcionarHit] ao chamar btnComecarCallback()"+e1);
@@ -168,7 +175,7 @@ public class TelaJogador extends JFrame implements Observado,Observador{
     public ActionListener btnAcionarSplit = new ActionListener() {
     	public void actionPerformed(ActionEvent e) {
     		try {
-    			notificar(nomeJogador,CodigosObservadorView.BOTAO_SPLIT_JOGADOR.valor);
+    			notificar(Integer.toString(indiceJogador),CodigosObservadorView.BOTAO_SPLIT_JOGADOR.valor);
 				System.out.println("SPLIT ACIONADO PELO JOGADOR: " + nomeJogador);
 			} catch (Exception e1) {
 				System.out.println("Erro[btnAcionarSplit] ao chamar btnComecarCallback()"+e1);
@@ -193,38 +200,73 @@ public class TelaJogador extends JFrame implements Observado,Observador{
 	
 	//Observador
 	public void executar(Object obj,int ID) {
-		switch (ID)
-		{
-		     case 2:
-		    	 if(obj.getClass().equals(HashMap.class)) {
-		    		 maoDosJogadores = (HashMap<String, List<String>>) obj;
-		    		 repaint();
-		    		 alterarMao(maoDosJogadores.get(nomeJogador));
-		    	 }else {
-		    		 System.out.println("[ERRO][Tela jogador][Observer] ID 2 deve receber um hashMap, foi recebido:" + obj.getClass());
-		    	 }
-		    	 break
-		     ;
-		     case 3:
-		    	 if(obj.getClass().equals(HashMap.class)) {
-		    		 Map<String,Integer> maoValorDosJogadores = (HashMap<String, Integer>) obj;
-		    		 atualizarValorDaMao(maoValorDosJogadores.get(nomeJogador));
-		    	 }else {
-		    		 System.out.println("[ERRO][Tela jogador][Observer] ID 3 deve receber um HashMap, foi recebido:" + obj.getClass());
-		    	 }
-		    	 break
-		     ;
-		     case 4:
-		    	 if(obj.getClass().equals(HashMap.class)) {
-		    		 Map<String,Integer> dinheiroJogador = (HashMap<String, Integer>) obj;
-		    		 dinheiroTotalJogador(dinheiroJogador.get(nomeJogador));
-		    	 }else {
-		    		 System.out.println("[ERRO][Tela jogador][Observer] ID 4 deve receber um HashMap, foi recebido:" + obj.getClass());
-		    	 }
-		    	 break
-		     ;
-		     
-		}	
+		
+		if(maoJogador==0) {
+			switch (ID)
+			{
+			     case 2:
+			    	 if(obj.getClass().equals(HashMap.class)) {
+			    		 maoDosJogadores = (HashMap<String, List<String>>) obj;
+			    		 repaint();
+			    		 alterarMao(maoDosJogadores.get(nomeJogador));
+			    	 }else {
+			    		 System.out.println("[ERRO][Tela jogador][Observer] ID 2 deve receber um hashMap, foi recebido:" + obj.getClass());
+			    	 }
+			    	 break
+			     ;
+			     case 3:
+			    	 if(obj.getClass().equals(HashMap.class)) {
+			    		 Map<String,Integer> maoValorDosJogadores = (HashMap<String, Integer>) obj;
+			    		 atualizarValorDaMao(maoValorDosJogadores.get(nomeJogador));
+			    	 }else {
+			    		 System.out.println("[ERRO][Tela jogador][Observer] ID 3 deve receber um HashMap, foi recebido:" + obj.getClass());
+			    	 }
+			    	 break
+			     ;
+			     case 4:
+			    	 if(obj.getClass().equals(HashMap.class)) {
+			    		 Map<String,Integer> dinheiroJogador = (HashMap<String, Integer>) obj;
+			    		 dinheiroTotalJogador(dinheiroJogador.get(nomeJogador));
+			    	 }else {
+			    		 System.out.println("[ERRO][Tela jogador][Observer] ID 4 deve receber um HashMap, foi recebido:" + obj.getClass());
+			    	 }
+			    	 break
+			     ;
+			}
+		}else {
+			switch (ID)
+			{
+			     case 14:
+			    	 if(obj.getClass().equals(HashMap.class)) {
+			    		 maoDosJogadores = (HashMap<String, List<String>>) obj;
+			    		 repaint();
+			    		 alterarMao(maoDosJogadores.get(nomeJogador));
+			    	 }else {
+			    		 System.out.println("[ERRO][Tela jogador][Observer] ID 2 deve receber um hashMap, foi recebido:" + obj.getClass());
+			    	 }
+			    	 break
+			     ;
+			     case 15:
+			    	 if(obj.getClass().equals(HashMap.class)) {
+			    		 Map<String,Integer> maoValorDosJogadores = (HashMap<String, Integer>) obj;
+			    		 atualizarValorDaMao(maoValorDosJogadores.get(nomeJogador));
+			    	 }else {
+			    		 System.out.println("[ERRO][Tela jogador][Observer] ID 3 deve receber um HashMap, foi recebido:" + obj.getClass());
+			    	 }
+			    	 break
+			     ;
+			     case 4:
+			    	 if(obj.getClass().equals(HashMap.class)) {
+			    		 Map<String,Integer> dinheiroJogador = (HashMap<String, Integer>) obj;
+			    		 dinheiroTotalJogador(dinheiroJogador.get(nomeJogador));
+			    	 }else {
+			    		 System.out.println("[ERRO][Tela jogador][Observer] ID 4 deve receber um HashMap, foi recebido:" + obj.getClass());
+			    	 }
+			    	 break
+			     ;
+			}
+		}
+			
 	}
 	
 	//Metodos de execucao observer

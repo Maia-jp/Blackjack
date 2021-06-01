@@ -14,6 +14,7 @@ import java.util.Set;
 
 import blackjack.controller.CodigosObservador;
 import blackjack.view.Observador;
+import blackjack.view.TelaJogador;
 
 public class ModelAPI implements Observado {
 	//Info principal
@@ -34,7 +35,7 @@ public class ModelAPI implements Observado {
 	private int valorApostaInicial = 0;
 	
 	//
-	//Funçoes principais de controle de partida
+	//FunÃ§oes principais de controle de partida
 	//
 	
 	public void confereGanhadores() {
@@ -46,7 +47,7 @@ public class ModelAPI implements Observado {
 			if((j.valorMao(0) > dealer.valorMao() && dealer.valorMao() < 21) || (j.blackjack() && dealer.blackJackDealer() == true)) {
 				//j.receberFichas(jogadorAposta.get(j.getNomeJogador()));
 			}
-//			Proxima itera��o
+//			Proxima iteraï¿½ï¿½o
 //			if(j.checkRendicao() && dealer.blackJackDealer() == false)
 //				j.receberFichas(jogadorAposta.get(j.getNomeJogador())/2);
 		}
@@ -55,7 +56,7 @@ public class ModelAPI implements Observado {
 		novaRodada();
 	}
 	
-	//Começa uma rodada
+	//ComeÃ§a uma rodada
 	public void novaRodada() {
         //Incrimenta em 1 a rodada
         rodada++;
@@ -66,7 +67,7 @@ public class ModelAPI implements Observado {
         //Jogda Dealer = 0
         jogadaDealer = 0;
         for(Jogador j :jogadores ) {
-            //Tira carta da m�o de todos os jogadores
+            //Tira carta da mï¿½o de todos os jogadores
             j.limparMaoJogador(0);;
             
             //Tira do double
@@ -131,7 +132,7 @@ public class ModelAPI implements Observado {
 		 int []tCartasRoda = new int[2];
 		 tCartasRoda[0] = valorDealerMao();
 		 tCartasRoda[1] = this.jogadaDealer;
-		 notificar(tCartasRoda,CodigosObservador.INFOS_DEALER.valor); //@ Ale , colocar padrão enum
+		 notificar(tCartasRoda,CodigosObservador.INFOS_DEALER.valor); //@ Ale , colocar padrÃ£o enum
 		 
 		 List<String> cartasDealer = dealerMao();
 		 notificar(cartasDealer,CodigosObservador.CARTAS_DO_DEALER.valor);
@@ -146,17 +147,15 @@ public class ModelAPI implements Observado {
 		 
 	}
 	
-	public void pedirHit(Object nome) {
-		for(Jogador j : jogadores) {
-			if(j.getNomeJogador()==nome){
-				if(j.checkStand()==false) {
-					j.hit(baralho.pegarCarta(),0);
-				}else {
-					System.out.println("STAND ATIVADO, LOGO HIT N�O PODE SER ACIONADO");
-				}
-			}
+	public void pedirHit(Object infoJogador) {
+		String tmp=infoJogador.toString();
+		if(jogadores.get(Integer.parseInt(String.valueOf(tmp.charAt(0)))).checkStand()==false) {
+			jogadores.get(Integer.parseInt(String.valueOf(tmp.charAt(0)))).hit(baralho.pegarCarta(),Integer.parseInt(String.valueOf(tmp.charAt(1))));
+		}else{
+			System.out.println("STAND ATIVADO, LOGO HIT NÃO PODE SER ACIONADO");
 		}
 		enviarInfoMaoJogador();
+		enviarInfoMaoJogadorSplit();
 	}
 
 	public void pedirStand(Object nome) {
@@ -167,7 +166,18 @@ public class ModelAPI implements Observado {
 		}
 	}
 	
-	// fazer depois do alexandre fazer a fun��o para pegar a aposta inicialdos jogadores
+  
+	public void pedirSplit(Object nome) {
+		jogadores.get(Integer.parseInt(nome.toString())).split();
+		String jogadorMao0=nome.toString();
+		String jogadorMao1=nome.toString();
+		jogadorMao0 = jogadorMao0+"0";
+		jogadorMao1 = jogadorMao1+"1";		
+		pedirHit(jogadorMao0);
+		pedirHit(jogadorMao1);
+	}
+	
+	// fazer depois do alexandre fazer a função para pegar a aposta inicialdos jogadores
 	/*public void pedirDouble(Object nome) {
 		for(Jogador j : jogadores) {
 			if(j.getNomeJogador()==nome) {
@@ -182,7 +192,7 @@ public class ModelAPI implements Observado {
 		
 		//-Envia mao para cada jogador
 		 Map<String,List<String>> maoDosJogadores = new HashMap<String,List<String>>();
-		 jogadores.forEach((j) -> maoDosJogadores.put(j.getNomeJogador(), jogadorMao(jogadores.indexOf(j))));
+		 jogadores.forEach((j) -> maoDosJogadores.put(j.getNomeJogador(), jogadorMao(jogadores.indexOf(j),0)));
 		 notificar(maoDosJogadores,CodigosObservador.MAO_DOS_JOGADORES.valor);
 		 
 		 //Envia valor da mao para cada jogador
@@ -191,13 +201,27 @@ public class ModelAPI implements Observado {
 		 notificar(maoValorDosJogadores,CodigosObservador.MAO_VALOR_DOS_JOGADORES.valor);
 	}
 	
+	private void enviarInfoMaoJogadorSplit() {
+		
+		//-Envia mao para cada jogador
+		 Map<String,List<String>> maoDosJogadores = new HashMap<String,List<String>>();
+		 jogadores.forEach((j) -> maoDosJogadores.put(j.getNomeJogador(), jogadorMao(jogadores.indexOf(j),1)));
+		 notificar(maoDosJogadores,CodigosObservador.MAO_DOS_JOGADORES_SPLIT.valor);
+		 
+		 //Envia valor da mao para cada jogador
+		 Map<String,Integer> maoValorDosJogadores = new HashMap<String,Integer>();
+		 jogadores.forEach((j) -> maoValorDosJogadores.put(j.getNomeJogador(),j.valorMao(1)));
+		 notificar(maoValorDosJogadores,CodigosObservador.MAO_VALOR_DOS_JOGADORES_SPLIT.valor);
+	}
+	
+	
 	//Pula para o proximo jogador 
 	public void proximoJogador() {
 		proximaJogada();
 	}
 	
 	//
-	//Metodos de informacao [obtem informaçao dos jogadores e da partida]
+	//Metodos de informacao [obtem informaÃ§ao dos jogadores e da partida]
 	//
 	
 	public String jogadorAtualNome() {
@@ -257,9 +281,9 @@ public class ModelAPI implements Observado {
 		return jogadores.get(n).getNomeJogador();
 	}
 	
-	public List<String> jogadorMao(int n) {
+	public List<String> jogadorMao(int n,int mao) {
 		List<String> cartasString =new ArrayList<>();
-		for(Carta c: jogadores.get(n).getMaoJogador(0)) {
+		for(Carta c: jogadores.get(n).getMaoJogador(mao)) {
 			cartasString.add(c.getInfo());
 		}
 		return cartasString;
@@ -355,7 +379,7 @@ public class ModelAPI implements Observado {
 //		}
 	}
 		
-	// .... Metodos para cada possivel interação
+	// .... Metodos para cada possivel interaÃ§Ã£o
 	
 	
 	//
@@ -382,7 +406,7 @@ public class ModelAPI implements Observado {
 		}
 	}
 	
-	//FUN��ES APOSTA INCIAL
+	//FUNÇÔES APOSTA INCIAL
 	private void verificaJogadaApostaInicial() {
 		//Fazer Teste Unitario
 		if(this.jogada == numeroDeJogadores()) {	
