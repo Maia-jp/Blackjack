@@ -152,7 +152,7 @@ public class ModelAPI implements Observado {
 				if(j.checkStand()==false) {
 					j.hit(baralho.pegarCarta(),0);
 				}else {
-					System.out.println("STAND ATIVADO, LOGO HIT NÃO PODE SER ACIONADO");
+					System.out.println("STAND ATIVADO, LOGO HIT Nï¿½O PODE SER ACIONADO");
 				}
 			}
 		}
@@ -274,6 +274,23 @@ public class ModelAPI implements Observado {
 		return cartasString;
 	}
 	
+	public List<String> listaNomeJogadores(){
+		List<String> nomes = new ArrayList<>();
+		jogadores.forEach(j-> nomes.add(j.getNomeJogador()));
+		
+		return nomes;
+	}
+	
+	public int jogadorId(String nome) {
+		int i =0;
+		for(Jogador j: jogadores) {
+			if(j.getNomeJogador()==nome)
+				return i;
+			i++;
+		}
+		return -1;
+	}
+	
 	//NOVO
 	public int valorDealerMao() {
 		return dealer.valorMao();
@@ -382,7 +399,7 @@ public class ModelAPI implements Observado {
 		}
 	}
 	
-	//FUNÇÔES APOSTA INCIAL
+	//FUNï¿½ï¿½ES APOSTA INCIAL
 	private void verificaJogadaApostaInicial() {
 		//Fazer Teste Unitario
 		if(this.jogada == numeroDeJogadores()) {	

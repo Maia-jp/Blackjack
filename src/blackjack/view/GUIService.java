@@ -29,7 +29,7 @@ public class GUIService{
 	TelaIncial telaInicial;
 	static List<TelaJogador> telasJogador = new ArrayList<>();
 	TelaBanca telaBanca = new TelaBanca(cI);
-	static TelaOpcoes opcoes = TelaOpcoes.iniciar();
+	TelaOpcoes opcoes;
 	
 	//
 	//
@@ -141,9 +141,15 @@ public class GUIService{
 	}
 	
 	public void exibirOpcoes() {
+		this.opcoes = TelaOpcoes.iniciar(api.listaNomeJogadores());
 		observadores.forEach(o->this.opcoes.adicionarObservador(o));
 		this.opcoes.setVisible(true);
 		this.opcoes.addWindowListener(wAListner);
+	}
+	
+	public void opcoesGerarCarteira(String carteira) {
+		opcoes.exibirCarteira(carteira);
+		
 	}
 	
 	//

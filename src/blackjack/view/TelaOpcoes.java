@@ -17,15 +17,18 @@ import javax.swing.JRadioButton;
 import javax.swing.JSeparator;
 import javax.swing.JSpinner;
 import javax.swing.JTabbedPane;
+import javax.swing.JTextArea;
 import javax.swing.JTextPane;
 import javax.swing.SpinnerListModel;
 import javax.swing.SwingConstants;
 
+import blackjack.controller.CodigosObservadorView;
 import blackjack.model.ModelAPI;
 import blackjack.model.Observado;
 
 class TelaOpcoes extends JFrame implements Observado{
 	
+	List<String> Jogadores;
 	
 	//Botoes e labels globais - Tab salvar/carregar
 	JButton btnSelecionarLocal;
@@ -33,6 +36,11 @@ class TelaOpcoes extends JFrame implements Observado{
 	JButton btnSalvar;
 	JLabel lblTab0Salvar;
 	JLabel  lblTab0Carregar; 
+	
+	//Botoes e labels globais - Carteira
+	JButton btnGerarCarteira;
+	JSpinner spinnerCarteiraJogador;
+	JTextArea txtCarteira;
 
 	/**
 	 * Inicializa conteudos da Tela
@@ -99,45 +107,38 @@ class TelaOpcoes extends JFrame implements Observado{
 		tabbedPane.addTab("Carteira", null, tabCarteira, null);
 		tabCarteira.setLayout(null);
 		
-		JSpinner spinnerCarteiraJogador = new JSpinner();
-		spinnerCarteiraJogador.setModel(new SpinnerListModel(new String[] {"Jogador 1", "Jogador 2", "Jogador 3", "Jogador 4"}));
+		this.spinnerCarteiraJogador = new JSpinner();
+		spinnerCarteiraJogador.setModel(new SpinnerListModel(Jogadores));
 		spinnerCarteiraJogador.setBounds(10, 11, 389, 20);
 		tabCarteira.add(spinnerCarteiraJogador);
 		
-		JButton btnGerarCarteira = new JButton("Gerar Carteira Dinamica");
+		this.btnGerarCarteira = new JButton("Gerar Carteira Dinamica");
 		btnGerarCarteira.setBounds(10, 42, 190, 23);
 		tabCarteira.add(btnGerarCarteira);
+		btnGerarCarteira.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				// Notifica a controller que uma carteira precisa ser gerada (nome do jogador, codigo)
+				notificar(spinnerCarteiraJogador.getValue(),
+						CodigosObservadorView.BOTAO_GERARCARTEIRA_TELA_OPCOES.valor); 
+				System.out.println("Notificou com o valor:" + spinnerCarteiraJogador.getValue());
+			}
+		});
 		
-		JTextPane txtpnNone = new JTextPane();
-		txtpnNone.setToolTipText("Digite a carteira dinamica ou copie a carteira dada");
-		txtpnNone.setText("Digite sua carteira Dicamica");
-		txtpnNone.setBounds(10, 76, 389, 124);
-		tabCarteira.add(txtpnNone);
+		txtCarteira = new JTextArea();
+		txtCarteira.setToolTipText("Digite a carteira dinamica ou copie a carteira dada");
+		txtCarteira.setText("Digite sua carteira Dicamica");
+		txtCarteira.setBounds(10, 76, 389, 124);
+		txtCarteira.setWrapStyleWord(true);
+		txtCarteira.setLineWrap(true);
+		tabCarteira.add(txtCarteira);
 		
 		JButton btnCarregarCarteira = new JButton("Carregar Carteira Dinamica");
 		btnCarregarCarteira.setBounds(209, 42, 190, 23);
 		tabCarteira.add(btnCarregarCarteira);
+
 		
-		JPanel tabRadio = new JPanel();
-		tabbedPane.addTab("Radio", null, tabRadio, null);
-		tabRadio.setLayout(null);
 		
-		JRadioButton rdbtnParar = new JRadioButton("Parar");
-		rdbtnParar.setSelected(true);
-		rdbtnParar.setBounds(6, 7, 109, 23);
-		tabRadio.add(rdbtnParar);
-		
-		JRadioButton rdbtnJazz = new JRadioButton("Jazz");
-		rdbtnJazz.setBounds(6, 33, 109, 23);
-		tabRadio.add(rdbtnJazz);
-		
-		JRadioButton rdbtnBlues = new JRadioButton("Blues");
-		rdbtnBlues.setBounds(6, 59, 109, 23);
-		tabRadio.add(rdbtnBlues);
-		
-		JRadioButton rdbtnClassica = new JRadioButton("Classica");
-		rdbtnClassica.setBounds(6, 85, 109, 23);
-		tabRadio.add(rdbtnClassica);
+		//TAB creditos
 		
 		JPanel creditosTab = new JPanel();
 		tabbedPane.addTab("Creditos", null, creditosTab, null);
@@ -205,6 +206,17 @@ class TelaOpcoes extends JFrame implements Observado{
         	return;
         }
      }
+	
+	//
+	//Metodos Carteira Dinamica
+	//
+	public void exibirCarteira(String t) {
+		txtCarteira.setText(t);
+	}
+	
+	public String getCarteiraDinamica(String t) {
+		return txtCarteira.getName();
+	}
      
 	
 	
@@ -226,13 +238,15 @@ class TelaOpcoes extends JFrame implements Observado{
 	//Modelo Singleton
 	private static TelaOpcoes instanciaUnica;
 	
-	private TelaOpcoes() {
+	private TelaOpcoes(List<String> jogadores) {
+		this.Jogadores = jogadores;
 		initialize();
+		
 	}
 	
-	public static synchronized TelaOpcoes iniciar() {
+	public static synchronized TelaOpcoes iniciar(List<String> jogadores) {
 		if(instanciaUnica == null)
-			instanciaUnica = new TelaOpcoes();
+			instanciaUnica = new TelaOpcoes(jogadores);
 		return instanciaUnica;
 	}
 }
