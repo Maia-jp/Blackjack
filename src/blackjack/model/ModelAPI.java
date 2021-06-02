@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.Stack;
 
 import blackjack.controller.CodigosObservador;
 import blackjack.view.Observador;
@@ -33,6 +34,7 @@ public class ModelAPI implements Observado {
 	private boolean ifOkApostaInicial;
 	private Map<String, Integer> carteiraJogadorApostaInicial = new HashMap<String, Integer>();
 	private int valorApostaInicial = 0;
+	private Stack<String> pilhaApostaInicial = new Stack<String>();
 	
 	//
 	//FunÃ§oes principais de controle de partida
@@ -345,13 +347,10 @@ public class ModelAPI implements Observado {
 		jogadaDealer++;
 		if(dealer.checkEstrategia() == 2) {
 			dealer.receberCarta(baralho.pegarCarta());
-			
 		}
 		else {
-			//APENAS PARA VERIFICAR NOS TESTES
-			//proximoJogador();// <--------------------?
-			dealer.receberCarta(baralho.pegarCarta());
-		}
+			confereGanhadores();
+			}
 	}
 	
 	//Jogador atual faz uma aposta
@@ -436,7 +435,7 @@ public class ModelAPI implements Observado {
 	
 	public void finalizaApostaInicial(Object s) {
 		//Fazer Teste Unitario
-		if(this.valorApostaInicial >= 20) {
+		if(this.valorApostaInicial >= 20 && this.ifOkApostaInicial == true) {
 			realizaApostaInicial();
 			this.valorApostaInicial = 0;
 			carteiraJogadorApostaInicial.clear();
@@ -444,6 +443,50 @@ public class ModelAPI implements Observado {
 			notificar(false, CodigosObservador.VERIFICA_APOSTA_INICAL_EFETUADA.valor);
 			this.jogada += 1;
 			verificaJogadaApostaInicial();
+			exibeNomeJogadores();
+			notificaViewInfoJogadores();
+		}
+	}
+	
+	private void notificaViewApostaInicial(String s) {
+		//Fazer Teste Unitario
+		String[] infoForTelaBanca = new String[] {s, String.valueOf(valorApostaInicial)};
+		notificar(infoForTelaBanca, CodigosObservador.VERIFICA_APOSTA_INICIAL_OK_REPAINT.valor);
+	}
+	
+	private void notificaViewNaoPodeApostar() {
+		notificar(false, CodigosObservador.VERIFICA_APOSTA_INICIAL_OK_BOTAO_APOSTAR.valor);
+	}
+	
+	public void notificaViewInfoJogadores() {
+		int i = 0;
+		List<String[]> infosJogadores = new ArrayList<String[]>();
+		for(Jogador j: jogadores) {
+			String[] infoJogador = new String[]{j.getNomeJogador(), jogadorEspecificoCarteira(i).get("1").toString(),jogadorEspecificoCarteira(i).get("5").toString(),jogadorEspecificoCarteira(i).get("10").toString(), jogadorEspecificoCarteira(i).get("20").toString(), jogadorEspecificoCarteira(i).get("50").toString(),jogadorEspecificoCarteira(i).get("100").toString(), String.valueOf(j.fichasTotalJogador())};
+			infosJogadores.add(infoJogador);
+		}
+		notificar(infosJogadores, CodigosObservador.INFOS_JOGADORES.valor);
+	}
+	
+	public void removeFichaPilha() {
+		//Fazer Teste Unitario
+		if(this.ifOkApostaInicial == true && !(pilhaApostaInicial.isEmpty())) {
+			String vFicha = pilhaApostaInicial.pop();
+			carteiraJogadorApostaInicial.replace(vFicha, carteiraJogadorApostaInicial.get(vFicha)+1);
+			this.valorApostaInicial -= Integer.parseInt(vFicha);
+			if(!(pilhaApostaInicial.isEmpty())) {
+				vFicha = pilhaApostaInicial.pop();
+				notificaViewApostaInicial(vFicha);
+				pilhaApostaInicial.push(vFicha);
+			}
+			else {
+				notificaViewApostaInicial(null);
+			}
+			if(this.valorApostaInicial < 20) {
+				
+				notificaViewNaoPodeApostar();
+			}
+			notificaViewInfoJogadores();
 		}
 	}
 	
@@ -455,8 +498,8 @@ public class ModelAPI implements Observado {
 				
 				carteiraJogadorApostaInicial.replace(s.toString(), carteiraJogadorApostaInicial.get(s)-1);
 				this.valorApostaInicial += Integer.parseInt(s.toString());
-				notificar(s.toString(), CodigosObservador.VERIFICA_APOSTA_INICIAL_OK_REPAINT.valor);
-			
+				pilhaApostaInicial.push(s.toString());
+				notificaViewApostaInicial(s.toString());
 			}
 			if(this.valorApostaInicial >= 20) {
 				
@@ -464,10 +507,15 @@ public class ModelAPI implements Observado {
 			}
 			if(this.valorApostaInicial < 20) {
 				
-				notificar(false, CodigosObservador.VERIFICA_APOSTA_INICIAL_OK_BOTAO_APOSTAR.valor);
+				notificaViewNaoPodeApostar();
 			}
 			verificaJogadaApostaInicial();
+			notificaViewInfoJogadores();
 		}
+	}
+	
+	public void exibeNomeJogadores() {
+		notificar(jogadorNome(jogada), CodigosObservador.NOME_JOGADOR_ATUAL_APOSTA_INICIAL.valor);
 	}
 	
 	private void geracarteiraJogadorApostaInicial() {
