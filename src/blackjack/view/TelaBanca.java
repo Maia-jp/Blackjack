@@ -105,7 +105,7 @@ public class TelaBanca extends JFrame implements Observado,Observador, MouseList
 		    		 System.out.println("[ERRO][Tela Banca][Observer] ID 13 deve receber um Boolean, foi recebido:" + obj.getClass());
 		    	}
 				break;
-			case 14:
+			case 16:
 				if(obj.getClass().equals(String.class)) {
 					String nomeJogador = (String) obj;
 					this.telaI.redesenhar(nomeJogador);
@@ -113,7 +113,7 @@ public class TelaBanca extends JFrame implements Observado,Observador, MouseList
 		    		 System.out.println("[ERRO][Tela Banca][Observer] ID 14 deve receber um String, foi recebido:" + obj.getClass());
 		    	}
 				break;
-			case 15:
+			case 17:
 				if(obj.getClass().equals(ArrayList.class)) {
 					ArrayList<String[]> infosJogadores= (ArrayList<String[]>) obj;
 					this.telaI.redesenhar2(infosJogadores);
