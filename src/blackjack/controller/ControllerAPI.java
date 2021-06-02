@@ -12,7 +12,7 @@ public class ControllerAPI implements Observador{
 	private ModelAPI api = ModelAPI.iniciar();
 	private GUIService view = GUIService.iniciar(api);
 	private Carteira carteira = new Carteira();
-
+	List<String> jogadores=new ArrayList<>();
 	
 	public void start() throws Exception {
 		view.adicionarObservador(this);
@@ -52,7 +52,7 @@ public class ControllerAPI implements Observador{
 			if(CodigosObservadorView.BOTAO_SPLIT_JOGADOR.classe != obj.getClass())
 				System.out.print("[ERRO][Controller] Classe passada no metodo executar nao corresponde ao correto, foi passado:"+obj.getClass());
 			else
-				telaJogadorSplit(null);
+				telaJogadorSplit(obj);
 		}
 		if(CodigosObservadorView.BOTAO_APOSTA_INICIAL.valor == ID) {
 			if(CodigosObservadorView.BOTAO_APOSTA_INICIAL.classe != obj.getClass())
@@ -78,14 +78,18 @@ public class ControllerAPI implements Observador{
 			else
 				opcoesGerarCarteira((String)obj);
 		}
-
+  if(CodigosObservadorView.BOTAO_REMOVE_FICHA_APOSTA.valor == ID) {
+			if(CodigosObservadorView.BOTAO_REMOVE_FICHA_APOSTA.classe != obj.getClass())
+				System.out.print("[ERRO][Controller] Classe passada no metodo executar nao corresponde ao correto, foi passado:"+obj.getClass());
+			else
+				telaBancaRemoveFichaPilha(obj);
+		}
 		
 	}
 	
 	
 	//CALLBACKS de Botoes VIEW
 	private void telaInicialComecarCallback(ArrayList<String> jogObj){
-		 List<String> jogadores = new ArrayList<>();
 		try {
 			jogadores = jogObj;
 		} catch (Exception e1) {
@@ -94,10 +98,12 @@ public class ControllerAPI implements Observador{
 		}
 		System.out.print("Passa 3; "+jogadores);
 		view.telaInicialCriarJogadores(jogadores,this);
+		api.exibeNomeJogadores();
+		api.notificaViewInfoJogadores();
 	}
 	
-	private void telaJogadorHit(Object nome) {
-		api.pedirHit(nome);
+	private void telaJogadorHit(Object infoJogador) {
+		api.pedirHit(infoJogador);
 	}
 	
 	private void telaJogadorStand(Object nome) {
@@ -108,8 +114,9 @@ public class ControllerAPI implements Observador{
 		return;
 	}
 	
-	private void telaJogadorSplit(String s) {
-		return;
+	private void telaJogadorSplit(Object indiceJogador) {
+		api.pedirSplit(indiceJogador);
+		view.telaSplitVisivel(indiceJogador);
 	}
 	
 	//Banca
@@ -130,6 +137,9 @@ public class ControllerAPI implements Observador{
 				, jogador));
 	}
 	
+	private void telaBancaRemoveFichaPilha(Object s) {
+		api.removeFichaPilha();
+	}
 	
 	//
 	//Singleton

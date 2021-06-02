@@ -28,6 +28,7 @@ public class GUIService{
 	CarregaImagens cI = new CarregaImagens();
 	TelaIncial telaInicial;
 	static List<TelaJogador> telasJogador = new ArrayList<>();
+	static List<TelaJogador> telasJogadorSplit = new ArrayList<>();
 	TelaBanca telaBanca = new TelaBanca(cI);
 	TelaOpcoes opcoes;
 	
@@ -73,6 +74,14 @@ public class GUIService{
 		telasJogador.forEach((tela) -> tela.addWindowListener(wAListner));
 	}
 	
+	private void exibirTelaJogadorSplit() {
+		telasJogadorSplit.forEach((tela) -> tela.setTitle(tela.nomeJogador));
+		telasJogadorSplit.forEach((tela) -> tela.setVisible(false));
+		telasJogadorSplit.forEach((tela) -> tela.addWindowListener(wAListner));
+	}
+	
+	
+	
 	private void exibirTelaBanca() {
 		api.adicionarObservador(telaBanca);
 		observadores.forEach((o) -> telaBanca.adicionarObservador(o));
@@ -94,6 +103,7 @@ public class GUIService{
 		if(estado.get(1)) {
 			exibirTelaJogador();
 			exibirTelaBanca();
+			exibirTelaJogadorSplit();
 			//DISTRIBUIR AS CARTAS
 			//api.distribuirCartas();
 		}
@@ -124,14 +134,21 @@ public class GUIService{
 	
 	public void telaInicialCriarJogadores(List<String> jogadores, Observador o){
 		 jogadores.forEach((j) -> api.adicionarJogador(j));
-		 jogadores.forEach((j) -> telasJogador.add(new TelaJogador(j,cI)));
+		 jogadores.forEach((j) -> telasJogador.add(new TelaJogador(j,cI,0,jogadores.indexOf(j))));
 		 telasJogador.forEach((j) -> j.adicionarObservador(o));
 		 telasJogador.forEach((j) -> api.adicionarObservador(j));
+		 
+		 jogadores.forEach((j) -> telasJogadorSplit.add(new TelaJogador(j,cI,1,jogadores.indexOf(j))));
+		 telasJogadorSplit.forEach((j) -> j.adicionarObservador(o));
+		 telasJogadorSplit.forEach((j) -> api.adicionarObservador(j));
+	
 		 telaInicial.dispose();
+		 
+		 
 		 
 		 estado.flip(0);
 		 estado.flip(1);
-		 System.out.print("Jogadores adicionados com sucesso");
+		 System.out.println("Jogadores adicionados com sucesso");
 		 try {
 			exibir();
 		} catch (Exception e) {
@@ -140,6 +157,10 @@ public class GUIService{
 		}
 	}
 	
+	public void telaSplitVisivel(Object indiceJogador) {
+		telasJogadorSplit.get(Integer.parseInt(indiceJogador.toString())).setVisible(true);
+  }
+  
 	public void exibirOpcoes() {
 		this.opcoes = TelaOpcoes.iniciar(api.listaNomeJogadores());
 		observadores.forEach(o->this.opcoes.adicionarObservador(o));

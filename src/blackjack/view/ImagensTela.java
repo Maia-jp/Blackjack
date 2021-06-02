@@ -12,8 +12,11 @@ public class ImagensTela extends JPanel{
    
 	private CarregaImagens cI;
     private List<String> chave;
+    private List<String[]> infosJogadores;
     private int [] conteudo;
     private String valorFicha;
+    private String apostaInicialTotal;
+    private String nomeJogador;
     private boolean botaoOk;
     
     public ImagensTela(CarregaImagens cI) {
@@ -33,6 +36,10 @@ public class ImagensTela extends JPanel{
     	g2d.drawImage(cI.getFichaV100(), 720,520, null);
     	g2d.drawImage(cI.getBaralhoAzul(), 340,340, null);
     	g2d.drawImage(cI.getBaralhoVermelho(), 460,340, null);
+    	
+    	g2d.setFont(new Font("Helvetica", Font.BOLD, 15));
+		g2d.setColor(Color.RED);
+		g2d.drawString("Jogador: "+nomeJogador, 340, 500);
     	int indice = 1;
     	if(chave != null) {
 	    	for(String i : chave) {
@@ -48,6 +55,24 @@ public class ImagensTela extends JPanel{
 	    		g2d.drawString("Pontos Dealer "+Integer.toString(conteudo[0]), 360, 110);
 	    	}
     	}
+    	
+    	if(infosJogadores != null) {
+    		int y = 200;
+        	for(String[] i : infosJogadores) {
+        		g2d.setFont(new Font("Helvetica", Font.BOLD, 11));
+        		g2d.setColor(Color.RED);
+        		g2d.drawString("Nome: "+i[0], 30,y);
+        		g2d.drawString("Qtd fichas 1: "+i[1], 30,y+11);
+        		g2d.drawString("Qtd fichas 5: "+i[2], 30,y+22);
+        		g2d.drawString("Qtd fichas 10: "+i[3], 30,y+33);
+        		g2d.drawString("Qtd fichas 20: "+i[4], 30,y+44);
+        		g2d.drawString("Qtd fichas 50: "+i[5], 30,y+55);
+        		g2d.drawString("Qtd fichas 100: "+i[6], 30,y+66);
+        		g2d.drawString("Qtd fichas totais: "+i[7], 30,y+77);
+        		y += 90;
+        	}
+    	}
+    	
     	if(valorFicha != null) {
     		if(valorFicha == "1") {
     			g2d.drawImage(cI.getFichaV1(), 750, 200, null);
@@ -67,6 +92,9 @@ public class ImagensTela extends JPanel{
     		else if(valorFicha == "100") {
     			g2d.drawImage(cI.getFichaV100(), 750, 200, null);
     		}
+    		g2d.setFont(new Font("Helvetica", Font.BOLD, 15));
+    		g2d.setColor(Color.RED);
+    		g2d.drawString("Valor Aposta Inicial: "+apostaInicialTotal, 700, 180);
     	}
     	if(botaoOk == true) {
     		g2d.setFont(new Font("Helvetica", Font.BOLD, 15));
@@ -85,8 +113,9 @@ public class ImagensTela extends JPanel{
     	repaint();
     }
     
-    public void redesenhar(String valorFicha) {
-    	this.valorFicha = valorFicha;
+    public void redesenhar(String[] valorFicha) {
+    	this.valorFicha = valorFicha[0];
+    	this.apostaInicialTotal = valorFicha[1];
     	repaint();
     }
     
@@ -98,6 +127,16 @@ public class ImagensTela extends JPanel{
     public void redesenhar() {
     	this.botaoOk = false;
     	this.valorFicha = null;
+    	repaint();
+    }
+    
+    public void redesenhar(String nomeJogador) {
+    	this.nomeJogador = nomeJogador;
+    	repaint();
+    }
+    
+    public void redesenhar2(List<String[]> infosJogadores) {
+    	this.infosJogadores = infosJogadores;
     	repaint();
     }
 }
