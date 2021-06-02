@@ -153,7 +153,7 @@ public class GUIService{
 	}
 	
 	//
-	// OBSERVADO
+	// OBSERVADO metodos
 	//
 	public List<Observador> observadores = new ArrayList<>();
 	
