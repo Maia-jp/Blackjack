@@ -124,6 +124,11 @@ public class testClassExtra {
 		tabCarteira.add(spinnerCarteiraJogador);
 		
 		JButton btnGerarCarteira = new JButton("Gerar Carteira Dinamica");
+		btnGerarCarteira.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+		});
 		btnGerarCarteira.setBounds(10, 42, 190, 23);
 		tabCarteira.add(btnGerarCarteira);
 		
