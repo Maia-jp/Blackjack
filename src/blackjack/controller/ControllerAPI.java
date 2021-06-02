@@ -11,6 +11,7 @@ import blackjack.view.TelaJogador;
 public class ControllerAPI implements Observador{
 	private ModelAPI api = ModelAPI.iniciar();
 	private GUIService view = GUIService.iniciar(api);
+	private Carteira carteira = new Carteira();
 	List<String> jogadores=new ArrayList<>();
 	
 	public void start() throws Exception {
@@ -71,6 +72,12 @@ public class ControllerAPI implements Observador{
 			else
 				view.exibirOpcoes();
 		}
+		if(CodigosObservadorView.BOTAO_GERARCARTEIRA_TELA_OPCOES.valor == ID) {
+			if(CodigosObservadorView.BOTAO_GERARCARTEIRA_TELA_OPCOES.classe != obj.getClass())
+				System.out.print("[ERRO][Controller] Classe passada no metodo executar nao corresponde ao correto, foi passado:"+obj.getClass());
+			else
+				opcoesGerarCarteira((String)obj);
+		}
   if(CodigosObservadorView.BOTAO_REMOVE_FICHA_APOSTA.valor == ID) {
 			if(CodigosObservadorView.BOTAO_REMOVE_FICHA_APOSTA.classe != obj.getClass())
 				System.out.print("[ERRO][Controller] Classe passada no metodo executar nao corresponde ao correto, foi passado:"+obj.getClass());
@@ -121,6 +128,13 @@ public class ControllerAPI implements Observador{
 	
 	private void telaBancaApostainicialrealizar(Object s) {
 		api.finalizaApostaInicial(s);
+	}
+	
+	//Opcoes
+	private void opcoesGerarCarteira(String jogador) {
+		view.opcoesGerarCarteira(carteira.gerarCarteira(
+				api.jogadorEspecificoCarteira(api.jogadorId(jogador))
+				, jogador));
 	}
 	
 	private void telaBancaRemoveFichaPilha(Object s) {

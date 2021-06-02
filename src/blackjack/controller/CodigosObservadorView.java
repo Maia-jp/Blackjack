@@ -13,6 +13,7 @@ public enum CodigosObservadorView {
 	BOTAO_APOSTA_INCIAL_REALIZAR(106, Boolean.class),
 	BOTAO_SALVAR_TELA_DEALER(107, Boolean.class),
 	BOTAO_REMOVE_FICHA_APOSTA(108, Boolean.class),
+  BOTAO_GERARCARTEIRA_TELA_OPCOES(109, String.class),
 	TESTE(-1,String.class);
 	
 	public int valor;
