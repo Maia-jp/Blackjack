@@ -5,6 +5,7 @@ import blackjack.controller.SaveDTO;
 
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -140,12 +141,8 @@ public class ModelAPI implements Observado {
 		 notificar(cartasDealer,CodigosObservador.CARTAS_DO_DEALER.valor);
 		 
 		 enviarInfoMaoJogador();
-		 
-		//Envia a quantia de dinheiro para cada jogador
-		 Map<String,Integer> dinheiroJogador = new HashMap<String,Integer>();
-		 jogadores.forEach((j) -> dinheiroJogador.put(j.getNomeJogador(),j.fichasTotalJogador()));
-		 
-		 notificar(dinheiroJogador,CodigosObservador.DINHEIRO_DOS_JOGADORES.valor);
+		 enviarInfoDinheiroJogador();
+		
 		 
 	}
 	
@@ -169,26 +166,69 @@ public class ModelAPI implements Observado {
 	}
 	
   
-	public void pedirSplit(Object nome) {
+	public boolean pedirSplit(Object nome) {
 		jogadores.get(Integer.parseInt(nome.toString())).split();
-		String jogadorMao0=nome.toString();
-		String jogadorMao1=nome.toString();
-		jogadorMao0 = jogadorMao0+"0";
-		jogadorMao1 = jogadorMao1+"1";		
-		pedirHit(jogadorMao0);
-		pedirHit(jogadorMao1);
+		if(jogadores.get(Integer.parseInt(nome.toString())).checkSplit()) {
+			String jogadorMao0=nome.toString();
+			String jogadorMao1=nome.toString();
+			jogadorMao0 = jogadorMao0+"0";
+			jogadorMao1 = jogadorMao1+"1";		
+			pedirHit(jogadorMao0);
+			pedirHit(jogadorMao1);
+			return true;
+		}else {
+			return false;
+		}
 	}
 	
-	// fazer depois do alexandre fazer a função para pegar a aposta inicialdos jogadores
-	/*public void pedirDouble(Object nome) {
-		for(Jogador j : jogadores) {
-			if(j.getNomeJogador()==nome) {
-				j.hit(baralho.pegarCarta(),0);
+	public void pedirDouble(Object nome) {
+		int total=0;
+		Set<String> chaves = jogadorAposta.get(jogadores.get(Integer.parseInt(nome.toString())).getNomeJogador()).keySet();
+		for(String chave : chaves) {
+			total=jogadorAposta.get(jogadores.get(Integer.parseInt(nome.toString())).getNomeJogador()).get(chave)*Integer.parseInt(chave)+total;
+		}
+		int totaltmp=total;
+		LinkedHashMap <String, Integer> tmp = new LinkedHashMap<String, Integer>();
+		tmp.put("100", null);
+		tmp.put("50", null);
+		tmp.put("20", null);
+		tmp.put("10", null);
+		tmp.put("5", null);
+		tmp.put("1", null);
+		for(String key : jogadores.get(Integer.parseInt(nome.toString())).getFichasJogador().keySet()) {
+			tmp.put(key,jogadores.get(Integer.parseInt(nome.toString())).getFichasJogador().get(key));
+		}
+		for (Map.Entry<String, Integer> entry : tmp.entrySet()) {
+			while(entry.getValue()>0) {		
+				tmp.replace(entry.getKey(),entry.getValue()-1);
+				if((totaltmp-1*Integer.parseInt(entry.getKey()))<0) {
+					break;
+				}else if((totaltmp-1*Integer.parseInt(entry.getKey()))==0) {
+					totaltmp=totaltmp-1*Integer.parseInt(entry.getKey());
+					break;
+				}else {
+					totaltmp=totaltmp-1*Integer.parseInt(entry.getKey());
+				}
+			}
+			if(totaltmp==0){
+			       break;
 			}
 		}
-		enviarInfoMaoJogador();
-
-	}*/
+		if(totaltmp!=0) {
+			System.out.println("JOGADOR N�O POSSUI FICHAS SUFICIENTES");
+		}else{
+			for(String key : tmp.keySet()) {
+				jogadores.get(Integer.parseInt(nome.toString())).getFichasJogador().put(key,tmp.get(key));
+			}
+			jogadores.get(Integer.parseInt(nome.toString())).dobrar(total);
+			jogadores.get(Integer.parseInt(nome.toString())).hit(baralho.pegarCarta(), 0);
+			enviarInfoDinheiroJogador();
+			enviarInfoMaoJogador();
+			System.out.println("JOGADOR POSSUI FICHAS SUFICIENTES");
+			System.out.println(jogadores.get(Integer.parseInt(nome.toString())).fichasTotalJogador());
+		}
+				
+	}
 	
 	private void enviarInfoMaoJogador() {
 		
@@ -214,6 +254,16 @@ public class ModelAPI implements Observado {
 		 Map<String,Integer> maoValorDosJogadores = new HashMap<String,Integer>();
 		 jogadores.forEach((j) -> maoValorDosJogadores.put(j.getNomeJogador(),j.valorMao(1)));
 		 notificar(maoValorDosJogadores,CodigosObservador.MAO_VALOR_DOS_JOGADORES_SPLIT.valor);
+	}
+	
+	private void enviarInfoDinheiroJogador() {
+		
+		//Envia a quantia de dinheiro para cada jogador
+		 Map<String,Integer> dinheiroJogador = new HashMap<String,Integer>();
+		 jogadores.forEach((j) -> dinheiroJogador.put(j.getNomeJogador(),j.fichasTotalJogador()));
+		 
+		 notificar(dinheiroJogador,CodigosObservador.DINHEIRO_DOS_JOGADORES.valor);
+	
 	}
 	
 	
@@ -316,7 +366,7 @@ public class ModelAPI implements Observado {
 	}
 	
 	public Map<String, Integer> fichasNaMesaTotal(){
-		 Map<String, Integer> fichasTotaisNaMesa = new HashMap<String, Integer>();
+		Map<String, Integer> fichasTotaisNaMesa = new HashMap<String, Integer>();
 		for(String key : jogadorAposta.keySet()) {
 			for(String key2 :jogadorAposta.get(key).keySet()) {
 				if(fichasTotaisNaMesa.containsKey(key2)) {
@@ -354,9 +404,13 @@ public class ModelAPI implements Observado {
 	}
 	
 	//Jogador atual faz uma aposta
-	public void apostar(String ficha, int quantidade) {
-		jogadores.get(jogada).pagarFichas(ficha,quantidade); 
-		adicionarAMontante(jogadores.get(jogada),ficha,quantidade);
+	public void apostar(String ficha, int quantidade,String nomeJogador) {
+		for(Jogador j : jogadores) {
+			if(j.getNomeJogador()==nomeJogador) {
+				j.pagarFichas(ficha,quantidade); 
+				adicionarAMontante(j,ficha,quantidade);			
+			}
+		}
 	}
 	
 	//Jogador atual recebe
@@ -367,15 +421,6 @@ public class ModelAPI implements Observado {
 	//Jogador especifico recebe
 	public void receberJogador(Jogador j,String ficha, int quantidade) {
 		j.receberFichas(ficha,quantidade);
-	}
-	
-	public void ativarDouble() {
-		// @ Ze
-//		for(Jogador j : jogadores) {
-//			if(j.fichasTotalJogador()>=jogadorAposta.get(j.getNomeJogador())) {
-//				j.putDobrar();
-//			}
-//		}
 	}
 		
 	// .... Metodos para cada possivel interaÃ§Ã£o
@@ -396,12 +441,11 @@ public class ModelAPI implements Observado {
 		if(!jogadorAposta.containsKey(j.getNomeJogador())) {
 			Map<String, Integer> novoMapa = new HashMap<String, Integer>();
 			novoMapa.put(ficha, quantidade);
-	
 			jogadorAposta.put(j.getNomeJogador(),novoMapa);
 			jogadorAposta.get(j.getNomeJogador()).put(ficha, quantidade);
 			
 		}else {
-			jogadorAposta.get(j.getNomeJogador()).computeIfPresent(ficha, (k, v) -> v + quantidade);
+			jogadorAposta.get(j.getNomeJogador()).put(ficha, quantidade);
 		}
 	}
 	
@@ -425,8 +469,7 @@ public class ModelAPI implements Observado {
 			if(j.getNomeJogador() == jogadorNome(jogada)) {
 				for(String chave : chaves) {
 					if(carteiraJogadorApostaInicial.get(chave) != 0) {
-						adicionarAMontante(j, chave, carteiraJogadorApostaInicial.get(chave)*(-1));
-						apostar(chave, carteiraJogadorApostaInicial.get(chave)*(-1));
+						apostar(chave, carteiraJogadorApostaInicial.get(chave)*(-1),j.getNomeJogador());
 					}
 				}
 			}
