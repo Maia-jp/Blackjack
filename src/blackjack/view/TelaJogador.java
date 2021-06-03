@@ -164,7 +164,7 @@ public class TelaJogador extends JFrame implements Observado,Observador{
     public ActionListener btnAcionarDouble = new ActionListener() {
     	public void actionPerformed(ActionEvent e) {
     		try {
-    			notificar(nomeJogador,CodigosObservadorView.BOTAO_DOUBLE_JOGADOR.valor);
+    			notificar(Integer.toString(indiceJogador),CodigosObservadorView.BOTAO_DOUBLE_JOGADOR.valor);
 				System.out.println("DOUBLE ACIONADO PELO JOGADOR: " + nomeJogador);
 			} catch (Exception e1) {
 				System.out.println("Erro[btnAcionarDouble] ao chamar btnComecarCallback()"+e1);

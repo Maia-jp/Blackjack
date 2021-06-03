@@ -46,7 +46,7 @@ public class ControllerAPI implements Observador{
 			if(CodigosObservadorView.BOTAO_DOUBLE_JOGADOR.classe != obj.getClass())
 				System.out.print("[ERRO][Controller] Classe passada no metodo executar nao corresponde ao correto, foi passado:"+obj.getClass());
 			else
-				telaJogadorDouble(null);
+				telaJogadorDouble(obj);
 		}
 		if(CodigosObservadorView.BOTAO_SPLIT_JOGADOR.valor==ID) {
 			if(CodigosObservadorView.BOTAO_SPLIT_JOGADOR.classe != obj.getClass())
@@ -110,13 +110,14 @@ public class ControllerAPI implements Observador{
 		api.pedirStand(nome);
 	}
 	
-	private void telaJogadorDouble(String s) {
-		return;
+	private void telaJogadorDouble(Object indiceJogador) {
+		api.pedirDouble(indiceJogador);
 	}
 	
 	private void telaJogadorSplit(Object indiceJogador) {
-		api.pedirSplit(indiceJogador);
-		view.telaSplitVisivel(indiceJogador);
+		if(api.pedirSplit(indiceJogador)) {
+			view.telaSplitVisivel(indiceJogador);
+		}
 	}
 	
 	//Banca

@@ -90,7 +90,7 @@ class Jogador {
 		this.totalFichasJogador=this.totalFichasJogador-(Integer.parseInt(ficha)*qtd);
 		this.fichasJogador.replace(ficha,fichasJogador.get(ficha)-qtd);
 	}
-	
+		
 	public boolean blackjack() {
 		if (this.getMaoJogador(0).size() == 2 && this.valorMao(0) == 21) {
 			return true;
@@ -105,8 +105,8 @@ class Jogador {
 		this.clearDobrar();
 	}
 	
-	public void dobrar(String ficha,int apostaDoMontante) {
-			this.pagarFichas(ficha,apostaDoMontante);
+	public void dobrar(int aposta) {
+			this.totalFichasJogador=this.totalFichasJogador-aposta;
 			this.putStand();
 			this.clearDobrar();
 	}	
