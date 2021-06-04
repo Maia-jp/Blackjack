@@ -10,6 +10,7 @@ class Jogador {
 	private boolean split;
 	private boolean[] hit = new boolean[2];
 	private boolean surrender;
+	private boolean quit;
 	private LinkedHashMap <String, Integer> fichasJogador = new LinkedHashMap<String, Integer>();
 	private int totalFichasJogador;
 	@SuppressWarnings("unchecked")
@@ -216,6 +217,22 @@ class Jogador {
 	
 	public void clearSurrender() {
 		this.setSurrender(false);
+	}
+	
+	public boolean checkQuit() {
+		return this.quit;
+	}
+	
+	private void setQuit(boolean quit) {
+		this.quit = quit;
+	}
+	
+	public void putQuit() {
+		this.setQuit(true);
+	}
+	
+	public void clearQuit() {
+		this.setQuit(false);
 	}
 	
 }

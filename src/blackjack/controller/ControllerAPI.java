@@ -90,6 +90,12 @@ public class ControllerAPI implements Observador{
 			else
 				telaJogadorSurrender((String)obj);
 		}
+		if(CodigosObservadorView.BOTAO_QUIT_JOGADOR.valor == ID) {
+			if(CodigosObservadorView.BOTAO_QUIT_JOGADOR.classe != obj.getClass())
+				System.out.print("[ERRO][Controller] Classe passada no metodo executar nao corresponde ao correto, foi passado:"+obj.getClass());
+			else
+				telaJogadorQuit((String)obj);
+		}
 		
 	}
 	
@@ -122,7 +128,7 @@ public class ControllerAPI implements Observador{
 	
 	private void telaJogadorSplit(String indiceJogador) {
 		if(api.pedirSplit(Integer.parseInt(indiceJogador))) {
-			view.telaSplitVisivel(indiceJogador);
+			view.telaSplitVisivel(Integer.parseInt(indiceJogador));
 		}else {
 			System.out.println("NÃO FOI POSSIVEL ACIONAR O SPLIT");
 		}
@@ -130,6 +136,10 @@ public class ControllerAPI implements Observador{
 	
 	private void telaJogadorSurrender(String indiceJogador) {
 		api.pedirSurrender(Integer.parseInt(indiceJogador));
+	}
+	
+	private void telaJogadorQuit(String indiceJogador) {
+		  view.telaQuitVisivel(Integer.parseInt(indiceJogador));
 	}
 	
 	//Banca

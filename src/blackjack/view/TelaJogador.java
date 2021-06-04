@@ -43,6 +43,7 @@ public class TelaJogador extends JFrame implements Observado,Observador{
 	private JButton dobrar;
 	private JButton split;
 	private JButton surrender;
+	private JButton quit;
 	
 	public TelaJogador(String nomeJogador,CarregaImagens cI, Integer mao,Integer indiceJogador) {
 		this.cI = cI;
@@ -151,6 +152,14 @@ public class TelaJogador extends JFrame implements Observado,Observador{
 		panel.add(this.surrender);
 		this.surrender.addActionListener(btnAcionarSurrender);
 		
+		this.quit = new JButton("QUIT");
+		this.quit.setBounds(923,158,150,36);
+		this.quit.setFont(new Font("Helvetica", Font.BOLD, 15));
+		this.quit.setForeground(Color.DARK_GRAY);
+		this.quit.setBackground(Color.LIGHT_GRAY);
+		this.quit.setEnabled(false);
+		this.getContentPane().add(this.quit);
+		this.quit.addActionListener(btnAcionarQuit);
 	}
 		
 	public ActionListener btnAcionarHit = new ActionListener() {
@@ -204,6 +213,17 @@ public class TelaJogador extends JFrame implements Observado,Observador{
 				System.out.println("SURRENDER ACIONADO PELO JOGADOR: " + nomeJogador);
 			} catch (Exception e1) {
 				System.out.println("Erro[btnAcionarSurrender] ao chamar btnComecarCallback()"+e1);
+			}
+		}
+    };
+    
+    public ActionListener btnAcionarQuit = new ActionListener() {
+    	public void actionPerformed(ActionEvent e) {
+    		try {
+    			notificar(Integer.toString(indiceJogador),CodigosObservadorView.BOTAO_QUIT_JOGADOR.valor);
+				System.out.println("QUIT ACIONADO PELO JOGADOR: " + nomeJogador);
+			} catch (Exception e1) {
+				System.out.println("Erro[btnAcionarQuit] ao chamar btnComecarCallback()"+e1);
 			}
 		}
     };
@@ -264,7 +284,8 @@ public class TelaJogador extends JFrame implements Observado,Observador{
 				    	 this.stand.setEnabled(Boolean.valueOf(tmp[1][0]));
 				    	 this.dobrar.setEnabled(Boolean.valueOf(tmp[2][0]));
 				    	 this.split.setEnabled(Boolean.valueOf(tmp[3][0]));
-				    	 this.surrender.setEnabled(Boolean.valueOf(tmp[4][0])); 
+				    	 this.surrender.setEnabled(Boolean.valueOf(tmp[4][0]));
+				    	 this.quit.setEnabled(Boolean.valueOf(tmp[6][0]));
 			    	 }
 			    	 break
 			     ;		
@@ -307,7 +328,8 @@ public class TelaJogador extends JFrame implements Observado,Observador{
 				    	 this.stand.setEnabled(Boolean.valueOf(tmp[1][1]));
 				    	 this.dobrar.setEnabled(Boolean.valueOf(tmp[2][1]));
 				    	 this.split.setEnabled(Boolean.valueOf(tmp[3][1]));
-				    	 this.surrender.setEnabled(Boolean.valueOf(tmp[4][1])); 
+				    	 this.surrender.setEnabled(Boolean.valueOf(tmp[4][1]));
+				    	 this.quit.setEnabled(Boolean.valueOf(tmp[6][1]));
 			    	 }
 			    	 break
 			     ;		 

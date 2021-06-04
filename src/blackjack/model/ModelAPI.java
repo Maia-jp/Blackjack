@@ -62,6 +62,8 @@ public class ModelAPI implements Observado {
 	//ComeÃƒÂ§a uma rodada
 	public void novaRodada() {
 
+		verificarSaldoJogador();
+		
         //Incrimenta em 1 a rodada
         rodada++;
         
@@ -133,7 +135,7 @@ public class ModelAPI implements Observado {
 		}
 		 dealer.receberCarta(baralho.pegarCarta());
 		 dealer.receberCarta(baralho.pegarCarta());
-		 
+
 		 //Observer
 		 //-Envia mao do dealer para o dealer, valor total cartas e Jogada
 		 
@@ -229,18 +231,24 @@ public class ModelAPI implements Observado {
 	}
 	
 	public void pedirSurrender(int indiceJogador) {
-		int total=apostaDoMontante(indiceJogador);
-		jogadores.get(indiceJogador).surrender(total/2);
-		ativarBotoes(indiceJogador);
-		enviarInfoDinheiroJogador();
-		enviarInfoMaoJogador();
+		if(dealer.blackjack()==true) {
+			System.out.println("NÃO FOI POSSÍVEL ACIONAR O SURRENDER, DEALER POSSUI UM BLACKJACK");
+			jogadores.get(indiceJogador).putSurrender();
+			ativarBotoes(indiceJogador);
+		}else {
+			int total=apostaDoMontante(indiceJogador);
+			jogadores.get(indiceJogador).surrender(total/2);
+			ativarBotoes(indiceJogador);
+			enviarInfoDinheiroJogador();
+			enviarInfoMaoJogador();
+		}
 	}
 	
-	public int apostaDoMontante(Object nome) {
+	public int apostaDoMontante(int indiceJogador) {
 		int total=0;
-		Set<String> chaves = jogadorAposta.get(jogadores.get(Integer.parseInt(nome.toString())).getNomeJogador()).keySet();
+		Set<String> chaves = jogadorAposta.get(jogadores.get(indiceJogador).getNomeJogador()).keySet();
 		for(String chave : chaves) {
-			total=jogadorAposta.get(jogadores.get(Integer.parseInt(nome.toString())).getNomeJogador()).get(chave)*Integer.parseInt(chave)+total;
+			total=jogadorAposta.get(jogadores.get(indiceJogador).getNomeJogador()).get(chave)*Integer.parseInt(chave)+total;
 		}
 		return total;
 	}
@@ -285,6 +293,14 @@ public class ModelAPI implements Observado {
 	//Pula para o proximo jogador 
 	public void proximoJogador() {
 		proximaJogada();
+	}
+	
+	public void verificarSaldoJogador() {
+		for(Jogador j : jogadores) {
+			if(j.fichasTotalJogador()==0) {
+				jogadores.remove(j);
+			}
+		}
 	}
 	
 	//
@@ -512,7 +528,7 @@ public class ModelAPI implements Observado {
 	}
 	
 	public void ativarBotoes(int indiceJogador) {
-		String[][] vetorBtn = new String[6][2];
+		String[][] vetorBtn = new String[7][2];
 		for(Jogador j: jogadores ) {
 			if(j.getNomeJogador() == jogadorNome(indiceJogador)) {
 				vetorBtn[0][0]=String.valueOf(!j.checkHit(0));
@@ -521,12 +537,14 @@ public class ModelAPI implements Observado {
 				vetorBtn[3][0]=String.valueOf(!j.checkSplit());
 				vetorBtn[4][0]=String.valueOf(!j.checkSurrender());
 				vetorBtn[5][0]=String.valueOf(indiceJogador);
+				vetorBtn[6][0]=String.valueOf(!j.checkQuit());
 				vetorBtn[0][1]=String.valueOf(!j.checkHit(1));
 				vetorBtn[1][1]=String.valueOf(!j.checkStand(1));
 				vetorBtn[2][1]=String.valueOf(!j.checkDobrar(1));
 				vetorBtn[3][1]=String.valueOf(!j.checkSplit());
 				vetorBtn[4][1]=String.valueOf(!j.checkSurrender());
 				vetorBtn[5][1]=String.valueOf(indiceJogador);
+				vetorBtn[6][1]=String.valueOf(!j.checkQuit());
 			}
 		}
 		notificar(vetorBtn, CodigosObservador.BOTOES_JOGADORES.valor);

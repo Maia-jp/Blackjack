@@ -157,9 +157,15 @@ public class GUIService{
 		}
 	}
 	
-	public void telaSplitVisivel(Object indiceJogador) {
-		telasJogadorSplit.get(Integer.parseInt(indiceJogador.toString())).setVisible(true);
-  }
+	public void telaSplitVisivel(int indiceJogador) {
+		telasJogadorSplit.get(indiceJogador).setVisible(true);
+	}
+	
+	public void telaQuitVisivel(int indiceJogador) {
+		telasJogador.get(indiceJogador).setVisible(false);
+		telasJogadorSplit.get(indiceJogador).setVisible(false);
+	}
+	
   
 	public void exibirOpcoes() {
 		this.opcoes = TelaOpcoes.iniciar(api.listaNomeJogadores());
