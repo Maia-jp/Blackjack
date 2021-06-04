@@ -9,9 +9,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JSeparator;
@@ -21,6 +23,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTextPane;
 import javax.swing.SpinnerListModel;
 import javax.swing.SwingConstants;
+
 
 import blackjack.controller.CodigosObservadorView;
 import blackjack.model.ModelAPI;
@@ -41,7 +44,7 @@ class TelaOpcoes extends JFrame implements Observado{
 	JButton btnGerarCarteira;
 	JSpinner spinnerCarteiraJogador;
 	JTextArea txtCarteira;
-
+	JButton btnCarregarCarteira;
 	/**
 	 * Inicializa conteudos da Tela
 	 */
@@ -117,25 +120,27 @@ class TelaOpcoes extends JFrame implements Observado{
 		tabCarteira.add(btnGerarCarteira);
 		btnGerarCarteira.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// Notifica a controller que uma carteira precisa ser gerada (nome do jogador, codigo)
-				notificar(spinnerCarteiraJogador.getValue(),
-						CodigosObservadorView.BOTAO_GERARCARTEIRA_TELA_OPCOES.valor); 
-				System.out.println("Notificou com o valor:" + spinnerCarteiraJogador.getValue());
+				gerarCarteiraDinamica();
 			}
 		});
 		
 		txtCarteira = new JTextArea();
 		txtCarteira.setToolTipText("Digite a carteira dinamica ou copie a carteira dada");
 		txtCarteira.setText("Digite sua carteira Dicamica");
-		txtCarteira.setBounds(10, 76, 389, 124);
+		txtCarteira.setBounds(10, 93, 389, 92);
 		txtCarteira.setWrapStyleWord(true);
 		txtCarteira.setLineWrap(true);
 		tabCarteira.add(txtCarteira);
 		
-		JButton btnCarregarCarteira = new JButton("Carregar Carteira Dinamica");
+		this.btnCarregarCarteira = new JButton("Carregar Carteira Dinamica");
 		btnCarregarCarteira.setBounds(209, 42, 190, 23);
 		tabCarteira.add(btnCarregarCarteira);
-
+		btnCarregarCarteira.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				// Notifica a controller que uma carteira precisa ser carregada (carteira, codigo)
+				carregarCarteiraDinamica("teste");
+			}
+		});
 		
 		
 		//TAB creditos
@@ -216,6 +221,39 @@ class TelaOpcoes extends JFrame implements Observado{
 	
 	public String getCarteiraDinamica(String t) {
 		return txtCarteira.getName();
+	}
+	
+	public void gerarCarteiraDinamica() {
+		String nome = (String) spinnerCarteiraJogador.getValue();
+		System.out.println("Notificou com o valor:" + nome);
+		notificar(nome,
+				CodigosObservadorView.BOTAO_GERARCARTEIRA_TELA_OPCOES.valor); 
+
+	}
+	
+	public void carregarCarteiraDinamica(String c) {
+
+		String[] par = {txtCarteira.getText(),(String) spinnerCarteiraJogador.getValue()};
+		notificar(par,CodigosObservadorView.BOTAO_GERARCARREGAR_TELA_OPCOES.valor);
+
+		
+	}
+	
+	void gerarCarteiraErro() {
+		JOptionPane.showMessageDialog(new JFrame(), "Nao foi possivel carregar a carteira desse jogador", "Erro carregar carteira",
+		        JOptionPane.ERROR_MESSAGE);
+		
+	}
+	
+	//
+	//AUX
+	//
+	String removeSufix(String s) {
+		int i = s.indexOf("_");
+		if(i < 0)
+			return s;
+		s = s.substring(0, s.length()-2);
+		return s;
 	}
      
 	

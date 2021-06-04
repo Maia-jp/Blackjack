@@ -1,5 +1,9 @@
 package blackjack.view;
 
+//
+//DELETAR ALE ZE JAO (no final)
+//
+//
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -28,6 +32,7 @@ import javax.swing.JTextPane;
 import javax.swing.JSlider;
 import javax.swing.JRadioButton;
 import javax.swing.JSeparator;
+import javax.swing.JCheckBox;
 
 public class testClassExtra {
 
@@ -135,7 +140,7 @@ public class testClassExtra {
 		JTextPane txtpnNone = new JTextPane();
 		txtpnNone.setToolTipText("Digite a carteira dinamica ou copie a carteira dada");
 		txtpnNone.setText("Digite sua carteira Dicamica");
-		txtpnNone.setBounds(10, 76, 389, 124);
+		txtpnNone.setBounds(10, 93, 389, 92);
 		tabCarteira.add(txtpnNone);
 		
 		JButton btnCarregarCarteira = new JButton("Carregar Carteira Dinamica");

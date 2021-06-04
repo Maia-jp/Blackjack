@@ -216,7 +216,7 @@ public class ModelAPI implements Observado {
 			}
 		}
 		if(totaltmp!=0) {
-			System.out.println("JOGADOR NÃO POSSUI FICHAS SUFICIENTES");
+			System.out.println("JOGADOR Nï¿½O POSSUI FICHAS SUFICIENTES");
 		}else{
 			for(String key : tmp.keySet()) {
 				jogadores.get(Integer.parseInt(nome.toString())).getFichasJogador().put(key,tmp.get(key));
@@ -634,9 +634,24 @@ public class ModelAPI implements Observado {
 		this.baralho = new Baralho(4);
 	}
 	
+	//
+	//SALVAMENTO E CARREGAMENTO
+	//
+	
 	//Carrega o jogo
 	public void carregarSalvamento(SaveDTO dto) {
 		
+	}
+	
+	//Carrega uma carteira
+	public void carregarCarteira(String nome, LinkedHashMap<String, Integer> carteira) {
+		// @Ale @Ze , atualizar o dealer das novas infos referente ao jogador
+		for(Jogador j: jogadores) {
+			if(j.getNomeJogador()==nome) {
+				j.setFichasJogador(carteira);
+				System.out.println(j.getFichasJogador());
+			}
+		}
 	}
 	
 	
