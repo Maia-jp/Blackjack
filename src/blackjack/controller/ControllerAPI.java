@@ -1,7 +1,9 @@
 package blackjack.controller;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import blackjack.model.ModelAPI;
 import blackjack.view.GUIService;
@@ -78,14 +80,20 @@ public class ControllerAPI implements Observador{
 			else
 				opcoesGerarCarteira((String)obj);
 		}
-  if(CodigosObservadorView.BOTAO_REMOVE_FICHA_APOSTA.valor == ID) {
+		if(CodigosObservadorView.BOTAO_REMOVE_FICHA_APOSTA.valor == ID) {
 			if(CodigosObservadorView.BOTAO_REMOVE_FICHA_APOSTA.classe != obj.getClass())
 				System.out.print("[ERRO][Controller] Classe passada no metodo executar nao corresponde ao correto, foi passado:"+obj.getClass());
 			else
 				telaBancaRemoveFichaPilha(obj);
 		}
+		if(CodigosObservadorView.BOTAO_GERARCARREGAR_TELA_OPCOES.valor== ID) {
+			if(CodigosObservadorView.BOTAO_GERARCARREGAR_TELA_OPCOES.classe != obj.getClass())
+				System.out.print("[ERRO][Controller] Classe passada no metodo executar nao corresponde ao correto, foi passado:"+obj.getClass());
+			else
+				carregarCarteira((String[]) obj);
+		}
 		
-	}
+	} 
 	
 	
 	//CALLBACKS de Botoes VIEW
@@ -142,14 +150,23 @@ public class ControllerAPI implements Observador{
 		api.removeFichaPilha();
 	}
 	
+	private void carregarCarteira(String[] s) {
+		Map<String, Integer> c =  carteira.validarCarteira(s[0],s[1]);
+		if(c != null) {
+			LinkedHashMap<String,Integer> newMap = new LinkedHashMap<String, Integer>(c);
+			api.carregarCarteira(s[1],newMap);
+		}else {
+			view.opcoesErroGerarCarteira();
+		}
+	}
+	
 	//
 	//Singleton
 	//
 	private static ControllerAPI instanciaUnica;
 	
 	private ControllerAPI() {
-		
-	}
+		}
 	
 	public static synchronized ControllerAPI iniciar() {
 		if(instanciaUnica == null)

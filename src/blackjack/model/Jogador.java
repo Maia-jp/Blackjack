@@ -157,6 +157,10 @@ class Jogador {
 			return true;
 		}
 	}
+	
+	void setFichasJogador(Map<String, Integer> novasFichas) {
+		this.fichasJogador = (LinkedHashMap<String, Integer>) novasFichas;
+	}
 
 	
 }
