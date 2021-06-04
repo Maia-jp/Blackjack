@@ -17,6 +17,7 @@ public enum CodigosObservador {
 	MAO_VALOR_DOS_JOGADORES_SPLIT(15,HashMap.class),
 	NOME_JOGADOR_ATUAL_APOSTA_INICIAL(16, String.class),
 	INFOS_JOGADORES(17, List.class),
+	BOTOES_JOGADORES(18, List.class),
 	TESTE(-1,String.class);
 	
 	

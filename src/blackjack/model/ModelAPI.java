@@ -61,6 +61,7 @@ public class ModelAPI implements Observado {
 	
 	//ComeÃ§a uma rodada
 	public void novaRodada() {
+
         //Incrimenta em 1 a rodada
         rodada++;
         
@@ -74,10 +75,11 @@ public class ModelAPI implements Observado {
             j.limparMaoJogador(0);;
             
             //Tira do double
-            j.clearDobrar();
+            j.clearDobrar(0);
             
             //Tira do 
-            j.clearStand();
+            j.clearStand(0);
+            j.clearStand(1);
             
             //Tira do split
             j.limparMaoJogador(1);
@@ -95,15 +97,18 @@ public class ModelAPI implements Observado {
 	//limpa todos os stands
 	public void clearStand(){
 		for(Jogador j : jogadores) {
-			j.clearStand();
+			j.clearStand(0);
+			j.clearStand(1);
 		}
-		dealer.clearStand();
+		dealer.clearStand(0);
 	}
 	
 	//Verifica se existem jogadores que podem pedir cartas
 	boolean checkJogadoresDisponiveis() {
 		for(Jogador j :jogadores ) {
-			if(!j.checkStand())
+			if(!j.checkStand(0))
+				return true;
+			if(!j.checkStand(1))
 				return true;
 		}
 		return false;
@@ -142,94 +147,104 @@ public class ModelAPI implements Observado {
 		 
 		 enviarInfoMaoJogador();
 		 enviarInfoDinheiroJogador();
-		
 		 
 	}
 	
 
-	public void pedirHit(Object infoJogador) {
-		String tmp=infoJogador.toString();
-		if(jogadores.get(Integer.parseInt(String.valueOf(tmp.charAt(0)))).checkStand()==false) {
-			jogadores.get(Integer.parseInt(String.valueOf(tmp.charAt(0)))).hit(baralho.pegarCarta(),Integer.parseInt(String.valueOf(tmp.charAt(1))));
+	public void pedirHit(String infoJogador) {
+		if(jogadores.get(Integer.parseInt(String.valueOf(infoJogador.charAt(0)))).checkStand(Integer.parseInt(String.valueOf(infoJogador.charAt(1))))==false && jogadores.get(Integer.parseInt(String.valueOf(infoJogador.charAt(0)))).valorMao(Integer.parseInt(String.valueOf(infoJogador.charAt(1))))<21){
+			jogadores.get(Integer.parseInt(String.valueOf(infoJogador.charAt(0)))).hit(baralho.pegarCarta(),Integer.parseInt(String.valueOf(infoJogador.charAt(1))));
+			jogadores.get(Integer.parseInt(String.valueOf(infoJogador.charAt(0)))).putDobrar(Integer.parseInt(String.valueOf(infoJogador.charAt(1))));
+			jogadores.get(Integer.parseInt(String.valueOf(infoJogador.charAt(0)))).putSplit();
+			jogadores.get(Integer.parseInt(String.valueOf(infoJogador.charAt(0)))).putSurrender();
+			ativarBotoes(Integer.parseInt(String.valueOf(infoJogador.charAt(0))));
 		}else{
-			System.out.println("STAND ATIVADO, LOGO HIT NÃO PODE SER ACIONADO");
+			System.out.println("STAND ATIVADO OU M�O QUEBRADA, LOGO HIT NÃO PODE SER ACIONADO");
+		}
+		if(jogadores.get(Integer.parseInt(String.valueOf(infoJogador.charAt(0)))).valorMao(Integer.parseInt(String.valueOf(infoJogador.charAt(1))))>21) {
+			jogadores.get(Integer.parseInt(String.valueOf(infoJogador.charAt(0)))).putStand(Integer.parseInt(String.valueOf(infoJogador.charAt(1))));
+			ativarBotoes(Integer.parseInt(String.valueOf(infoJogador.charAt(0))));
 		}
 		enviarInfoMaoJogador();
 		enviarInfoMaoJogadorSplit();
 	}
 
-	public void pedirStand(Object nome) {
-		for(Jogador j : jogadores) {
-			if(j.getNomeJogador()==nome) {
-				j.putStand();
-			}
-		}
+	public void pedirStand(String infoJogador) {
+		jogadores.get(Integer.parseInt(String.valueOf(infoJogador.charAt(0)))).putStand(Integer.parseInt(String.valueOf(infoJogador.charAt(1))));
+		jogadores.get(Integer.parseInt(String.valueOf(infoJogador.charAt(0)))).putSurrender();
+		ativarBotoes(Integer.parseInt(String.valueOf(infoJogador.charAt(0))));
 	}
 	
-  
-	public boolean pedirSplit(Object nome) {
-		jogadores.get(Integer.parseInt(nome.toString())).split();
-		if(jogadores.get(Integer.parseInt(nome.toString())).checkSplit()) {
-			String jogadorMao0=nome.toString();
-			String jogadorMao1=nome.toString();
-			jogadorMao0 = jogadorMao0+"0";
-			jogadorMao1 = jogadorMao1+"1";		
-			pedirHit(jogadorMao0);
-			pedirHit(jogadorMao1);
+	public boolean pedirDouble(String infoJogador) {
+		int total=apostaDoMontante(Integer.parseInt(String.valueOf(infoJogador.charAt(0))));
+		if(!(jogadores.get(Integer.parseInt(String.valueOf(infoJogador.charAt(0)))).fichasTotalJogador()>=total && jogadores.get(Integer.parseInt(String.valueOf(infoJogador.charAt(0)))).checkDobrar(Integer.parseInt(String.valueOf(infoJogador.charAt(1))))==false) ) {
+			return false;
+		}else{
+			jogadores.get(Integer.parseInt(String.valueOf(infoJogador.charAt(0)))).dobrar(total,Integer.parseInt(String.valueOf(infoJogador.charAt(1))));
+			jogadores.get(Integer.parseInt(String.valueOf(infoJogador.charAt(0)))).hit(baralho.pegarCarta(), Integer.parseInt(String.valueOf(infoJogador.charAt(1))));
+			jogadores.get(Integer.parseInt(String.valueOf(infoJogador.charAt(0)))).putSurrender();
+			ativarBotoes(Integer.parseInt(String.valueOf(infoJogador.charAt(0))));
+			enviarInfoDinheiroJogador();
+			enviarInfoMaoJogador();
+			enviarInfoMaoJogadorSplit();
 			return true;
+		}		
+	}
+	
+	public boolean pedirSplit(int indiceJogador) {
+		int total=apostaDoMontante(indiceJogador);
+		if(jogadores.get(indiceJogador).fichasTotalJogador()>=total) {
+			if(jogadores.get(indiceJogador).split()) {
+				if(jogadores.get(indiceJogador).valorMao(0)+jogadores.get(indiceJogador).valorMao(1)==22) {
+					jogadores.get(indiceJogador).hit(baralho.pegarCarta(), 0);
+					jogadores.get(indiceJogador).hit(baralho.pegarCarta(), 1);
+					jogadores.get(indiceJogador).putStand(0);
+					jogadores.get(indiceJogador).putStand(1);
+					jogadores.get(indiceJogador).putDobrar(0);
+					jogadores.get(indiceJogador).putDobrar(1);
+					jogadores.get(indiceJogador).putSurrender();
+					jogadores.get(indiceJogador).apostar(total);
+					ativarBotoes(indiceJogador);
+					enviarInfoDinheiroJogador();
+					enviarInfoMaoJogador();
+					enviarInfoMaoJogadorSplit();
+					return true;
+				}else {
+					jogadores.get(indiceJogador).hit(baralho.pegarCarta(), 0);
+					jogadores.get(indiceJogador).hit(baralho.pegarCarta(), 1);
+					jogadores.get(indiceJogador).apostar(total);
+					jogadores.get(indiceJogador).putSurrender();
+					ativarBotoes(indiceJogador);
+					enviarInfoDinheiroJogador();
+					enviarInfoMaoJogador();
+					enviarInfoMaoJogadorSplit();
+					return true;
+				}
+			}else {
+				return false;
+			}
 		}else {
 			return false;
 		}
 	}
 	
-	public void pedirDouble(Object nome) {
+	public void pedirSurrender(int indiceJogador) {
+		int total=apostaDoMontante(indiceJogador);
+		jogadores.get(indiceJogador).surrender(total/2);
+		ativarBotoes(indiceJogador);
+		enviarInfoDinheiroJogador();
+		enviarInfoMaoJogador();
+	}
+	
+	public int apostaDoMontante(Object nome) {
 		int total=0;
 		Set<String> chaves = jogadorAposta.get(jogadores.get(Integer.parseInt(nome.toString())).getNomeJogador()).keySet();
 		for(String chave : chaves) {
 			total=jogadorAposta.get(jogadores.get(Integer.parseInt(nome.toString())).getNomeJogador()).get(chave)*Integer.parseInt(chave)+total;
 		}
-		int totaltmp=total;
-		LinkedHashMap <String, Integer> tmp = new LinkedHashMap<String, Integer>();
-		tmp.put("100", null);
-		tmp.put("50", null);
-		tmp.put("20", null);
-		tmp.put("10", null);
-		tmp.put("5", null);
-		tmp.put("1", null);
-		for(String key : jogadores.get(Integer.parseInt(nome.toString())).getFichasJogador().keySet()) {
-			tmp.put(key,jogadores.get(Integer.parseInt(nome.toString())).getFichasJogador().get(key));
-		}
-		for (Map.Entry<String, Integer> entry : tmp.entrySet()) {
-			while(entry.getValue()>0) {		
-				tmp.replace(entry.getKey(),entry.getValue()-1);
-				if((totaltmp-1*Integer.parseInt(entry.getKey()))<0) {
-					break;
-				}else if((totaltmp-1*Integer.parseInt(entry.getKey()))==0) {
-					totaltmp=totaltmp-1*Integer.parseInt(entry.getKey());
-					break;
-				}else {
-					totaltmp=totaltmp-1*Integer.parseInt(entry.getKey());
-				}
-			}
-			if(totaltmp==0){
-			       break;
-			}
-		}
-		if(totaltmp!=0) {
-			System.out.println("JOGADOR N�O POSSUI FICHAS SUFICIENTES");
-		}else{
-			for(String key : tmp.keySet()) {
-				jogadores.get(Integer.parseInt(nome.toString())).getFichasJogador().put(key,tmp.get(key));
-			}
-			jogadores.get(Integer.parseInt(nome.toString())).dobrar(total);
-			jogadores.get(Integer.parseInt(nome.toString())).hit(baralho.pegarCarta(), 0);
-			enviarInfoDinheiroJogador();
-			enviarInfoMaoJogador();
-			System.out.println("JOGADOR POSSUI FICHAS SUFICIENTES");
-			System.out.println(jogadores.get(Integer.parseInt(nome.toString())).fichasTotalJogador());
-		}
-				
+		return total;
 	}
+
 	
 	private void enviarInfoMaoJogador() {
 		
@@ -264,7 +279,6 @@ public class ModelAPI implements Observado {
 		 jogadores.forEach((j) -> dinheiroJogador.put(j.getNomeJogador(),j.fichasTotalJogador()));
 		 
 		 notificar(dinheiroJogador,CodigosObservador.DINHEIRO_DOS_JOGADORES.valor);
-	
 	}
 	
 	
@@ -322,8 +336,8 @@ public class ModelAPI implements Observado {
 
 	}
 	
-	public boolean jogadorAtualCheckStand() {
-		return jogadores.get(jogada).checkStand();
+	public boolean jogadorAtualCheckStand(int mao) {
+		return jogadores.get(jogada).checkStand(mao);
 	}
 	
 	public int numeroDeJogadores() {
@@ -467,13 +481,15 @@ public class ModelAPI implements Observado {
 		}
 	}
 	
-
-	//FUNCOES APOSTA INCIAL
 	private void verificaJogadaApostaInicial() {
-		//Fazer Teste Unitario
 		if(this.jogada == numeroDeJogadores()) {	
 			this.ifOkApostaInicial = false;
-			this.jogada = 0;
+			jogada=jogada-1;
+			while(jogada>=0) {
+				 ativarBotoes(jogada);
+				 jogada=jogada-1;
+			}
+			jogada=0;
 			carteiraJogadorApostaInicial.clear();
 			geracarteiraJogadorApostaInicial();
 			notificar(false, CodigosObservador.VERIFICA_APOSTA_INICAL_EFETUADA.valor);
@@ -493,6 +509,27 @@ public class ModelAPI implements Observado {
 				}
 			}
 		}
+	}
+	
+	public void ativarBotoes(int indiceJogador) {
+		String[][] vetorBtn = new String[6][2];
+		for(Jogador j: jogadores ) {
+			if(j.getNomeJogador() == jogadorNome(indiceJogador)) {
+				vetorBtn[0][0]=String.valueOf(!j.checkHit(0));
+				vetorBtn[1][0]=String.valueOf(!j.checkStand(0));
+				vetorBtn[2][0]=String.valueOf(!j.checkDobrar(0));
+				vetorBtn[3][0]=String.valueOf(!j.checkSplit());
+				vetorBtn[4][0]=String.valueOf(!j.checkSurrender());
+				vetorBtn[5][0]=String.valueOf(indiceJogador);
+				vetorBtn[0][1]=String.valueOf(!j.checkHit(1));
+				vetorBtn[1][1]=String.valueOf(!j.checkStand(1));
+				vetorBtn[2][1]=String.valueOf(!j.checkDobrar(1));
+				vetorBtn[3][1]=String.valueOf(!j.checkSplit());
+				vetorBtn[4][1]=String.valueOf(!j.checkSurrender());
+				vetorBtn[5][1]=String.valueOf(indiceJogador);
+			}
+		}
+		notificar(vetorBtn, CodigosObservador.BOTOES_JOGADORES.valor);
 	}
 	
 	public void finalizaApostaInicial(Object s) {
