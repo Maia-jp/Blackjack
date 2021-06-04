@@ -42,6 +42,7 @@ public class TelaJogador extends JFrame implements Observado,Observador{
 	private JButton stand;
 	private JButton dobrar;
 	private JButton split;
+	private JButton surrender;
 	
 	public TelaJogador(String nomeJogador,CarregaImagens cI, Integer mao,Integer indiceJogador) {
 		this.cI = cI;
@@ -105,37 +106,50 @@ public class TelaJogador extends JFrame implements Observado,Observador{
 		panel2.add(this.labelValor);
 		
 		this.hit = new JButton("HIT");
-		this.hit.setBounds(209,597,100,36);
+		this.hit.setBounds(92,597,130,36);
 		this.hit.setFont(new Font("Helvetica", Font.BOLD, 15));
 		this.hit.setForeground(Color.DARK_GRAY);
 		this.hit.setBackground(Color.LIGHT_GRAY);
+		this.hit.setEnabled(false);
 		panel.add(this.hit);
 		this.hit.addActionListener(btnAcionarHit);
 		
 		this.stand = new JButton("STAND");
-		this.stand.setBounds(329,597,100,36);
+		this.stand.setBounds(234,597,130,36);
 		this.stand.setFont(new Font("Helvetica", Font.BOLD, 15));
 		this.stand.setForeground(Color.DARK_GRAY);
 		this.stand.setBackground(Color.LIGHT_GRAY);
+		this.stand.setEnabled(false);
 		panel.add(this.stand);
 		this.stand.addActionListener(btnAcionarStand);
 
 		
 		this.dobrar = new JButton("DOUBLE");
-		this.dobrar.setBounds(449,597,100,36);
+		this.dobrar.setBounds(374,597,130,36);
 		this.dobrar.setFont(new Font("Helvetica", Font.BOLD, 15));
 		this.dobrar.setForeground(Color.DARK_GRAY);
 		this.dobrar.setBackground(Color.LIGHT_GRAY);
+		this.dobrar.setEnabled(false);
 		panel.add(this.dobrar);
 		this.dobrar.addActionListener(btnAcionarDouble);
 		
 		this.split = new JButton("SPLIT");
-		this.split.setBounds(569,597,100,36);
+		this.split.setBounds(515,597,130,36);
 		this.split.setFont(new Font("Helvetica", Font.BOLD, 15));
 		this.split.setForeground(Color.DARK_GRAY);
 		this.split.setBackground(Color.LIGHT_GRAY);
+		this.split.setEnabled(false);
 		panel.add(this.split);
 		this.split.addActionListener(btnAcionarSplit);
+		
+		this.surrender = new JButton("SURRENDER");
+		this.surrender.setBounds(656,597,130,36);
+		this.surrender.setFont(new Font("Helvetica", Font.BOLD, 15));
+		this.surrender.setForeground(Color.DARK_GRAY);
+		this.surrender.setBackground(Color.LIGHT_GRAY);
+		this.surrender.setEnabled(false);
+		panel.add(this.surrender);
+		this.surrender.addActionListener(btnAcionarSurrender);
 		
 	}
 		
@@ -153,7 +167,7 @@ public class TelaJogador extends JFrame implements Observado,Observador{
     public ActionListener btnAcionarStand = new ActionListener() {
     	public void actionPerformed(ActionEvent e) {
     		try {
-    			notificar(nomeJogador,CodigosObservadorView.BOTAO_STAND_JOGADOR.valor);
+    			notificar(infoJogador,CodigosObservadorView.BOTAO_STAND_JOGADOR.valor);
 				System.out.println("STAND ACIONADO PELO JOGADOR: " + nomeJogador);
 			} catch (Exception e1) {
 				System.out.println("Erro[btnAcionarStand] ao chamar btnComecarCallback()"+e1);
@@ -164,7 +178,7 @@ public class TelaJogador extends JFrame implements Observado,Observador{
     public ActionListener btnAcionarDouble = new ActionListener() {
     	public void actionPerformed(ActionEvent e) {
     		try {
-    			notificar(Integer.toString(indiceJogador),CodigosObservadorView.BOTAO_DOUBLE_JOGADOR.valor);
+    			notificar(infoJogador,CodigosObservadorView.BOTAO_DOUBLE_JOGADOR.valor);
 				System.out.println("DOUBLE ACIONADO PELO JOGADOR: " + nomeJogador);
 			} catch (Exception e1) {
 				System.out.println("Erro[btnAcionarDouble] ao chamar btnComecarCallback()"+e1);
@@ -179,6 +193,17 @@ public class TelaJogador extends JFrame implements Observado,Observador{
 				System.out.println("SPLIT ACIONADO PELO JOGADOR: " + nomeJogador);
 			} catch (Exception e1) {
 				System.out.println("Erro[btnAcionarSplit] ao chamar btnComecarCallback()"+e1);
+			}
+		}
+    };
+    
+    public ActionListener btnAcionarSurrender = new ActionListener() {
+    	public void actionPerformed(ActionEvent e) {
+    		try {
+    			notificar(Integer.toString(indiceJogador),CodigosObservadorView.BOTAO_SURRENDER_JOGADOR.valor);
+				System.out.println("SURRENDER ACIONADO PELO JOGADOR: " + nomeJogador);
+			} catch (Exception e1) {
+				System.out.println("Erro[btnAcionarSurrender] ao chamar btnComecarCallback()"+e1);
 			}
 		}
     };
@@ -231,7 +256,18 @@ public class TelaJogador extends JFrame implements Observado,Observador{
 			    		 System.out.println("[ERRO][Tela jogador][Observer] ID 4 deve receber um HashMap, foi recebido:" + obj.getClass());
 			    	 }
 			    	 break
-			     ;
+			     ; 
+			     case 18:
+			    	 String[][] tmp= (String[][])obj;
+			    	 if(Integer.parseInt(tmp[5][0])==indiceJogador) {
+			    		 this.hit.setEnabled(Boolean.valueOf(tmp[0][0]));
+				    	 this.stand.setEnabled(Boolean.valueOf(tmp[1][0]));
+				    	 this.dobrar.setEnabled(Boolean.valueOf(tmp[2][0]));
+				    	 this.split.setEnabled(Boolean.valueOf(tmp[3][0]));
+				    	 this.surrender.setEnabled(Boolean.valueOf(tmp[4][0])); 
+			    	 }
+			    	 break
+			     ;		
 			}
 		}else {
 			switch (ID)
@@ -264,6 +300,18 @@ public class TelaJogador extends JFrame implements Observado,Observador{
 			    	 }
 			    	 break
 			     ;
+			     case 18:
+			    	 String[][] tmp= (String[][])obj;
+			    	 if(Integer.parseInt(tmp[5][1])==indiceJogador) {
+			    		 this.hit.setEnabled(Boolean.valueOf(tmp[0][1]));
+				    	 this.stand.setEnabled(Boolean.valueOf(tmp[1][1]));
+				    	 this.dobrar.setEnabled(Boolean.valueOf(tmp[2][1]));
+				    	 this.split.setEnabled(Boolean.valueOf(tmp[3][1]));
+				    	 this.surrender.setEnabled(Boolean.valueOf(tmp[4][1])); 
+			    	 }
+			    	 break
+			     ;		 
+			    
 			}
 		}
 			
