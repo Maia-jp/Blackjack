@@ -176,12 +176,24 @@ public class TelaIncial extends JFrame implements Observado{
     private void btnComecarCallback() throws Exception {
     	if(jogador1Nome.getText().length()>0)
         	jogadores.add(jogador1Nome.getText());
-        if(jogador2Nome.getText().length()>0)
-        	jogadores.add(jogador2Nome.getText());
-        if(jogador3Nome.getText().length()>0)
-        	jogadores.add(jogador3Nome.getText());
-        if(jogador4Nome.getText().length()>0)
-        	jogadores.add(jogador4Nome.getText());
+        if(jogador2Nome.getText().length()>0) {
+        	if(jogadores.indexOf(jogador2Nome.getText()) != -1)
+        		jogadores.add(jogador2Nome.getText()+"_B");
+        	else
+        		jogadores.add(jogador2Nome.getText());
+        }
+        if(jogador3Nome.getText().length()>0) {
+        	if(jogadores.indexOf(jogador3Nome.getText()) != -1)
+        		jogadores.add(jogador3Nome.getText()+"_C");
+        	else
+        		jogadores.add(jogador3Nome.getText());
+        }
+        if(jogador4Nome.getText().length()>0) {
+        	if(jogadores.indexOf(jogador4Nome.getText()) != -1)
+        		jogadores.add(jogador4Nome.getText()+"_D");
+        	else
+        		jogadores.add(jogador4Nome.getText());
+        }
         
         
         if(jogadores.size() < 1) {
