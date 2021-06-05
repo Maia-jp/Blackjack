@@ -99,7 +99,7 @@ public class ImagensTela extends JPanel{
     	if(botaoOk == true) {
     		g2d.setFont(new Font("Helvetica", Font.BOLD, 15));
     		g2d.setColor(Color.RED);
-    		g2d.drawString("Clique aqui para apostar", 700, 290);
+    		g2d.drawString("DEAL", 760, 290);
     	}
     }
     

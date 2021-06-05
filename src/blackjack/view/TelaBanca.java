@@ -30,6 +30,7 @@ public class TelaBanca extends JFrame implements Observado,Observador, MouseList
 	private JButton novaRodada;
 	private JButton encerrrar;
 	private JButton salvar;
+	private JButton clear;
 	
 	public TelaBanca(CarregaImagens cI) {
 		super("Banca");
@@ -58,6 +59,9 @@ public class TelaBanca extends JFrame implements Observado,Observador, MouseList
 			}
 		});
 		telaI.add(salvar);
+		
+		clear = new JButton("Clear");
+		telaI.add(clear);
 	}
     
 	@Override
@@ -150,7 +154,7 @@ public class TelaBanca extends JFrame implements Observado,Observador, MouseList
 		else if (e.getX() >= 720 && e.getX() <= 779 && e.getY() >= 520 && e.getY() <=  579) {
 			notificar("100",CodigosObservadorView.BOTAO_APOSTA_INICIAL.valor);
 		}
-		else if (e.getX() >= 700 && e.getX() <= 891 && e.getY() >= 290 && e.getY() <=  320) {
+		else if (e.getX() >= 760 && e.getX() <= 810 && e.getY() >= 290 && e.getY() <=  320) {
 			notificar(true,CodigosObservadorView.BOTAO_APOSTA_INCIAL_REALIZAR.valor);
 		}
 		else if (e.getX() >= 750 && e.getX() <= 809 && e.getY() >= 200 && e.getY() <=  259) {

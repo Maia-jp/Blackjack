@@ -90,7 +90,10 @@ public class ModelAPI implements Observado {
             if(j.fichasTotalJogador() == 0)
                 removerJogadorNome(j.getNomeJogador());    
         }
-        
+        ifOkApostaInicial = true;
+        valorApostaInicial = 0;
+		carteiraJogadorApostaInicial.clear();
+		geracarteiraJogadorApostaInicial();
         //Limpa a mao do dealer
         dealer.limpaMao();
         zerarMontante();    
@@ -175,6 +178,7 @@ public class ModelAPI implements Observado {
 		jogadores.get(Integer.parseInt(String.valueOf(infoJogador.charAt(0)))).putStand(Integer.parseInt(String.valueOf(infoJogador.charAt(1))));
 		jogadores.get(Integer.parseInt(String.valueOf(infoJogador.charAt(0)))).putSurrender();
 		ativarBotoes(Integer.parseInt(String.valueOf(infoJogador.charAt(0))));
+		proximoJogador();
 	}
 	
 	public boolean pedirDouble(String infoJogador) {
@@ -443,8 +447,21 @@ public class ModelAPI implements Observado {
 	//Dealer age conforme as regras
 	public void dealerAcao() {
 		jogadaDealer++;
+		
+		int []tCartasRoda = new int[2];
+		tCartasRoda[0] = valorDealerMao();
+		tCartasRoda[1] = this.jogadaDealer;
+		notificar(tCartasRoda,CodigosObservador.INFOS_DEALER.valor);
+		
 		if(dealer.checkEstrategia() == 2) {
 			dealer.receberCarta(baralho.pegarCarta());
+			
+			tCartasRoda[0] = valorDealerMao();
+			tCartasRoda[1] = this.jogadaDealer;
+			notificar(tCartasRoda,CodigosObservador.INFOS_DEALER.valor);
+			
+			List<String> cartasDealer = dealerMao();
+			notificar(cartasDealer,CodigosObservador.CARTAS_DO_DEALER.valor);
 		}
 		else {
 			confereGanhadores();
@@ -610,9 +627,7 @@ public class ModelAPI implements Observado {
 	public void adicionaApostaInicial(Object s) {
 		//Fazer Teste Unitario
 		if(this.ifOkApostaInicial == true) {
-			Map<String, Integer> carteiraJogadorAtual = jogadorEspecificoCarteira(this.jogada);
-			if((carteiraJogadorAtual.get(s) + carteiraJogadorApostaInicial.get(s)) > 0) {
-				
+			if(this.valorApostaInicial+Integer.parseInt(s.toString()) <= 100) {
 				carteiraJogadorApostaInicial.replace(s.toString(), carteiraJogadorApostaInicial.get(s)-1);
 				this.valorApostaInicial += Integer.parseInt(s.toString());
 				pilhaApostaInicial.push(s.toString());
@@ -632,7 +647,12 @@ public class ModelAPI implements Observado {
 	}
 	
 	public void exibeNomeJogadores() {
-		notificar(jogadorNome(jogada), CodigosObservador.NOME_JOGADOR_ATUAL_APOSTA_INICIAL.valor);
+		if(jogada < jogadores.size()) {
+			notificar(jogadorNome(jogada), CodigosObservador.NOME_JOGADOR_ATUAL_APOSTA_INICIAL.valor);
+		}
+		else {
+			notificar("DEALER", CodigosObservador.NOME_JOGADOR_ATUAL_APOSTA_INICIAL.valor);
+		}
 	}
 	
 	private void geracarteiraJogadorApostaInicial() {
@@ -654,8 +674,11 @@ public class ModelAPI implements Observado {
 	//Passa para a proxima jogada
 	public void  proximaJogada() {
 		jogada = jogada+1;
-		if(jogada == jogadores.size())
+		exibeNomeJogadores();
+		if(jogada == jogadores.size()) {
 			jogada = 0;
+			dealerAcao();
+		}
 	}
 	
 	
