@@ -49,7 +49,7 @@ public class TelaBanca extends JFrame implements Observado,Observador, MouseList
 		novaRodada.setEnabled(false);
 			novaRodada.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				notificar(true,CodigosObservadorView.BOTAO_SALVAR_TELA_DEALER.valor);
+				notificar(true,CodigosObservadorView.BOTAO_NOVA_RODADA.valor);
 			}
 		});
 		telaI.add(novaRodada);
@@ -142,7 +142,8 @@ public class TelaBanca extends JFrame implements Observado,Observador, MouseList
 				break;
 			case 19:
 		    	 if(obj.getClass().equals(Boolean.class)) {
-		    		 this.novaRodada.setEnabled(true);
+		    		 Boolean novaRodadaBol = (Boolean)obj;
+		    		 this.novaRodada.setEnabled(novaRodadaBol);
 		    	 }else {
 		    		 System.out.println("[ERRO][Tela Banca][Observer] ID 1 deve receber um ArrayList, foi recebido:" + obj.getClass());
 		    	 }

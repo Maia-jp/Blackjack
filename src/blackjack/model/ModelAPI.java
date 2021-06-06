@@ -33,6 +33,8 @@ public class ModelAPI implements Observado {
 	
 	//Clear n�o participa da rodada
 	private boolean[] clear = {true, true, true, true};
+	
+	private boolean[] teveBlackJack = {false, false, false, false};
 	//Variaveis necessarias para aposta incial
 	private boolean ifOkApostaInicial;
 	private Map<String, Integer> carteiraJogadorApostaInicial = new HashMap<String, Integer>();
@@ -59,6 +61,15 @@ public class ModelAPI implements Observado {
 		
 		zerarMontante();
 		notificar(true, CodigosObservador.BOTAO_NOVA_RODADA_OK.valor);
+	}
+	
+	private void confereBlackJackGeral() {
+		int i = 0;
+		for(Jogador j: jogadores) {
+			if(j.blackjack()) {
+				teveBlackJack[i] = true;
+			}
+		}
 	}
 	
 	//ComeÃ§a uma rodada
@@ -102,6 +113,9 @@ public class ModelAPI implements Observado {
         dealer.limpaMao();
         zerarMontante();
         exibeNomeJogadores();
+        notificaViewInfoJogadores();
+        exibeCartasDealerJogadores();
+        notificar(false, CodigosObservador.BOTAO_NOVA_RODADA_OK.valor);
     }
 	private void setClear() {
 		clear[0] = true;
@@ -156,7 +170,13 @@ public class ModelAPI implements Observado {
 		 //Observer
 		 //-Envia mao do dealer para o dealer, valor total cartas e Jogada
 		 
-		 int []tCartasRoda = new int[2];
+		 exibeCartasDealerJogadores();
+		 exibeNomeJogadores();
+		 confereBlackJackGeral();
+	}
+	
+	private void exibeCartasDealerJogadores(){
+		int []tCartasRoda = new int[2];
 		 tCartasRoda[0] = valorDealerMao();
 		 tCartasRoda[1] = this.jogadaDealer;
 		 notificar(tCartasRoda,CodigosObservador.INFOS_DEALER.valor); //@ Ale , colocar padrÃ£o enum
@@ -166,10 +186,7 @@ public class ModelAPI implements Observado {
 		 
 		 enviarInfoMaoJogador();
 		 enviarInfoDinheiroJogador();
-		 exibeNomeJogadores();
-		 
 	}
-	
 
 	public void pedirHit(String infoJogador) {
 		if(jogadores.get(Integer.parseInt(String.valueOf(infoJogador.charAt(0)))).checkStand(Integer.parseInt(String.valueOf(infoJogador.charAt(1))))==false && jogadores.get(Integer.parseInt(String.valueOf(infoJogador.charAt(0)))).valorMao(Integer.parseInt(String.valueOf(infoJogador.charAt(1))))<21){
@@ -477,6 +494,7 @@ public class ModelAPI implements Observado {
 			
 			List<String> cartasDealer = dealerMao();
 			notificar(cartasDealer,CodigosObservador.CARTAS_DO_DEALER.valor);
+			dealerAcao();
 		}
 		else {
 			confereGanhadores();
@@ -530,11 +548,12 @@ public class ModelAPI implements Observado {
 	}
 	
 	private void verificaJogadaApostaInicial() {
+		//Fazer Teste unitario
 		if(this.jogada == numeroDeJogadores()) {	
 			this.ifOkApostaInicial = false;
 			jogada=jogada-1;
 			while(jogada>=0) {
-				if(clear[jogada]) {
+				if(clear[jogada] || !(teveBlackJack[jogada])) {
 					ativarBotoes(jogada);
 				}
 				 jogada=jogada-1;
@@ -708,7 +727,7 @@ public class ModelAPI implements Observado {
 	//Passa para a proxima jogada
 	public void  proximaJogada() {
 		jogada = jogada+1;
-		if(!(clear[jogada])) {
+		if(!(clear[jogada]) || teveBlackJack[jogada]) {
 			jogada = jogada+1;
 		}
 		exibeNomeJogadores();
