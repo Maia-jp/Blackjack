@@ -58,7 +58,7 @@ public class ControllerAPI implements Observador{
 			if(CodigosObservadorView.BOTAO_APOSTA_INICIAL.classe != obj.getClass())
 				System.out.print("[ERRO][Controller] Classe passada no metodo executar nao corresponde ao correto, foi passado:"+obj.getClass());
 			else
-				telaBancaAposta(obj);
+				telaBancaAposta((String)obj);
 		}
 		if(CodigosObservadorView.BOTAO_APOSTA_INCIAL_REALIZAR.valor == ID) {
 			if(CodigosObservadorView.BOTAO_APOSTA_INCIAL_REALIZAR.classe != obj.getClass())
@@ -96,7 +96,18 @@ public class ControllerAPI implements Observador{
 			else
 				telaJogadorQuit((String)obj);
 		}
-		
+		if(CodigosObservadorView.BOTAO_CLEAR.valor == ID) {
+			if(CodigosObservadorView.BOTAO_CLEAR.classe != obj.getClass())
+				System.out.print("[ERRO][Controller] Classe passada no metodo executar nao corresponde ao correto, foi passado:"+obj.getClass());
+			else
+				telaBancaClear((Boolean)obj);
+		}
+		if(CodigosObservadorView.BOTAO_NOVA_RODADA.valor == ID) {
+			if(CodigosObservadorView.BOTAO_NOVA_RODADA.classe != obj.getClass())
+				System.out.print("[ERRO][Controller] Classe passada no metodo executar nao corresponde ao correto, foi passado:"+obj.getClass());
+			else
+				novaRodadaAcionada();
+		}
 	}
 	
 	
@@ -144,13 +155,17 @@ public class ControllerAPI implements Observador{
 	
 	//Banca
 	
-	private void telaBancaAposta(Object s) {
+	private void telaBancaAposta(String s) {
 		api.adicionaApostaInicial(s);
 	}
 	
 	
 	private void telaBancaApostainicialrealizar(Object s) {
-		api.finalizaApostaInicial(s);
+		api.finalizaApostaInicial();
+	}
+	
+	private void telaBancaClear(Boolean clear) {
+		api.clearJogadorRodada();
 	}
 	
 	//Opcoes
@@ -164,6 +179,9 @@ public class ControllerAPI implements Observador{
 		api.removeFichaPilha();
 	}
 	
+	private void novaRodadaAcionada() {
+		api.novaRodada();
+	}
 	//
 	//Singleton
 	//

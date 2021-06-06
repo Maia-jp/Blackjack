@@ -18,6 +18,7 @@ public enum CodigosObservador {
 	NOME_JOGADOR_ATUAL_APOSTA_INICIAL(16, String.class),
 	INFOS_JOGADORES(17, List.class),
 	BOTOES_JOGADORES(18, List.class),
+	BOTAO_NOVA_RODADA_OK(19, Boolean.class),
 	TESTE(-1,String.class);
 	
 	
