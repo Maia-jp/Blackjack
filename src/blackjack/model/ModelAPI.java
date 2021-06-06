@@ -195,12 +195,11 @@ public class ModelAPI implements Observado {
 			jogadores.get(Integer.parseInt(String.valueOf(infoJogador.charAt(0)))).putSplit();
 			jogadores.get(Integer.parseInt(String.valueOf(infoJogador.charAt(0)))).putSurrender();
 			ativarBotoes(Integer.parseInt(String.valueOf(infoJogador.charAt(0))));
-		}else{
-			System.out.println("STAND ATIVADO OU MÃO QUEBRADA, LOGO HIT NÃƒO PODE SER ACIONADO");
 		}
-		if(jogadores.get(Integer.parseInt(String.valueOf(infoJogador.charAt(0)))).valorMao(Integer.parseInt(String.valueOf(infoJogador.charAt(1))))>21) {
+		if(jogadores.get(Integer.parseInt(String.valueOf(infoJogador.charAt(0)))).valorMao(Integer.parseInt(String.valueOf(infoJogador.charAt(1))))>=21) {
 			jogadores.get(Integer.parseInt(String.valueOf(infoJogador.charAt(0)))).putStand(Integer.parseInt(String.valueOf(infoJogador.charAt(1))));
 			ativarBotoes(Integer.parseInt(String.valueOf(infoJogador.charAt(0))));
+			proximoJogador();
 		}
 		enviarInfoMaoJogador();
 		enviarInfoMaoJogadorSplit();
@@ -225,6 +224,7 @@ public class ModelAPI implements Observado {
 			enviarInfoDinheiroJogador();
 			enviarInfoMaoJogador();
 			enviarInfoMaoJogadorSplit();
+			proximoJogador();
 			return true;
 		}		
 	}
@@ -277,6 +277,7 @@ public class ModelAPI implements Observado {
 			ativarBotoes(indiceJogador);
 			enviarInfoDinheiroJogador();
 			enviarInfoMaoJogador();
+			proximoJogador();
 		}
 	}
 	
@@ -552,8 +553,8 @@ public class ModelAPI implements Observado {
 		if(this.jogada == numeroDeJogadores()) {	
 			this.ifOkApostaInicial = false;
 			jogada=jogada-1;
-			while(jogada>=0) {
-				if(clear[jogada] || !(teveBlackJack[jogada])) {
+			while(jogada>=0) { 
+				if(clear[jogada]) {
 					ativarBotoes(jogada);
 				}
 				 jogada=jogada-1;
@@ -726,8 +727,10 @@ public class ModelAPI implements Observado {
 	
 	//Passa para a proxima jogada
 	public void  proximaJogada() {
+		System.out.println(jogada);
 		jogada = jogada+1;
-		if(!(clear[jogada]) || teveBlackJack[jogada]) {
+		System.out.println(jogada);
+		while(!(clear[jogada])) {
 			jogada = jogada+1;
 		}
 		exibeNomeJogadores();
