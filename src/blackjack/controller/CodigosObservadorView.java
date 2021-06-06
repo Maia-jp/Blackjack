@@ -16,6 +16,8 @@ public enum CodigosObservadorView {
 	BOTAO_GERARCARTEIRA_TELA_OPCOES(109, String.class),
 	BOTAO_SURRENDER_JOGADOR(110, String.class),
 	BOTAO_QUIT_JOGADOR(111, String.class),
+	BOTAO_CLEAR(112,Boolean.class),
+	BOTAO_NOVA_RODADA(113, Boolean.class),
 	TESTE(-1,String.class);
 	
 	public int valor;

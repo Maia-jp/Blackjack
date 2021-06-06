@@ -28,7 +28,7 @@ public class TelaBanca extends JFrame implements Observado,Observador, MouseList
 	private ImagensTela telaI;
 	private CarregaImagens cI;
 	private JButton novaRodada;
-	private JButton encerrrar;
+	private JButton encerrar;
 	private JButton salvar;
 	private JButton clear;
 	
@@ -46,11 +46,21 @@ public class TelaBanca extends JFrame implements Observado,Observador, MouseList
 		setBounds(450,40,LARG_DEFAULT,ALT_DEFAULT);
 
 		novaRodada = new JButton("Nova Rodada");
+		novaRodada.setEnabled(false);
+			novaRodada.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				notificar(true,CodigosObservadorView.BOTAO_SALVAR_TELA_DEALER.valor);
+			}
+		});
 		telaI.add(novaRodada);
-		novaRodada.addActionListener(null);
 		
-		encerrrar = new JButton("Encerrar Partida");
-		telaI.add(encerrrar);
+		encerrar = new JButton("Encerrar Partida");
+			encerrar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.exit(0);
+			}
+		});
+		telaI.add(encerrar);
 		
 		salvar = new JButton("Abrir Opcoes");
 		salvar.addActionListener(new ActionListener() {
@@ -61,6 +71,11 @@ public class TelaBanca extends JFrame implements Observado,Observador, MouseList
 		telaI.add(salvar);
 		
 		clear = new JButton("Clear");
+		clear.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			notificar(false,CodigosObservadorView.BOTAO_CLEAR.valor);
+			}
+		});
 		telaI.add(clear);
 	}
     
@@ -125,6 +140,13 @@ public class TelaBanca extends JFrame implements Observado,Observador, MouseList
 		    		 System.out.println("[ERRO][Tela Banca][Observer] ID 15 deve receber um ArrayList, foi recebido:" + obj.getClass());
 		    	}
 				break;
+			case 19:
+		    	 if(obj.getClass().equals(Boolean.class)) {
+		    		 this.novaRodada.setEnabled(true);
+		    	 }else {
+		    		 System.out.println("[ERRO][Tela Banca][Observer] ID 1 deve receber um ArrayList, foi recebido:" + obj.getClass());
+		    	 }
+		    	 break;
 		}
 				
 	}
