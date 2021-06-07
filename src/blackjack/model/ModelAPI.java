@@ -160,6 +160,7 @@ public class ModelAPI implements Observado {
         notificaViewInfoJogadores();
         exibeCartasDealerJogadores();
         notificar(false, CodigosObservador.BOTAO_NOVA_RODADA_OK.valor);
+        notificar(false, CodigosObservador.TELA_SPLIT_ESCONDER.valor);
     }
 	
 	private void setClear() {
