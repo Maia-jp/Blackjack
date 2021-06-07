@@ -52,11 +52,43 @@ class Jogador {
 	}
 	
 	public int valorMao(int mao) {
-		int soma=0;
-		for(int i=0;i<this.maoJogador[mao].size();i++) {
-			soma=soma+this.maoJogador[mao].get(i).getValor();
+		return contagemJogador(mao);
+	}
+	
+	private int contagemJogador(int mao) {
+		int total = 0, contador = 0, flag = 0;
+		//conta as cartas na mão do dealer, para bolar a estrategia
+		for(int i = 0; i < this.maoJogador[mao].size(); i++) {
+			contador = this.maoJogador[mao].get(i).getValor();
+			
+			if (contador != -1){
+				total += contador;
+			}
+			else {
+				flag += 1;
+			}
 		}
-		return soma;
+		if(flag != 0) {
+			for(int i = 0; i < flag; i++) {
+				total = verificaValorAsJogador(total);
+			}
+		}
+		
+		return total;
+		//TESTADO
+	}
+	
+	private int verificaValorAsJogador(int to)
+	{
+		//verifica se o total vai ser maior ou menor que 21 com a escolha do Ás
+		if(to + 11 > 21) {
+			 to += 1;
+		}
+		else {
+			to += 11;
+		}
+		return to;
+	//TESTADO
 	}
 	
 	//retorna a quantidade de dinheiro do jogador
