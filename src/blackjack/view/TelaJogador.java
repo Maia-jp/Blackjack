@@ -342,7 +342,6 @@ public class TelaJogador extends JFrame implements Observado,Observador{
 	//Metodos de execucao observer
 	private void alterarMao(List<String> novaMao) {
 		System.out.println(novaMao);
-
 	}
 		
 	private void atualizarValorDaMao(Integer novoValor) {
