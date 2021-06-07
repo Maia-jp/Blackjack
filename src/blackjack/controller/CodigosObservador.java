@@ -19,10 +19,10 @@ public enum CodigosObservador {
 	INFOS_JOGADORES(17, List.class),
 	BOTOES_JOGADORES(18, List.class),
 	BOTAO_NOVA_RODADA_OK(19, Boolean.class),
-	INFO_RESULTADO_FINAL(20, List.class),
+  INFO_RESULTADO_FINAL(20, List.class),
+	TELA_SPLIT_ESCONDER(21,Boolean.class),
 	TESTE(-1,String.class);
-	
-	
+
 	
 	
 	public int valor;

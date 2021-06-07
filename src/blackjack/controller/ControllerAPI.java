@@ -181,6 +181,7 @@ public class ControllerAPI implements Observador{
 	
 	private void novaRodadaAcionada() {
 		api.novaRodada();
+		view.telaSplitInvisivel();
 	}
 	//
 	//Singleton
