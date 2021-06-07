@@ -71,7 +71,11 @@ class Jogador {
 	
 	public void apostar(int aposta) {
 		this.totalFichasJogador=this.totalFichasJogador-aposta;
-}
+	}
+	
+	public void receberAposta(int aposta) {
+		this.totalFichasJogador=this.totalFichasJogador+aposta;
+	}
 	
 	private void setFichasJogador(LinkedHashMap <String, Integer> fichasJogador) {
 		this.fichasJogador.put("100", 2);
@@ -124,10 +128,9 @@ class Jogador {
 		
 	}
 	
-	public void surrender(int aposta) {
+	public void surrender() {
 		this.maoJogador[0].remove(1);
 		this.maoJogador[0].remove(0);
-		this.totalFichasJogador=this.totalFichasJogador+aposta;
 		this.putStand(0);
 		this.putDobrar(0);
 		this.putSplit();

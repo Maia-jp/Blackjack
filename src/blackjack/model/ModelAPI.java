@@ -33,32 +33,79 @@ public class ModelAPI implements Observado {
 	
 	//Clear não participa da rodada
 	private boolean[] clear = {true, true, true, true};
-	
 	private boolean[] teveBlackJack = {false, false, false, false};
+	private int[] apostaAdicional = {0,0,0,0};
 	//Variaveis necessarias para aposta incial
 	private boolean ifOkApostaInicial;
 	private Map<String, Integer> carteiraJogadorApostaInicial = new HashMap<String, Integer>();
 	private int valorApostaInicial = 0;
 	private Stack<String> pilhaApostaInicial = new Stack<String>();
 	
-	//
-	//FunÃƒÂ§oes principais de controle de partida
-	//
-	
 	public void confereGanhadores() {
-		
 		for(Jogador j: jogadores) {
-			if((j.blackjack()) && (dealer.blackJackDealer() == false)) {
-				//j.receberFichas((int)(jogadorAposta.get(j.getNomeJogador())*1.5 + jogadorAposta.get(j.getNomeJogador())));
+			if(clear[jogadores.indexOf(j)]) {
+				if(j.getMaoJogador(0).isEmpty()) {
+					if(dealer.blackJackDealer() == false) {
+						System.out.println("RESULTADO FOI DE UMA RENDIÇÃO PARA O JOGADOR: " + j.getNomeJogador());
+						System.out.println("SEU LUCRO É DE: " + apostaDoMontante(jogadores.indexOf(j))/2);
+						j.receberAposta(apostaDoMontante(jogadores.indexOf(j))/2);
+					}else if (dealer.blackJackDealer() == true) {
+						System.out.println("DEALER POSSUI BLACKJACK, JOGADOR NÃO PODE SE RENDER:" + j.getNomeJogador());
+						System.out.println("SEU LUCRO É ZERO");
+					}
+				}else if(!j.getMaoJogador(1).isEmpty()) {
+					if(j.valorMao(0)>21 && (j.valorMao(1)>21) ) {
+						System.out.println("VOCÊ QUEBROU A MÃO: " + j.getNomeJogador());
+						System.out.println("SEU LUCRO É ZERO");
+					}else if(dealer.valorMao()>21 && (j.valorMao(0)<=21 || j.valorMao(1)<=21)) {
+						System.out.println("DEALER QUEBROU A MÃO: " + j.getNomeJogador());
+						System.out.println("SEU LUCRO É DE: " + (apostaDoMontante(jogadores.indexOf(j))+apostaAdicional[jogadores.indexOf(j)])*1);
+						j.receberAposta((apostaDoMontante(jogadores.indexOf(j))+apostaAdicional[jogadores.indexOf(j)])*1);
+					}else if((j.valorMao(0)>dealer.valorMao()) && dealer.valorMao()<=21 && j.valorMao(0)<=21) {
+						System.out.println("RESULTADO FOI UMA VITÓRIA ORDINÁRIA PARA O JOGADOR: " + j.getNomeJogador());
+						System.out.println("SEU LUCRO É DE: " + (apostaDoMontante(jogadores.indexOf(j))+apostaAdicional[jogadores.indexOf(j)])*1);
+						j.receberAposta((apostaDoMontante(jogadores.indexOf(j))+apostaAdicional[jogadores.indexOf(j)])*1);
+					}else if((j.valorMao(1)>dealer.valorMao()) && dealer.valorMao()<=21 && j.valorMao(1)<=21) {
+						System.out.println("RESULTADO FOI UMA VITÓRIA ORDINÁRIA PARA O JOGADOR: " + j.getNomeJogador());
+						System.out.println("SEU LUCRO É DE: " + (apostaDoMontante(jogadores.indexOf(j))+apostaAdicional[jogadores.indexOf(j)])*1);
+						j.receberAposta((apostaDoMontante(jogadores.indexOf(j))+apostaAdicional[jogadores.indexOf(j)])*1);
+					}else if((dealer.valorMao()>j.valorMao(0)) && dealer.valorMao()<=21 && j.valorMao(0)<=21) {
+						System.out.println("TOTAL DE PONTOS DO DEALER É MAIOR DO QUE DO JOGADOR: " + j.getNomeJogador());
+						System.out.println("SEU LUCRO É ZERO");
+					}else if((dealer.valorMao()>j.valorMao(1)) && dealer.valorMao()<=21 && j.valorMao(1)<=21) {
+						System.out.println("TOTAL DE PONTOS DO DEALER É MAIOR DO QUE DO JOGADOR: " + j.getNomeJogador());
+						System.out.println("SEU LUCRO É ZERO");	
+					}else if(j.valorMao(0)==dealer.valorMao() || j.valorMao(1)==dealer.valorMao()) {
+						System.out.println("RESULTADO FOI UM PUSH PARA O JOGADOR: " + j.getNomeJogador());
+						System.out.println("SEU LUCRO É ZERO");
+					}
+				}else {
+					if(j.valorMao(0)>21) {
+						System.out.println("VOCÊ QUEBROU A MÃO: " + j.getNomeJogador());
+						System.out.println("SEU LUCRO É ZERO");
+					}else if((j.blackjack()) && (dealer.blackJackDealer() == false)) {
+						System.out.println("RESULTADO FOI UM BLACKJACK PARA O JOGADOR: " + j.getNomeJogador());
+						System.out.println("SEU LUCRO É DE: " + (int)(apostaDoMontante(jogadores.indexOf(j))+apostaAdicional[jogadores.indexOf(j)])*1.5);
+						double tmp = (apostaDoMontante(jogadores.indexOf(j))+apostaAdicional[jogadores.indexOf(j)])*1.5;
+						j.receberAposta((int)tmp);
+					}else if(dealer.valorMao()>21 && j.valorMao(0)<=21 ) {
+						System.out.println("DEALER QUEBROU A MÃO: " + j.getNomeJogador());
+						System.out.println("SEU LUCRO É DE: " + (apostaDoMontante(jogadores.indexOf(j))+apostaAdicional[jogadores.indexOf(j)])*1);
+						j.receberAposta((apostaDoMontante(jogadores.indexOf(j))+apostaAdicional[jogadores.indexOf(j)])*1);
+					}else if((j.valorMao(0)>dealer.valorMao()) && dealer.valorMao()<=21) {
+						System.out.println("RESULTADO FOI UMA VITÓRIA ORDINÁRIA PARA O JOGADOR: " + j.getNomeJogador());
+						System.out.println("SEU LUCRO É DE: " + (apostaDoMontante(jogadores.indexOf(j))+apostaAdicional[jogadores.indexOf(j)])*1);
+						j.receberAposta((apostaDoMontante(jogadores.indexOf(j))+apostaAdicional[jogadores.indexOf(j)])*1);
+					}else if((dealer.valorMao()>j.valorMao(0)) && dealer.valorMao()<=21) {
+						System.out.println("TOTAL DE PONTOS DO DEALER É DO QUE DO JOGADOR: " + j.getNomeJogador());
+						System.out.println("SEU LUCRO É ZERO");
+					}else if(j.valorMao(0)==dealer.valorMao() || (j.blackjack() && dealer.blackJackDealer())) {
+						System.out.println("RESULTADO FOI UM PUSH PARA O JOGADOR: " + j.getNomeJogador());
+						System.out.println("SEU LUCRO É ZERO");
+					}
+				}
 			}
-			if((j.valorMao(0) > dealer.valorMao() && dealer.valorMao() < 21) || (j.blackjack() && dealer.blackJackDealer() == true)) {
-				//j.receberFichas(jogadorAposta.get(j.getNomeJogador()));
-			}
-//			Proxima iteraÃ¯Â¿Â½Ã¯Â¿Â½o
-//			if(j.checkRendicao() && dealer.blackJackDealer() == false)
-//				j.receberFichas(jogadorAposta.get(j.getNomeJogador())/2);
 		}
-		
 		zerarMontante();
 		notificar(true, CodigosObservador.BOTAO_NOVA_RODADA_OK.valor);
 	}
@@ -75,7 +122,7 @@ public class ModelAPI implements Observado {
 	//ComeÃƒÂ§a uma rodada
 	public void novaRodada() {
 
-		verificarSaldoJogador();
+		//verificarSaldoJogador();
 		
         //Incrimenta em 1 a rodada
         rodada++;
@@ -87,29 +134,26 @@ public class ModelAPI implements Observado {
         jogadaDealer = 0;
         for(Jogador j :jogadores ) {
             //Tira carta da mÃ¯Â¿Â½o de todos os jogadores
-            j.limparMaoJogador(0);;
-            
-            //Tira do double
+            j.limparMaoJogador(0);
+            j.limparMaoJogador(1);
             j.clearDobrar(0);
-            
-            //Tira do 
+            j.clearDobrar(1);
+            j.clearHit(0);
+            j.clearHit(1);
             j.clearStand(0);
             j.clearStand(1);
-            
-            //Tira do split
-            j.limparMaoJogador(1);
-            
-            //remove o jogador caso nao tenha mais dinheiro
+            j.clearSplit();
+            j.clearSurrender();
             if(j.fichasTotalJogador() == 0)
                 removerJogadorNome(j.getNomeJogador());    
         }
         ifOkApostaInicial = true;
         valorApostaInicial = 0;
         setClear();
+        setApostaAdicional();
 		carteiraJogadorApostaInicial.clear();
 		geracarteiraJogadorApostaInicial();
 		pilhaApostaInicial.clear();
-        //Limpa a mao do dealer
         dealer.limpaMao();
         zerarMontante();
         exibeNomeJogadores();
@@ -117,20 +161,21 @@ public class ModelAPI implements Observado {
         exibeCartasDealerJogadores();
         notificar(false, CodigosObservador.BOTAO_NOVA_RODADA_OK.valor);
     }
+	
 	private void setClear() {
 		clear[0] = true;
         clear[1] = true;
         clear[2] = true;
         clear[3] = true;
 	}
-	//limpa todos os stands
-	public void clearStand(){
-		for(Jogador j : jogadores) {
-			j.clearStand(0);
-			j.clearStand(1);
-		}
-		dealer.clearStand(0);
+	
+	private void setApostaAdicional() {
+		apostaAdicional[0] = 0;
+		apostaAdicional[1] = 0;
+		apostaAdicional[2] = 0;
+		apostaAdicional[3] = 0;
 	}
+	
 	
 	//Verifica se existem jogadores que podem pedir cartas
 	boolean checkJogadoresDisponiveis() {
@@ -149,9 +194,7 @@ public class ModelAPI implements Observado {
 			reiniciarBaralho();
 			return true;
 		}
-
 		return false;
-
 	}
 	
 	//distribui cartas
@@ -166,9 +209,6 @@ public class ModelAPI implements Observado {
 		}
 		 dealer.receberCarta(baralho.pegarCarta());
 		 dealer.receberCarta(baralho.pegarCarta());
-
-		 //Observer
-		 //-Envia mao do dealer para o dealer, valor total cartas e Jogada
 		 
 		 exibeCartasDealerJogadores();
 		 exibeNomeJogadores();
@@ -199,7 +239,14 @@ public class ModelAPI implements Observado {
 		if(jogadores.get(Integer.parseInt(String.valueOf(infoJogador.charAt(0)))).valorMao(Integer.parseInt(String.valueOf(infoJogador.charAt(1))))>=21) {
 			jogadores.get(Integer.parseInt(String.valueOf(infoJogador.charAt(0)))).putStand(Integer.parseInt(String.valueOf(infoJogador.charAt(1))));
 			ativarBotoes(Integer.parseInt(String.valueOf(infoJogador.charAt(0))));
-			proximoJogador();
+			if(!jogadores.get(Integer.parseInt(String.valueOf(infoJogador.charAt(0)))).getMaoJogador(1).isEmpty()) {
+				if(jogadores.get(Integer.parseInt(String.valueOf(infoJogador.charAt(0)))).checkStand(0) && jogadores.get(Integer.parseInt(String.valueOf(infoJogador.charAt(0)))).checkStand(1)) {
+					proximoJogador();
+				}
+			}else {
+				proximoJogador();
+
+			}
 		}
 		enviarInfoMaoJogador();
 		enviarInfoMaoJogadorSplit();
@@ -209,7 +256,14 @@ public class ModelAPI implements Observado {
 		jogadores.get(Integer.parseInt(String.valueOf(infoJogador.charAt(0)))).putStand(Integer.parseInt(String.valueOf(infoJogador.charAt(1))));
 		jogadores.get(Integer.parseInt(String.valueOf(infoJogador.charAt(0)))).putSurrender();
 		ativarBotoes(Integer.parseInt(String.valueOf(infoJogador.charAt(0))));
-		proximoJogador();
+		if(!jogadores.get(Integer.parseInt(String.valueOf(infoJogador.charAt(0)))).getMaoJogador(1).isEmpty()) {
+			if(jogadores.get(Integer.parseInt(String.valueOf(infoJogador.charAt(0)))).checkStand(0) && jogadores.get(Integer.parseInt(String.valueOf(infoJogador.charAt(0)))).checkStand(1)) {
+				proximoJogador();
+			}
+		}else {
+			proximoJogador();
+
+		}
 	}
 	
 	public boolean pedirDouble(String infoJogador) {
@@ -221,16 +275,27 @@ public class ModelAPI implements Observado {
 			jogadores.get(Integer.parseInt(String.valueOf(infoJogador.charAt(0)))).hit(baralho.pegarCarta(), Integer.parseInt(String.valueOf(infoJogador.charAt(1))));
 			jogadores.get(Integer.parseInt(String.valueOf(infoJogador.charAt(0)))).putSurrender();
 			ativarBotoes(Integer.parseInt(String.valueOf(infoJogador.charAt(0))));
+			apostaAdicional[Integer.parseInt(String.valueOf(infoJogador.charAt(0)))]=total+apostaAdicional[Integer.parseInt(String.valueOf(infoJogador.charAt(0)))];
 			enviarInfoDinheiroJogador();
 			enviarInfoMaoJogador();
 			enviarInfoMaoJogadorSplit();
-			proximoJogador();
+			if(!jogadores.get(Integer.parseInt(String.valueOf(infoJogador.charAt(0)))).getMaoJogador(1).isEmpty()) {
+				if(jogadores.get(Integer.parseInt(String.valueOf(infoJogador.charAt(0)))).checkStand(0) && jogadores.get(Integer.parseInt(String.valueOf(infoJogador.charAt(0)))).checkStand(1)) {
+					proximoJogador();
+				}
+			}else {
+				proximoJogador();
+
+			}
 			return true;
 		}		
 	}
 	
 	public boolean pedirSplit(int indiceJogador) {
 		int total=apostaDoMontante(indiceJogador);
+		if(indiceJogador==-1) {
+			return false;
+		}
 		if(jogadores.get(indiceJogador).fichasTotalJogador()>=total) {
 			if(jogadores.get(indiceJogador).split()) {
 				if(jogadores.get(indiceJogador).valorMao(0)+jogadores.get(indiceJogador).valorMao(1)==22) {
@@ -242,6 +307,7 @@ public class ModelAPI implements Observado {
 					jogadores.get(indiceJogador).putDobrar(1);
 					jogadores.get(indiceJogador).putSurrender();
 					jogadores.get(indiceJogador).apostar(total);
+					apostaAdicional[indiceJogador]=total+apostaAdicional[indiceJogador];
 					ativarBotoes(indiceJogador);
 					enviarInfoDinheiroJogador();
 					enviarInfoMaoJogador();
@@ -251,6 +317,7 @@ public class ModelAPI implements Observado {
 					jogadores.get(indiceJogador).hit(baralho.pegarCarta(), 0);
 					jogadores.get(indiceJogador).hit(baralho.pegarCarta(), 1);
 					jogadores.get(indiceJogador).apostar(total);
+					apostaAdicional[indiceJogador]=total+apostaAdicional[indiceJogador];
 					jogadores.get(indiceJogador).putSurrender();
 					ativarBotoes(indiceJogador);
 					enviarInfoDinheiroJogador();
@@ -266,19 +333,11 @@ public class ModelAPI implements Observado {
 		}
 	}
 	
-	public void pedirSurrender(int indiceJogador) {
-		if(dealer.blackjack()==true) {
-			System.out.println("NÃO FOI POSSÍVEL ACIONAR O SURRENDER, DEALER POSSUI UM BLACKJACK");
-			jogadores.get(indiceJogador).putSurrender();
-			ativarBotoes(indiceJogador);
-		}else {
-			int total=apostaDoMontante(indiceJogador);
-			jogadores.get(indiceJogador).surrender(total/2);
-			ativarBotoes(indiceJogador);
-			enviarInfoDinheiroJogador();
-			enviarInfoMaoJogador();
-			proximoJogador();
-		}
+	public void pedirSurrender(int indiceJogador) {			
+		jogadores.get(indiceJogador).surrender();
+		ativarBotoes(indiceJogador);
+		enviarInfoMaoJogador();
+		proximoJogador();
 	}
 	
 	public int apostaDoMontante(int indiceJogador) {
@@ -554,9 +613,6 @@ public class ModelAPI implements Observado {
 			this.ifOkApostaInicial = false;
 			jogada=jogada-1;
 			while(jogada>=0) { 
-				if(clear[jogada]) {
-					ativarBotoes(jogada);
-				}
 				 jogada=jogada-1;
 			}
 			proximoJogador();
@@ -727,11 +783,17 @@ public class ModelAPI implements Observado {
 	
 	//Passa para a proxima jogada
 	public void  proximaJogada() {
-		System.out.println(jogada);
 		jogada = jogada+1;
-		System.out.println(jogada);
-		while(!(clear[jogada])) {
-			jogada = jogada+1;
+		if(jogada<=jogadores.size()-1) {
+			while(!(clear[jogada])) {
+				jogada = jogada+1;
+				if(jogada>jogadores.size()-1) {
+					break;
+				}
+			}
+		}
+		if(jogada<=jogadores.size()-1) {
+			ativarBotoes(jogada);
 		}
 		exibeNomeJogadores();
 		if(jogada >= jogadores.size()) {
@@ -751,7 +813,6 @@ public class ModelAPI implements Observado {
 	//Remove um jogador especifico da partida
 	public void removerJogadorNome(String nome) {
 		List<Jogador> copy = new ArrayList<Jogador>();
-		
 		for (Jogador j : this.jogadores) {
 		  if (!nome.equals(j.getNomeJogador()))
 		    copy.add(j);
@@ -775,8 +836,6 @@ public class ModelAPI implements Observado {
 	public void carregarSalvamento(SaveDTO dto) {
 		
 	}
-	
-	
 	
 	//
 	//Implementa modelo singleton

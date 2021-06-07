@@ -104,7 +104,7 @@ class Dealer extends Jogador{
 	}
 	
 	boolean blackJackDealer() {
-		if((this.cartasDealer.get(0).getValor() == 11 || this.cartasDealer.get(1).getValor()== 11) && (this.cartasDealer.get(1).getValor()== 10 || this.cartasDealer.get(0).getValor()== 10)){
+		if((this.qtdCartasDealer() == 2 && this.valorMao(0) == 21)){
 			return true;
 		}
 		return false;

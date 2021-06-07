@@ -145,7 +145,6 @@ public class GUIService{
 		 telaInicial.dispose();
 		 
 		 
-		 
 		 estado.flip(0);
 		 estado.flip(1);
 		 System.out.println("Jogadores adicionados com sucesso");
