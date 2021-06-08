@@ -180,6 +180,10 @@ public class GUIService{
 		
 	}
 	
+	public void opcoesErroGerarCarteira() {
+		opcoes.gerarCarteiraErro();
+	}
+	
 	//
 	// OBSERVADO metodos
 	//

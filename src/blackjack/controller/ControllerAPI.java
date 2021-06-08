@@ -1,7 +1,9 @@
 package blackjack.controller;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import blackjack.model.ModelAPI;
 import blackjack.view.GUIService;
@@ -84,6 +86,7 @@ public class ControllerAPI implements Observador{
 			else
 				telaBancaRemoveFichaPilha(obj);
 		}
+    
 		if(CodigosObservadorView.BOTAO_SURRENDER_JOGADOR.valor == ID) {
 			if(CodigosObservadorView.BOTAO_SURRENDER_JOGADOR.classe != obj.getClass())
 				System.out.print("[ERRO][Controller] Classe passada no metodo executar nao corresponde ao correto, foi passado:"+obj.getClass());
@@ -109,6 +112,13 @@ public class ControllerAPI implements Observador{
 				novaRodadaAcionada();
 		}
 	}
+  	if(CodigosObservadorView.BOTAO_GERARCARREGAR_TELA_OPCOES.valor== ID) {
+			if(CodigosObservadorView.BOTAO_GERARCARREGAR_TELA_OPCOES.classe != obj.getClass())
+				System.out.print("[ERRO][Controller] Classe passada no metodo executar nao corresponde ao correto, foi passado:"+obj.getClass());
+			else
+				carregarCarteira((String[]) obj);
+		}
+	} 
 	
 	
 	//CALLBACKS de Botoes VIEW
@@ -142,7 +152,7 @@ public class ControllerAPI implements Observador{
 		if(api.pedirSplit(Integer.parseInt(indiceJogador))) {
 			view.telaSplitVisivel(Integer.parseInt(indiceJogador));
 		}else {
-			System.out.println("NÃO FOI POSSIVEL ACIONAR O SPLIT");
+			System.out.println("Nï¿½O FOI POSSIVEL ACIONAR O SPLIT");
 		}
 	}
 	
@@ -186,14 +196,24 @@ public class ControllerAPI implements Observador{
 		api.novaRodada();
 		view.telaSplitInvisivel();
 	}
+
+	private void carregarCarteira(String[] s) {
+		Map<String, Integer> c =  carteira.validarCarteira(s[0],s[1]);
+		if(c != null) {
+			LinkedHashMap<String,Integer> newMap = new LinkedHashMap<String, Integer>(c);
+			api.carregarCarteira(s[1],newMap);
+		}else {
+			view.opcoesErroGerarCarteira();
+		}
+	}
+	
 	//
 	//Singleton
 	//
 	private static ControllerAPI instanciaUnica;
 	
 	private ControllerAPI() {
-		
-	}
+		}
 	
 	public static synchronized ControllerAPI iniciar() {
 		if(instanciaUnica == null)

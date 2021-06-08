@@ -221,6 +221,10 @@ class Jogador {
 	public boolean checkSplit() {
 		return this.split;
 	}
+	
+	void setFichasJogador(Map<String, Integer> novasFichas) {
+		this.fichasJogador = (LinkedHashMap<String, Integer>) novasFichas;
+	}
 
 	public boolean checkHit(int mao) {
 		return this.hit[mao];

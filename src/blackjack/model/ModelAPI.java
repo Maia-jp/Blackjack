@@ -927,6 +927,17 @@ public class ModelAPI implements Observado {
 		
 	}
 	
+	//Carrega uma carteira
+	public void carregarCarteira(String nome, LinkedHashMap<String, Integer> carteira) {
+		// @Ale @Ze , atualizar o dealer das novas infos referente ao jogador
+		for(Jogador j: jogadores) {
+			if(j.getNomeJogador()==nome) {
+				j.setFichasJogador(carteira);
+				System.out.println(j.getFichasJogador());
+			}
+		}
+	}
+	
 	//
 	//Implementa modelo singleton
 	//
