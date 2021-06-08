@@ -14,11 +14,11 @@ public enum CodigosObservadorView {
 	BOTAO_SALVAR_TELA_DEALER(107, Boolean.class),
 	BOTAO_REMOVE_FICHA_APOSTA(108, Boolean.class),
 	BOTAO_GERARCARTEIRA_TELA_OPCOES(109, String.class),
-  BOTAO_SURRENDER_JOGADOR(110, String.class),
+	BOTAO_SURRENDER_JOGADOR(110, String.class),
 	BOTAO_QUIT_JOGADOR(111, String.class),
 	BOTAO_CLEAR(112,Boolean.class),
 	BOTAO_NOVA_RODADA(113, Boolean.class),
-  BOTAO_GERARCARREGAR_TELA_OPCOES(114, String[].class),
+	BOTAO_GERARCARREGAR_TELA_OPCOES(114, String[].class),
 	TESTE(-1,String.class);
 	
 	public int valor;
