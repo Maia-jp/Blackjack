@@ -18,6 +18,7 @@ public class ImagensTela extends JPanel{
     private String apostaInicialTotal;
     private String nomeJogador;
     private boolean botaoOk;
+    private List<String[]> resultadoFinal;
     
     public ImagensTela(CarregaImagens cI) {
     	this.cI = cI;
@@ -57,19 +58,13 @@ public class ImagensTela extends JPanel{
     	}
     	
     	if(infosJogadores != null) {
-    		int y = 200;
+    		int y = 210;
         	for(String[] i : infosJogadores) {
-        		g2d.setFont(new Font("Helvetica", Font.BOLD, 11));
+        		g2d.setFont(new Font("Helvetica", Font.BOLD, 12));
         		g2d.setColor(Color.RED);
         		g2d.drawString("Nome: "+i[0], 30,y);
-        		g2d.drawString("Qtd fichas 1: "+i[1], 30,y+11);
-        		g2d.drawString("Qtd fichas 5: "+i[2], 30,y+22);
-        		g2d.drawString("Qtd fichas 10: "+i[3], 30,y+33);
-        		g2d.drawString("Qtd fichas 20: "+i[4], 30,y+44);
-        		g2d.drawString("Qtd fichas 50: "+i[5], 30,y+55);
-        		g2d.drawString("Qtd fichas 100: "+i[6], 30,y+66);
-        		g2d.drawString("Qtd fichas totais: "+i[7], 30,y+77);
-        		y += 90;
+        		g2d.drawString("Qtd fichas totais: "+i[1], 30,y+22);
+        		y += 40;
         	}
     	}
     	
@@ -99,7 +94,17 @@ public class ImagensTela extends JPanel{
     	if(botaoOk == true) {
     		g2d.setFont(new Font("Helvetica", Font.BOLD, 15));
     		g2d.setColor(Color.RED);
-    		g2d.drawString("Clique aqui para apostar", 700, 290);
+    		g2d.drawString("DEAL", 760, 290);
+    	}
+    	if(resultadoFinal != null) {
+    		int y = 200;
+    		for(String[] i : resultadoFinal) {
+        		g2d.setFont(new Font("Helvetica", Font.BOLD, 11));
+        		g2d.setColor(Color.RED);
+        		g2d.drawString(i[0], 500,y);
+        		g2d.drawString(i[1], 590,y+11);
+        		y += 22;
+        	}
     	}
     }
     
@@ -137,6 +142,11 @@ public class ImagensTela extends JPanel{
     
     public void redesenhar2(List<String[]> infosJogadores) {
     	this.infosJogadores = infosJogadores;
+    	repaint();
+    }
+    
+    public void redesenhar3(List<String[]> resultadoFinal) {
+    	this.resultadoFinal = resultadoFinal;
     	repaint();
     }
 }

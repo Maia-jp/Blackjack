@@ -5,9 +5,12 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 class Jogador {
 	private String nomeJogador;
-	private boolean stand;
-	private boolean dobrar;
-	private boolean maoVazia;
+	private boolean[] stand = new boolean[2];
+	private boolean[] dobrar = new boolean[2];
+	private boolean split;
+	private boolean[] hit = new boolean[2];
+	private boolean surrender;
+	private boolean quit;
 	private LinkedHashMap <String, Integer> fichasJogador = new LinkedHashMap<String, Integer>();
 	private int totalFichasJogador;
 	@SuppressWarnings("unchecked")
@@ -18,9 +21,14 @@ class Jogador {
 		this.setFichasJogador(fichasJogador);
 		this.maoJogador[0] = new ArrayList<>();
 		this.maoJogador[1] = new ArrayList<>();
-		this.setMaoVazia(true);
-		this.setStand(false);
-		this.setDobrar(false);
+		this.setStand(false,0);
+		this.setStand(false,1);
+		this.setDobrar(false,0);
+		this.setDobrar(false,1);
+		this.setSplit(false);
+		this.setHit(false,0);
+		this.setHit(false,1);
+		this.setSurrender(false);
 	}
 	
 	public String getNomeJogador() {
@@ -34,31 +42,53 @@ class Jogador {
 	public ArrayList<Carta> getMaoJogador(int mao) {
 		return this.maoJogador[mao];
 	}
-
-	public boolean isMaoVazia() {
-		return maoVazia;
-	}
-
-	private void setMaoVazia(boolean maoVazia) {
-		this.maoVazia = maoVazia;
-	}
 	
 	public void recebeCarta(Carta a,int mao) {
 		this.maoJogador[mao].add(a);
-		this.setMaoVazia(false);
 	}
 	
 	public void limparMaoJogador(int mao) {
 		this.maoJogador[mao].clear();
-		this.setMaoVazia(true);
 	}
 	
 	public int valorMao(int mao) {
-		int soma=0;
-		for(int i=0;i<this.maoJogador[mao].size();i++) {
-			soma=soma+this.maoJogador[mao].get(i).getValor();
+		return contagemJogador(mao);
+	}
+	
+	private int contagemJogador(int mao) {
+		int total = 0, contador = 0, flag = 0;
+		//conta as cartas na mão do dealer, para bolar a estrategia
+		for(int i = 0; i < this.maoJogador[mao].size(); i++) {
+			contador = this.maoJogador[mao].get(i).getValor();
+			
+			if (contador != -1){
+				total += contador;
+			}
+			else {
+				flag += 1;
+			}
 		}
-		return soma;
+		if(flag != 0) {
+			for(int i = 0; i < flag; i++) {
+				total = verificaValorAsJogador(total);
+			}
+		}
+		
+		return total;
+		//TESTADO
+	}
+	
+	private int verificaValorAsJogador(int to)
+	{
+		//verifica se o total vai ser maior ou menor que 21 com a escolha do Ás
+		if(to + 11 > 21) {
+			 to += 1;
+		}
+		else {
+			to += 11;
+		}
+		return to;
+	//TESTADO
 	}
 	
 	//retorna a quantidade de dinheiro do jogador
@@ -70,7 +100,15 @@ class Jogador {
 	public LinkedHashMap <String, Integer> getFichasJogador() {
 		return fichasJogador;
 	}
-
+	
+	public void apostar(int aposta) {
+		this.totalFichasJogador=this.totalFichasJogador-aposta;
+	}
+	
+	public void receberAposta(int aposta) {
+		this.totalFichasJogador=this.totalFichasJogador+aposta;
+	}
+	
 	private void setFichasJogador(LinkedHashMap <String, Integer> fichasJogador) {
 		this.fichasJogador.put("100", 2);
 		this.fichasJogador.put("50", 2);
@@ -101,66 +139,139 @@ class Jogador {
 	
 	public void hit(Carta a,int mao) {
 		this.maoJogador[mao].add(a);
-		this.setMaoVazia(false);
-		this.clearDobrar();
 	}
 	
-	public void dobrar(int aposta) {
+	public void dobrar(int aposta,int mao) {
 			this.totalFichasJogador=this.totalFichasJogador-aposta;
-			this.putStand();
-			this.clearDobrar();
+			this.putStand(mao);
+			this.putDobrar(mao);
+			this.putSplit();
 	}	
 	
-	public void split() {
-		if(this.maoJogador[0].get(0).getValor()==this.maoJogador[0].get(1).getValor()) {
+	public boolean split() {
+		if((this.maoJogador[0].get(0).getValor()==this.maoJogador[0].get(1).getValor()) && this.split==false) {
 			this.maoJogador[1].add(this.maoJogador[0].get(1));
 			this.maoJogador[0].remove(1);
+			this.putSplit();
+			return true;
+		}else {
+			return false;
 		}
+		
 	}
 	
-	public boolean checkStand() {
-		return this.stand;
+	public void surrender() {
+		this.maoJogador[0].remove(1);
+		this.maoJogador[0].remove(0);
+		this.putStand(0);
+		this.putDobrar(0);
+		this.putSplit();
+		this.putHit(0);
+		this.putSurrender();
+	}
+	
+	public boolean checkStand(int mao) {
+		return this.stand[mao];
 	}
 
-	private void setStand(boolean stand) {
-		this.stand = stand;
+	private void setStand(boolean stand, int mao) {
+		this.stand[mao] = stand;
 	}
 	
-	public void putStand() {
-		this.setStand(true);
+	public void putStand(int mao) {
+		this.setStand(true,mao);
+		this.putSplit();
+		this.putDobrar(mao);
+		this.putHit(mao);
 	}
 	
-	public void clearStand() {
-		this.setStand(false);
+	public void clearStand(int mao) {
+		this.setStand(false,mao);
 	}
 	
-	public boolean checkDobrar() {
-		return this.dobrar;
+
+	private void setSplit(boolean split) {
+		this.split = split;
 	}
 	
-	private void setDobrar(boolean dobrar) {
-		this.dobrar = dobrar;
+	public void putSplit() {
+		this.setSplit(true);
 	}
 	
-	public void putDobrar() {
-		this.setDobrar(true);
+	public void clearSplit() {
+		this.setSplit(false);
 	}
 	
-	public void clearDobrar() {
-		this.setDobrar(false);
+	public boolean checkDobrar(int mao) {
+		return this.dobrar[mao];
+	}
+	
+	private void setDobrar(boolean dobrar, int mao) {
+		this.dobrar[mao] = dobrar;
+	}
+	
+	public void putDobrar(int mao) {
+		this.setDobrar(true,mao);
+	}
+	
+	public void clearDobrar(int mao) {
+		this.setDobrar(false,mao);
 	}
 	
 	public boolean checkSplit() {
-		if(this.maoJogador[1].isEmpty()) {
-			return false;
-		}else {
-			return true;
-		}
+		return this.split;
 	}
 	
 	void setFichasJogador(Map<String, Integer> novasFichas) {
 		this.fichasJogador = (LinkedHashMap<String, Integer>) novasFichas;
 	}
 
+	public boolean checkHit(int mao) {
+		return this.hit[mao];
+	}
+	
+	private void setHit(boolean hit,int mao) {
+		this.hit[mao] = hit;
+	}
+	
+	public void putHit(int mao) {
+		this.setHit(true,mao);
+	}
+	
+	public void clearHit(int mao) {
+		this.setHit(false,mao);
+	}
+	
+	public boolean checkSurrender() {
+		return this.surrender;
+	}
+	
+	private void setSurrender(boolean surrender) {
+		this.surrender = surrender;
+	}
+	
+	public void putSurrender() {
+		this.setSurrender(true);
+	}
+	
+	public void clearSurrender() {
+		this.setSurrender(false);
+	}
+	
+	public boolean checkQuit() {
+		return this.quit;
+	}
+	
+	private void setQuit(boolean quit) {
+		this.quit = quit;
+	}
+	
+	public void putQuit() {
+		this.setQuit(true);
+	}
+	
+	public void clearQuit() {
+		this.setQuit(false);
+	}
 	
 }

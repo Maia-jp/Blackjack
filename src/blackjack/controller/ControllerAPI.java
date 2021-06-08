@@ -36,31 +36,31 @@ public class ControllerAPI implements Observador{
 			if(CodigosObservadorView.BOTAO_HIT_JOGADOR.classe != obj.getClass())
 				System.out.print("[ERRO][Controller] Classe passada no metodo executar nao corresponde ao correto, foi passado:"+obj.getClass());
 			else
-				telaJogadorHit(obj);
+				telaJogadorHit((String)obj);
 		}
 		if(CodigosObservadorView.BOTAO_STAND_JOGADOR.valor==ID) {
 			if(CodigosObservadorView.BOTAO_STAND_JOGADOR.classe != obj.getClass())
 				System.out.print("[ERRO][Controller] Classe passada no metodo executar nao corresponde ao correto, foi passado:"+obj.getClass());
 			else
-				telaJogadorStand(obj);
+				telaJogadorStand((String)obj);
 		}
 		if(CodigosObservadorView.BOTAO_DOUBLE_JOGADOR.valor==ID) {
 			if(CodigosObservadorView.BOTAO_DOUBLE_JOGADOR.classe != obj.getClass())
 				System.out.print("[ERRO][Controller] Classe passada no metodo executar nao corresponde ao correto, foi passado:"+obj.getClass());
 			else
-				telaJogadorDouble(obj);
+				telaJogadorDouble((String)obj);
 		}
 		if(CodigosObservadorView.BOTAO_SPLIT_JOGADOR.valor==ID) {
 			if(CodigosObservadorView.BOTAO_SPLIT_JOGADOR.classe != obj.getClass())
 				System.out.print("[ERRO][Controller] Classe passada no metodo executar nao corresponde ao correto, foi passado:"+obj.getClass());
 			else
-				telaJogadorSplit(obj);
+				telaJogadorSplit((String)obj);
 		}
 		if(CodigosObservadorView.BOTAO_APOSTA_INICIAL.valor == ID) {
 			if(CodigosObservadorView.BOTAO_APOSTA_INICIAL.classe != obj.getClass())
 				System.out.print("[ERRO][Controller] Classe passada no metodo executar nao corresponde ao correto, foi passado:"+obj.getClass());
 			else
-				telaBancaAposta(obj);
+				telaBancaAposta((String)obj);
 		}
 		if(CodigosObservadorView.BOTAO_APOSTA_INCIAL_REALIZAR.valor == ID) {
 			if(CodigosObservadorView.BOTAO_APOSTA_INCIAL_REALIZAR.classe != obj.getClass())
@@ -86,13 +86,38 @@ public class ControllerAPI implements Observador{
 			else
 				telaBancaRemoveFichaPilha(obj);
 		}
-		if(CodigosObservadorView.BOTAO_GERARCARREGAR_TELA_OPCOES.valor== ID) {
+    
+		if(CodigosObservadorView.BOTAO_SURRENDER_JOGADOR.valor == ID) {
+			if(CodigosObservadorView.BOTAO_SURRENDER_JOGADOR.classe != obj.getClass())
+				System.out.print("[ERRO][Controller] Classe passada no metodo executar nao corresponde ao correto, foi passado:"+obj.getClass());
+			else
+				telaJogadorSurrender((String)obj);
+		}
+		if(CodigosObservadorView.BOTAO_QUIT_JOGADOR.valor == ID) {
+			if(CodigosObservadorView.BOTAO_QUIT_JOGADOR.classe != obj.getClass())
+				System.out.print("[ERRO][Controller] Classe passada no metodo executar nao corresponde ao correto, foi passado:"+obj.getClass());
+			else
+				telaJogadorQuit((String)obj);
+		}
+		if(CodigosObservadorView.BOTAO_CLEAR.valor == ID) {
+			if(CodigosObservadorView.BOTAO_CLEAR.classe != obj.getClass())
+				System.out.print("[ERRO][Controller] Classe passada no metodo executar nao corresponde ao correto, foi passado:"+obj.getClass());
+			else
+				telaBancaClear((Boolean)obj);
+		}
+		if(CodigosObservadorView.BOTAO_NOVA_RODADA.valor == ID) {
+			if(CodigosObservadorView.BOTAO_NOVA_RODADA.classe != obj.getClass())
+				System.out.print("[ERRO][Controller] Classe passada no metodo executar nao corresponde ao correto, foi passado:"+obj.getClass());
+			else
+				novaRodadaAcionada();
+		}
+	}
+  	if(CodigosObservadorView.BOTAO_GERARCARREGAR_TELA_OPCOES.valor== ID) {
 			if(CodigosObservadorView.BOTAO_GERARCARREGAR_TELA_OPCOES.classe != obj.getClass())
 				System.out.print("[ERRO][Controller] Classe passada no metodo executar nao corresponde ao correto, foi passado:"+obj.getClass());
 			else
 				carregarCarteira((String[]) obj);
 		}
-		
 	} 
 	
 	
@@ -110,33 +135,50 @@ public class ControllerAPI implements Observador{
 		api.notificaViewInfoJogadores();
 	}
 	
-	private void telaJogadorHit(Object infoJogador) {
+	private void telaJogadorHit(String infoJogador) {
 		api.pedirHit(infoJogador);
 	}
 	
-	private void telaJogadorStand(Object nome) {
-		api.pedirStand(nome);
+	private void telaJogadorStand(String infoJogador) {
+		System.out.println("CHEGOU AQUI " + infoJogador);
+		api.pedirStand(infoJogador);
 	}
 	
-	private void telaJogadorDouble(Object indiceJogador) {
-		api.pedirDouble(indiceJogador);
+	private void telaJogadorDouble(String infoJogador) {
+		api.pedirDouble(infoJogador);
 	}
 	
-	private void telaJogadorSplit(Object indiceJogador) {
-		if(api.pedirSplit(indiceJogador)) {
-			view.telaSplitVisivel(indiceJogador);
+	private void telaJogadorSplit(String indiceJogador) {
+		if(api.pedirSplit(Integer.parseInt(indiceJogador))) {
+			view.telaSplitVisivel(Integer.parseInt(indiceJogador));
+		}else {
+			System.out.println("N�O FOI POSSIVEL ACIONAR O SPLIT");
 		}
+	}
+	
+	private void telaJogadorSurrender(String indiceJogador) {
+		api.pedirSurrender(Integer.parseInt(indiceJogador));
+	}
+	
+	private void telaJogadorQuit(String indiceJogador) {
+		  view.telaQuitVisivel(Integer.parseInt(indiceJogador));
+		  api.pedirQuit(Integer.parseInt(indiceJogador));
+		  
 	}
 	
 	//Banca
 	
-	private void telaBancaAposta(Object s) {
+	private void telaBancaAposta(String s) {
 		api.adicionaApostaInicial(s);
 	}
 	
 	
 	private void telaBancaApostainicialrealizar(Object s) {
-		api.finalizaApostaInicial(s);
+		api.finalizaApostaInicial();
+	}
+	
+	private void telaBancaClear(Boolean clear) {
+		api.clearJogadorRodada();
 	}
 	
 	//Opcoes
@@ -150,6 +192,11 @@ public class ControllerAPI implements Observador{
 		api.removeFichaPilha();
 	}
 	
+	private void novaRodadaAcionada() {
+		api.novaRodada();
+		view.telaSplitInvisivel();
+	}
+
 	private void carregarCarteira(String[] s) {
 		Map<String, Integer> c =  carteira.validarCarteira(s[0],s[1]);
 		if(c != null) {

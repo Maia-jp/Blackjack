@@ -28,8 +28,9 @@ public class TelaBanca extends JFrame implements Observado,Observador, MouseList
 	private ImagensTela telaI;
 	private CarregaImagens cI;
 	private JButton novaRodada;
-	private JButton encerrrar;
+	private JButton encerrar;
 	private JButton salvar;
+	private JButton clear;
 	
 	public TelaBanca(CarregaImagens cI) {
 		super("Banca");
@@ -45,11 +46,21 @@ public class TelaBanca extends JFrame implements Observado,Observador, MouseList
 		setBounds(450,40,LARG_DEFAULT,ALT_DEFAULT);
 
 		novaRodada = new JButton("Nova Rodada");
+		novaRodada.setEnabled(false);
+			novaRodada.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				notificar(true,CodigosObservadorView.BOTAO_NOVA_RODADA.valor);
+			}
+		});
 		telaI.add(novaRodada);
-		novaRodada.addActionListener(null);
 		
-		encerrrar = new JButton("Encerrar Partida");
-		telaI.add(encerrrar);
+		encerrar = new JButton("Encerrar Partida");
+			encerrar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.exit(0);
+			}
+		});
+		telaI.add(encerrar);
 		
 		salvar = new JButton("Abrir Opcoes");
 		salvar.addActionListener(new ActionListener() {
@@ -58,6 +69,14 @@ public class TelaBanca extends JFrame implements Observado,Observador, MouseList
 			}
 		});
 		telaI.add(salvar);
+		
+		clear = new JButton("Clear");
+		clear.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			notificar(false,CodigosObservadorView.BOTAO_CLEAR.valor);
+			}
+		});
+		telaI.add(clear);
 	}
     
 	@Override
@@ -121,6 +140,22 @@ public class TelaBanca extends JFrame implements Observado,Observador, MouseList
 		    		 System.out.println("[ERRO][Tela Banca][Observer] ID 15 deve receber um ArrayList, foi recebido:" + obj.getClass());
 		    	}
 				break;
+			case 19:
+		    	 if(obj.getClass().equals(Boolean.class)) {
+		    		 Boolean novaRodadaBol = (Boolean)obj;
+		    		 this.novaRodada.setEnabled(novaRodadaBol);
+		    	 }else {
+		    		 System.out.println("[ERRO][Tela Banca][Observer] ID 1 deve receber um ArrayList, foi recebido:" + obj.getClass());
+		    	 }
+		    	 break;
+			case 20:
+		    	 if(obj.getClass().equals(ArrayList.class)) {
+		    		 ArrayList<String[]> resultadosFinais = (ArrayList<String[]>) obj;
+		    		 this.telaI.redesenhar3(resultadosFinais);
+		    	 }else {
+		    		 System.out.println("[ERRO][Tela Banca][Observer] ID 1 deve receber um ArrayList, foi recebido:" + obj.getClass());
+		    	 }
+		    	 break;
 		}
 				
 	}
@@ -150,7 +185,7 @@ public class TelaBanca extends JFrame implements Observado,Observador, MouseList
 		else if (e.getX() >= 720 && e.getX() <= 779 && e.getY() >= 520 && e.getY() <=  579) {
 			notificar("100",CodigosObservadorView.BOTAO_APOSTA_INICIAL.valor);
 		}
-		else if (e.getX() >= 700 && e.getX() <= 891 && e.getY() >= 290 && e.getY() <=  320) {
+		else if (e.getX() >= 760 && e.getX() <= 810 && e.getY() >= 290 && e.getY() <=  320) {
 			notificar(true,CodigosObservadorView.BOTAO_APOSTA_INCIAL_REALIZAR.valor);
 		}
 		else if (e.getX() >= 750 && e.getX() <= 809 && e.getY() >= 200 && e.getY() <=  259) {

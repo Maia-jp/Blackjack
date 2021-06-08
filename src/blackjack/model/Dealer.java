@@ -48,10 +48,7 @@ class Dealer extends Jogador{
 	}
 	
 	//verifica qual valor o dealer vai escolher do Ás
-	private int verificaValorAs(int to)	
-	/*As ESCOLHAS DO DEALER SOBRE O ÁS AINDA ESTÃO SIMPLES 
-	 * sera implementado uma estrategia 
-	melhor na proxima iteração */
+	private int verificaValorAs(int to)
 	{
 		//verifica se o total vai ser maior ou menor que 21 com a escolha do Ás
 		if(to + 11 > 21) {
@@ -104,7 +101,7 @@ class Dealer extends Jogador{
 	}
 	
 	boolean blackJackDealer() {
-		if((this.cartasDealer.get(0).getValor() == 11 || this.cartasDealer.get(1).getValor()== 11) && (this.cartasDealer.get(1).getValor()== 10 || this.cartasDealer.get(0).getValor()== 10)){
+		if((this.qtdCartasDealer() == 2 && this.valorMao() == 21)){
 			return true;
 		}
 		return false;
