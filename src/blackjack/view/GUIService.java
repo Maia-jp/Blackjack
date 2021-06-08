@@ -18,7 +18,7 @@ public class GUIService{
 	
 	private String ID;
 	
-	//Model API para operações simples
+	//Model API para opera��es simples
 	public ModelAPI api; 
 	
 	//bitmap -> exibindo tela inical, exibindo carregamento de partida, exibindo jogo
@@ -42,7 +42,7 @@ public class GUIService{
 		this.api = api;
 		this.ID = gerarID();
 		estado.clear();
-		estado.set(0); //Estado iniciar Ã© exibir a tela inicial
+		estado.set(0); //Estado iniciar é exibir a tela inicial
 	}
 	
 	private String gerarID() {
@@ -160,12 +160,14 @@ public class GUIService{
 		telasJogadorSplit.get(indiceJogador).setVisible(true);
 	}
 	
-	public void telaQuitVisivel(int indiceJogador) {
-		telasJogador.get(indiceJogador).setVisible(false);
-		telasJogadorSplit.get(indiceJogador).setVisible(false);
+	public void telaSplitInvisivel() {
+		telasJogadorSplit.forEach((tela) -> tela.setVisible(false));
 	}
 	
-  
+	public void telaQuitVisivel(int indiceJogador) {
+		telasJogador.get(indiceJogador).setVisible(false);
+	}
+	
 	public void exibirOpcoes() {
 		this.opcoes = TelaOpcoes.iniciar(api.listaNomeJogadores());
 		observadores.forEach(o->this.opcoes.adicionarObservador(o));

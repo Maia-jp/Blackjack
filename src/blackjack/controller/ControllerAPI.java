@@ -130,6 +130,7 @@ public class ControllerAPI implements Observador{
 	}
 	
 	private void telaJogadorStand(String infoJogador) {
+		System.out.println("CHEGOU AQUI " + infoJogador);
 		api.pedirStand(infoJogador);
 	}
 	
@@ -151,6 +152,8 @@ public class ControllerAPI implements Observador{
 	
 	private void telaJogadorQuit(String indiceJogador) {
 		  view.telaQuitVisivel(Integer.parseInt(indiceJogador));
+		  api.pedirQuit(Integer.parseInt(indiceJogador));
+		  
 	}
 	
 	//Banca
@@ -181,6 +184,7 @@ public class ControllerAPI implements Observador{
 	
 	private void novaRodadaAcionada() {
 		api.novaRodada();
+		view.telaSplitInvisivel();
 	}
 	//
 	//Singleton

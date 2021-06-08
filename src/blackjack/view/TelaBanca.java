@@ -148,6 +148,14 @@ public class TelaBanca extends JFrame implements Observado,Observador, MouseList
 		    		 System.out.println("[ERRO][Tela Banca][Observer] ID 1 deve receber um ArrayList, foi recebido:" + obj.getClass());
 		    	 }
 		    	 break;
+			case 20:
+		    	 if(obj.getClass().equals(ArrayList.class)) {
+		    		 ArrayList<String[]> resultadosFinais = (ArrayList<String[]>) obj;
+		    		 this.telaI.redesenhar3(resultadosFinais);
+		    	 }else {
+		    		 System.out.println("[ERRO][Tela Banca][Observer] ID 1 deve receber um ArrayList, foi recebido:" + obj.getClass());
+		    	 }
+		    	 break;
 		}
 				
 	}
