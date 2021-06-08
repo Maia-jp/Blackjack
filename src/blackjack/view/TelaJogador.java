@@ -277,6 +277,16 @@ public class TelaJogador extends JFrame implements Observado,Observador{
 			    	 }
 			    	 break
 			     ; 
+			     case 21:
+			    	 if(obj.getClass().equals(String.class)) {
+			    		 if(nomeJogador==(String)obj) {
+					    	this.setVisible(false);
+			    		 }
+			    	 }else {
+			    		 System.out.println("[ERRO][Tela jogador][Observer] ID 21 deve receber uma String, foi recebido:" + obj.getClass());
+			    	 }
+			    	 break
+			     ; 
 			     case 18:
 			    	 String[][] tmp= (String[][])obj;
 			    	 if(Integer.parseInt(tmp[5][0])==indiceJogador) {
@@ -299,7 +309,7 @@ public class TelaJogador extends JFrame implements Observado,Observador{
 			    		 repaint();
 			    		 alterarMao(maoDosJogadores.get(nomeJogador));
 			    	 }else {
-			    		 System.out.println("[ERRO][Tela jogador][Observer] ID 2 deve receber um hashMap, foi recebido:" + obj.getClass());
+			    		 System.out.println("[ERRO][Tela jogador][Observer] ID 14 deve receber um hashMap, foi recebido:" + obj.getClass());
 			    	 }
 			    	 break
 			     ;
@@ -308,7 +318,7 @@ public class TelaJogador extends JFrame implements Observado,Observador{
 			    		 Map<String,Integer> maoValorDosJogadores = (HashMap<String, Integer>) obj;
 			    		 atualizarValorDaMao(maoValorDosJogadores.get(nomeJogador));
 			    	 }else {
-			    		 System.out.println("[ERRO][Tela jogador][Observer] ID 3 deve receber um HashMap, foi recebido:" + obj.getClass());
+			    		 System.out.println("[ERRO][Tela jogador][Observer] ID 15 deve receber um HashMap, foi recebido:" + obj.getClass());
 			    	 }
 			    	 break
 			     ;

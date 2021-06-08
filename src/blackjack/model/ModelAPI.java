@@ -31,9 +31,10 @@ public class ModelAPI implements Observado {
 	private int jogadaDealer;
 	private int rodada;
 	
-	//Clear não participa da rodada
+	//Clear nÃ£o participa da rodada
 	private boolean[] clear = {true, true, true, true};
 	private boolean[] teveBlackJack = {false, false, false, false};
+	private boolean[] quit = {true, true, true, true};
 	private int[] apostaAdicional = {0,0,0,0};
 	//Variaveis necessarias para aposta incial
 	private boolean ifOkApostaInicial;
@@ -46,98 +47,96 @@ public class ModelAPI implements Observado {
 		String[] resultadosJogador;
 		String result =  new String();
 		String lucro =  new String();
-		int i = 0;
 		for(Jogador j: jogadores) {
-			if(clear[jogadores.indexOf(j)]) {
+			if(clear[jogadores.indexOf(j)] && quit[jogadores.indexOf(j)]) {
 				if(j.getMaoJogador(0).isEmpty()) {
 					if(dealer.blackJackDealer() == false) {
-						result = "RESULTADO FOI DE UMA RENDIÇÃO PARA O JOGADOR: " + j.getNomeJogador();
-						lucro = "SEU LUCRO É DE: " + apostaDoMontante(jogadores.indexOf(j))/2;
+						result = "RESULTADO FOI DE UMA RENDICAO PARA O JOGADOR: " + j.getNomeJogador();
+						lucro = "SEU LUCRO FOI‰ DE: " + apostaDoMontante(jogadores.indexOf(j))/2;
 						System.out.println(result);
 						System.out.println(lucro);
 						j.receberAposta(apostaDoMontante(jogadores.indexOf(j))/2);
 					}else if (dealer.blackJackDealer() == true) {
-						result = "DEALER POSSUI BLACKJACK, JOGADOR NÃO PODE SE RENDER:" + j.getNomeJogador();
-						lucro = "SEU LUCRO É ZERO";
+						result = "DEALER POSSUI BLACKJACK, JOGADOR NAO PODE SE RENDER:" + j.getNomeJogador();
+						lucro = "SEU LUCRO FOI ZERO";
 						System.out.println(result);
 						System.out.println(lucro);
 					}
 					resultadosJogador = new String[] {result, lucro};
 				}else if(!j.getMaoJogador(1).isEmpty()) {
 					if(j.valorMao(0)>21 && (j.valorMao(1)>21) ) {
-						result = "VOCÊ QUEBROU A MÃO: " + j.getNomeJogador();
-						lucro = "SEU LUCRO É ZERO";
+						result = "VOCE QUEBROU A MAO: " + j.getNomeJogador();
+						lucro = "SEU LUCRO FOI ZERO";
 						System.out.println(result);
 						System.out.println(lucro);
 					}else if(dealer.valorMao()>21 && (j.valorMao(0)<=21 || j.valorMao(1)<=21)) {
-						result = "DEALER QUEBROU A MÃO: " + j.getNomeJogador();
-						lucro = "SEU LUCRO É DE: " + (apostaDoMontante(jogadores.indexOf(j))+apostaAdicional[jogadores.indexOf(j)])*1;
+						result = "DEALER QUEBROU A MAO: " + j.getNomeJogador();
+						lucro = "SEU LUCRO FOI DE: " + (apostaDoMontante(jogadores.indexOf(j))+apostaAdicional[jogadores.indexOf(j)])*1;
 						System.out.println(result);
 						System.out.println(lucro);
-						j.receberAposta((apostaDoMontante(jogadores.indexOf(j))+apostaAdicional[jogadores.indexOf(j)])*1);
-						
+						j.receberAposta((apostaDoMontante(jogadores.indexOf(j))+apostaAdicional[jogadores.indexOf(j)])*1);		
 					}else if((j.valorMao(0)>dealer.valorMao()) && dealer.valorMao()<=21 && j.valorMao(0)<=21) {
-						result = "RESULTADO FOI UMA VITÓRIA ORDINÁRIA PARA O JOGADOR: " + j.getNomeJogador();
-						lucro = "SEU LUCRO É DE: " + (apostaDoMontante(jogadores.indexOf(j))+apostaAdicional[jogadores.indexOf(j)])*1;
+						result = "RESULTADO FOI UMA VITORIA ORDINARIA PARA O JOGADOR: " + j.getNomeJogador();
+						lucro = "SEU LUCRO FOI DE: " + (apostaDoMontante(jogadores.indexOf(j))+apostaAdicional[jogadores.indexOf(j)])*1;
 						System.out.println(result);
 						System.out.println(lucro);
 						j.receberAposta((apostaDoMontante(jogadores.indexOf(j))+apostaAdicional[jogadores.indexOf(j)])*1);
 					}else if((j.valorMao(1)>dealer.valorMao()) && dealer.valorMao()<=21 && j.valorMao(1)<=21) {
-						result = "RESULTADO FOI UMA VITÓRIA ORDINÁRIA PARA O JOGADOR: " + j.getNomeJogador();
-						lucro = "SEU LUCRO É DE: " + (apostaDoMontante(jogadores.indexOf(j))+apostaAdicional[jogadores.indexOf(j)])*1;
+						result = "RESULTADO FOI UMA VITORIA ORDINARIA PARA O JOGADOR: " + j.getNomeJogador();
+						lucro = "SEU LUCRO FOI DE: " + (apostaDoMontante(jogadores.indexOf(j))+apostaAdicional[jogadores.indexOf(j)])*1;
 						System.out.println(result);
 						System.out.println(lucro);
 						j.receberAposta((apostaDoMontante(jogadores.indexOf(j))+apostaAdicional[jogadores.indexOf(j)])*1);
 					}else if((dealer.valorMao()>j.valorMao(0)) && dealer.valorMao()<=21 && j.valorMao(0)<=21) {
-						result = "TOTAL DE PONTOS DO DEALER É MAIOR DO QUE DO JOGADOR: " + j.getNomeJogador();
-						lucro = "SEU LUCRO É ZERO";
+						result = "TOTAL DE PONTOS DO DEALER FOI MAIOR DO QUE DO JOGADOR: " + j.getNomeJogador();
+						lucro = "SEU LUCRO FOI ZERO";
 						System.out.println(result);
 						System.out.println(lucro);
 					}else if((dealer.valorMao()>j.valorMao(1)) && dealer.valorMao()<=21 && j.valorMao(1)<=21) {
-						result = "TOTAL DE PONTOS DO DEALER É MAIOR DO QUE DO JOGADOR: " + j.getNomeJogador();
-						lucro = "SEU LUCRO É ZERO";
+						result = "TOTAL DE PONTOS DO DEALER FOI MAIOR DO QUE DO JOGADOR: " + j.getNomeJogador();
+						lucro = "SEU LUCRO FOI ZERO";
 						System.out.println(result);
 						System.out.println(lucro);
 					}else if(j.valorMao(0)==dealer.valorMao() || j.valorMao(1)==dealer.valorMao()) {
 						result = "RESULTADO FOI UM PUSH PARA O JOGADOR: " + j.getNomeJogador();
-						lucro = "SEU LUCRO É ZERO";
+						lucro = "SEU LUCRO FOI ZERO";
 						System.out.println(result);
 						System.out.println(lucro);
 					}
 					resultadosJogador = new String[] {result, lucro};
 				}else {
 					if(j.valorMao(0)>21) {
-						result = "VOCÊ QUEBROU A MÃO: " + j.getNomeJogador();
-						lucro = "SEU LUCRO É ZERO";
+						result = "VOCÃŠ QUEBROU A MAO: " + j.getNomeJogador();
+						lucro = "SEU LUCRO FOI ZERO";
 						System.out.println(result);
 						System.out.println(lucro);
 					}else if((j.blackjack()) && (dealer.blackJackDealer() == false)) {
 						result = "RESULTADO FOI UM BLACKJACK PARA O JOGADOR: " + j.getNomeJogador();
-						lucro = "SEU LUCRO É DE: " + (int)(apostaDoMontante(jogadores.indexOf(j))+apostaAdicional[jogadores.indexOf(j)])*1.5;
+						lucro = "SEU LUCRO FOI DE: " + (int)(apostaDoMontante(jogadores.indexOf(j))+apostaAdicional[jogadores.indexOf(j)])*1.5;
 						System.out.println(result);
 						System.out.println(lucro);
 						double tmp = (apostaDoMontante(jogadores.indexOf(j))+apostaAdicional[jogadores.indexOf(j)])*1.5;
 						j.receberAposta((int)tmp);
 					}else if(dealer.valorMao()>21 && j.valorMao(0)<=21 ) {
-						result = "DEALER QUEBROU A MÃO: " + j.getNomeJogador();
-						lucro = "SEU LUCRO É DE: " + (apostaDoMontante(jogadores.indexOf(j))+apostaAdicional[jogadores.indexOf(j)])*1;
+						result = "DEALER QUEBROU A MAO: " + j.getNomeJogador();
+						lucro = "SEU LUCRO FOI DE: " + (apostaDoMontante(jogadores.indexOf(j))+apostaAdicional[jogadores.indexOf(j)])*1;
 						System.out.println(result);
 						System.out.println(lucro);
 						j.receberAposta((apostaDoMontante(jogadores.indexOf(j))+apostaAdicional[jogadores.indexOf(j)])*1);
 					}else if((j.valorMao(0)>dealer.valorMao()) && dealer.valorMao()<=21) {
-						result = "RESULTADO FOI UMA VITÓRIA ORDINÁRIA PARA O JOGADOR: " + j.getNomeJogador();
-						lucro = "SEU LUCRO É DE: " + (apostaDoMontante(jogadores.indexOf(j))+apostaAdicional[jogadores.indexOf(j)])*1;
+						result = "RESULTADO FOI UMA VITORIA ORDINARIA PARA O JOGADOR: " + j.getNomeJogador();
+						lucro = "SEU LUCRO FOI DE: " + (apostaDoMontante(jogadores.indexOf(j))+apostaAdicional[jogadores.indexOf(j)])*1;
 						System.out.println(result);
 						System.out.println(lucro);
 						j.receberAposta((apostaDoMontante(jogadores.indexOf(j))+apostaAdicional[jogadores.indexOf(j)])*1);
 					}else if((dealer.valorMao()>j.valorMao(0)) && dealer.valorMao()<=21) {
-						result = "TOTAL DE PONTOS DO DEALER É MAIOR DO QUE DO JOGADOR: " + j.getNomeJogador();
-						lucro = "SEU LUCRO É ZERO";
+						result = "TOTAL DE PONTOS DO DEALER FOI MAIOR DO QUE DO JOGADOR: " + j.getNomeJogador();
+						lucro = "SEU LUCRO FOI ZERO";
 						System.out.println(result);
 						System.out.println(lucro);
 					}else if(j.valorMao(0)==dealer.valorMao() || (j.blackjack() && dealer.blackJackDealer())) {
 						result = "RESULTADO FOI UM PUSH PARA O JOGADOR: " + j.getNomeJogador();
-						lucro = "SEU LUCRO É ZERO";
+						lucro = "SEU LUCRO FOI ZERO";
 						System.out.println(result);
 						System.out.println(lucro);
 					}
@@ -145,11 +144,12 @@ public class ModelAPI implements Observado {
 				}
 				resultadosFinais.add(resultadosJogador);
 			}
-			i++;
 		}
+		setClear();
 		notificar(resultadosFinais, CodigosObservador.INFO_RESULTADO_FINAL.valor);
 		zerarMontante();
 		notificar(true, CodigosObservador.BOTAO_NOVA_RODADA_OK.valor);
+		
 	}
 	
 	private void confereBlackJackGeral() {
@@ -163,7 +163,7 @@ public class ModelAPI implements Observado {
 		}
 	}
 	
-	//ComeÃƒÂ§a uma rodada
+	//ComeÃƒÆ’Ã‚Â§a uma rodada
 	public void novaRodada() {
 
 		//verificarSaldoJogador();
@@ -173,11 +173,10 @@ public class ModelAPI implements Observado {
         
         //Coloca em 0 a jogada
         jogada = 0;
-        
         //Jogada Dealer = 0
         jogadaDealer = 0;
         for(Jogador j :jogadores ) {
-            //Tira carta da mÃ¯Â¿Â½o de todos os jogadores
+            //Tira carta da mÃƒÂ¯Ã‚Â¿Ã‚Â½o de todos os jogadores
             j.limparMaoJogador(0);
             j.limparMaoJogador(1);
             j.clearDobrar(0);
@@ -188,11 +187,14 @@ public class ModelAPI implements Observado {
             j.clearStand(1);
             j.clearSplit();
             j.clearSurrender();
-            if(j.fichasTotalJogador() == 0)
-                removerJogadorNome(j.getNomeJogador());    
+            if(j.fichasTotalJogador() == 0) {
+                quit[jogadores.indexOf(j)]=false;
+            	notificar(j.getNomeJogador(),CodigosObservador.DINHEIRO_ZERO.valor);
+            }
         }
         ifOkApostaInicial = true;
         valorApostaInicial = 0;
+        setTeveBlackJack();
         setClear();
         setApostaAdicional();
 		carteiraJogadorApostaInicial.clear();
@@ -200,11 +202,13 @@ public class ModelAPI implements Observado {
 		pilhaApostaInicial.clear();
         dealer.limpaMao();
         zerarMontante();
+        while(clear[jogada]==false) {
+        	jogada=jogada + 1;
+        }
         exibeNomeJogadores();
         notificaViewInfoJogadores();
         exibeCartasDealerJogadores();
         notificar(false, CodigosObservador.BOTAO_NOVA_RODADA_OK.valor);
-        notificar(false, CodigosObservador.TELA_SPLIT_ESCONDER.valor);
         List<String[]> resultadosFinais = new ArrayList<String[]>();
         notificar(resultadosFinais, CodigosObservador.INFO_RESULTADO_FINAL.valor);
     }
@@ -217,10 +221,10 @@ public class ModelAPI implements Observado {
 	}
 	
 	private void setClear() {
-		clear[0] = true;
-        clear[1] = true;
-        clear[2] = true;
-        clear[3] = true;
+		clear[0] = quit[0];
+        clear[1] = quit[1];
+        clear[2] = quit[2];
+        clear[3] = quit[3];
 	}
 	
 	private void setApostaAdicional() {
@@ -284,7 +288,7 @@ public class ModelAPI implements Observado {
 		int []tCartasRoda = new int[2];
 		 tCartasRoda[0] = valorDealerMao();
 		 tCartasRoda[1] = this.jogadaDealer;
-		 notificar(tCartasRoda,CodigosObservador.INFOS_DEALER.valor); //@ Ale , colocar padrÃƒÂ£o enum
+		 notificar(tCartasRoda,CodigosObservador.INFOS_DEALER.valor); //@ Ale , colocar padrÃƒÆ’Ã‚Â£o enum
 		 
 		 List<String> cartasDealer = dealerMao();
 		 notificar(cartasDealer,CodigosObservador.CARTAS_DO_DEALER.valor);
@@ -326,6 +330,7 @@ public class ModelAPI implements Observado {
 				proximoJogador();
 			}
 		}else {
+			System.out.println("O VALOR DE JOGADA EH DE " + jogada);
 			proximoJogador();
 
 		}
@@ -377,6 +382,7 @@ public class ModelAPI implements Observado {
 					enviarInfoDinheiroJogador();
 					enviarInfoMaoJogador();
 					enviarInfoMaoJogadorSplit();
+					proximoJogador();
 					return true;
 				}else {
 					jogadores.get(indiceJogador).hit(baralho.pegarCarta(), 0);
@@ -403,6 +409,19 @@ public class ModelAPI implements Observado {
 		ativarBotoes(indiceJogador);
 		enviarInfoMaoJogador();
 		proximoJogador();
+	}
+	
+	public void pedirQuit(int indiceJogador) {			
+		quit[indiceJogador]=false;
+		proximoJogador();
+	}
+	
+	public ArrayList<Integer> dinheiroJogadores(){
+		ArrayList<Integer> listaDin = new ArrayList<Integer>();
+		for(Jogador j : jogadores) {
+			listaDin.add(j.fichasTotalJogador());
+		}
+		return listaDin;
 	}
 	
 	public int apostaDoMontante(int indiceJogador) {
@@ -465,7 +484,7 @@ public class ModelAPI implements Observado {
 	}
 	
 	//
-	//Metodos de informacao [obtem informaÃƒÂ§ao dos jogadores e da partida]
+	//Metodos de informacao [obtem informaÃƒÆ’Ã‚Â§ao dos jogadores e da partida]
 	//
 	
 	public String jogadorAtualNome() {
@@ -646,7 +665,7 @@ public class ModelAPI implements Observado {
 		j.receberFichas(ficha,quantidade);
 	}
 		
-	// .... Metodos para cada possivel interaÃƒÂ§ÃƒÂ£o
+	// .... Metodos para cada possivel interaÃƒÆ’Ã‚Â§ÃƒÆ’Ã‚Â£o
 	
 	
 	//
@@ -690,7 +709,7 @@ public class ModelAPI implements Observado {
 		//Fazer Teste Unitario
 		Set<String> chaves = carteiraJogadorApostaInicial.keySet();
 		for(Jogador j: jogadores ) {
-			if(j.getNomeJogador() == jogadorNome(jogada)) {
+			if(j.getNomeJogador() == jogadorNome(jogada) && clear[jogadores.indexOf(j)]) {
 				for(String chave : chaves) {
 					if(carteiraJogadorApostaInicial.get(chave) != 0) {
 						apostar(chave, carteiraJogadorApostaInicial.get(chave)*(-1),j.getNomeJogador());
@@ -731,7 +750,13 @@ public class ModelAPI implements Observado {
 			carteiraJogadorApostaInicial.clear();
 			geracarteiraJogadorApostaInicial();
 			notificar(false, CodigosObservador.VERIFICA_APOSTA_INICAL_EFETUADA.valor);
-			this.jogada += 1;
+			if(clear[jogada]) {
+				jogada=jogada+1;
+			}
+			verificaJogadaApostaInicial();
+			while(jogada<jogadores.size() && clear[jogada]==false) {
+	        	jogada=jogada + 1;
+	        }
 			verificaJogadaApostaInicial();
 			exibeNomeJogadores();
 			notificaViewInfoJogadores();
@@ -820,7 +845,7 @@ public class ModelAPI implements Observado {
 	}
 	
 	public void exibeNomeJogadores() {
-		if(jogada < jogadores.size()) {
+		if(jogada <= jogadores.size()-1) {
 			notificar(jogadorNome(jogada), CodigosObservador.NOME_JOGADOR_ATUAL_APOSTA_INICIAL.valor);
 		}
 		else {
@@ -856,6 +881,8 @@ public class ModelAPI implements Observado {
 			}
 		}
 		if(jogada<=jogadores.size()-1) {
+			System.out.println("ATIVOU O BOTÃO LEGAL");
+			System.out.println("O VALOR DE JOGADA É " + jogada);
 			ativarBotoes(jogada);
 		}
 		exibeNomeJogadores();

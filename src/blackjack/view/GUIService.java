@@ -166,10 +166,8 @@ public class GUIService{
 	
 	public void telaQuitVisivel(int indiceJogador) {
 		telasJogador.get(indiceJogador).setVisible(false);
-		telasJogadorSplit.get(indiceJogador).setVisible(false);
 	}
 	
-  
 	public void exibirOpcoes() {
 		this.opcoes = TelaOpcoes.iniciar(api.listaNomeJogadores());
 		observadores.forEach(o->this.opcoes.adicionarObservador(o));
