@@ -527,6 +527,17 @@ public class ModelAPI implements Observado {
 		return i;
 	}
 	
+	public int jogadorNomeCarteiraTotal(String s) {
+		int index = 0;
+		for(Jogador j: jogadores) {
+			if(s.equals(j.getNomeJogador())) {
+				return jogadorEspecificoCarteiraTotal(index);
+			}
+			index++;
+		}
+		return -1;
+	}
+	
 	public Map<String, Integer> jogadorEspecificoCarteira(int n){
 		return jogadores.get(n).getFichasJogador();
 
@@ -928,12 +939,12 @@ public class ModelAPI implements Observado {
 	}
 	
 	//Carrega uma carteira
-	public void carregarCarteira(String nome, LinkedHashMap<String, Integer> carteira) {
+	public void carregarCarteira(String nome, int carteira) {
 		// @Ale @Ze , atualizar o dealer das novas infos referente ao jogador
 		for(Jogador j: jogadores) {
 			if(j.getNomeJogador()==nome) {
-				j.setFichasJogador(carteira);
-				System.out.println(j.getFichasJogador());
+				j.setTotalFichasJogador(carteira);
+				System.out.println(j.fichasTotalJogador());
 			}
 		}
 	}

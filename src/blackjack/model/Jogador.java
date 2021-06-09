@@ -57,7 +57,7 @@ class Jogador {
 	
 	private int contagemJogador(int mao) {
 		int total = 0, contador = 0, flag = 0;
-		//conta as cartas na mão do dealer, para bolar a estrategia
+		//conta as cartas na mï¿½o do dealer, para bolar a estrategia
 		for(int i = 0; i < this.maoJogador[mao].size(); i++) {
 			contador = this.maoJogador[mao].get(i).getValor();
 			
@@ -80,7 +80,7 @@ class Jogador {
 	
 	private int verificaValorAsJogador(int to)
 	{
-		//verifica se o total vai ser maior ou menor que 21 com a escolha do Ás
+		//verifica se o total vai ser maior ou menor que 21 com a escolha do ï¿½s
 		if(to + 11 > 21) {
 			 to += 1;
 		}
@@ -272,6 +272,10 @@ class Jogador {
 	
 	public void clearQuit() {
 		this.setQuit(false);
+	}
+	
+	void setTotalFichasJogador(int i) {
+		this.totalFichasJogador = i;
 	}
 	
 }

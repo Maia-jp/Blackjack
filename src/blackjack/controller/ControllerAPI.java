@@ -184,7 +184,7 @@ public class ControllerAPI implements Observador{
 	//Opcoes
 	private void opcoesGerarCarteira(String jogador) {
 		view.opcoesGerarCarteira(carteira.gerarCarteira(
-				api.jogadorEspecificoCarteira(api.jogadorId(jogador))
+				api.jogadorNomeCarteiraTotal(jogador)
 				, jogador));
 	}
 	
@@ -198,10 +198,9 @@ public class ControllerAPI implements Observador{
 	}
 
 	private void carregarCarteira(String[] s) {
-		Map<String, Integer> c =  carteira.validarCarteira(s[0],s[1]);
-		if(c != null) {
-			LinkedHashMap<String,Integer> newMap = new LinkedHashMap<String, Integer>(c);
-			api.carregarCarteira(s[1],newMap);
+		int c =  carteira.validarCarteira(s[0],s[1]);
+		if(c != -1) {
+			api.carregarCarteira(s[1],c);
 		}else {
 			view.opcoesErroGerarCarteira();
 		}
