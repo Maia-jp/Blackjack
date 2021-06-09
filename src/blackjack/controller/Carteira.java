@@ -67,46 +67,37 @@ class Carteira {
     }
 	
 	//Metodos especificos
-	public String gerarCarteira(Map<String, Integer> fichas , String jogador) {
+	public String gerarCarteira(int fichas , String jogador) {
 		//Padrão de string encriptada -> |Fichas de 1,5,10,20,50,100 no formato 0x0000 unsigned||nome do jogador|
 		
 		//Mensagem a ser criptografada
 		String msg = "";
 		
-		msg = msg + converterHex(fichas.get("1"));
-		msg = msg + converterHex(fichas.get("5"));
-		msg = msg + converterHex(fichas.get("10"));
-		msg = msg + converterHex(fichas.get("20"));
-		msg = msg + converterHex(fichas.get("50"));
-		msg = msg + converterHex(fichas.get("100"));
+		msg = msg + converterHex(fichas);
 		msg = msg + "s0" + jogador;
 		
 		
 		return encrypt(msg,jogador);
 	}
 	
-	public Map<String, Integer> validarCarteira(String endereco,String jogador){
+	public int validarCarteira(String endereco,String jogador){
 		String msg = decrypt(endereco,jogador);
 		
 		if(!validarNome(msg,jogador)) {
-			return null;
+			return -1;
 		}
 		
-		msg = msg.substring(0,msg.indexOf("s0"));
 		
-		Map<String, Integer> fichasJogador = new HashMap<String, Integer>();
+		msg = msg.substring(2,msg.indexOf("s0"));
 		
+		int fichasJogador = -1;
+
 		try {
-			fichasJogador.put("1", converterInt(msg.substring(2, 6)));
-			fichasJogador.put("5", converterInt(msg.substring(8, 12)));
-			fichasJogador.put("10", converterInt(msg.substring(14, 18)));
-			fichasJogador.put("20", converterInt(msg.substring(20, 24)));
-			fichasJogador.put("50", converterInt(msg.substring(26, 30)));
-			fichasJogador.put("100", converterInt(msg.substring(32, 36)));
+			fichasJogador = converterInt(msg);
 		
 			
 		}catch(Exception e){
-			return null;
+			return -1;
 		
 		}
 		

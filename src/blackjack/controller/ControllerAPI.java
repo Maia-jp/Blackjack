@@ -1,6 +1,8 @@
 package blackjack.controller;
 
+import java.time.Instant;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -118,6 +120,19 @@ public class ControllerAPI implements Observador{
 			else
 				carregarCarteira((String[]) obj);
 		}
+		
+		if(CodigosObservadorView.BOTAO_SALVAR_TELA_OPCOES.valor== ID) {
+			if(CodigosObservadorView.BOTAO_SALVAR_TELA_OPCOES.classe != obj.getClass())
+				System.out.print("[ERRO][Controller] Classe passada no metodo executar nao corresponde ao correto, foi passado:"+obj.getClass());
+			else
+				salvar(((String) obj));
+		}
+		if(CodigosObservadorView.BOTAO_CARREGAR_TELA_OPCOES.valor== ID) {
+			if(CodigosObservadorView.BOTAO_CARREGAR_TELA_OPCOES.classe != obj.getClass())
+				System.out.print("[ERRO][Controller] Classe passada no metodo executar nao corresponde ao correto, foi passado:"+obj.getClass());
+			else
+				carregar(((String) obj));
+		}
 	} 
 	
 	
@@ -184,7 +199,7 @@ public class ControllerAPI implements Observador{
 	//Opcoes
 	private void opcoesGerarCarteira(String jogador) {
 		view.opcoesGerarCarteira(carteira.gerarCarteira(
-				api.jogadorEspecificoCarteira(api.jogadorId(jogador))
+				api.jogadorNomeCarteiraTotal(jogador)
 				, jogador));
 	}
 	
@@ -198,13 +213,31 @@ public class ControllerAPI implements Observador{
 	}
 
 	private void carregarCarteira(String[] s) {
-		Map<String, Integer> c =  carteira.validarCarteira(s[0],s[1]);
-		if(c != null) {
-			LinkedHashMap<String,Integer> newMap = new LinkedHashMap<String, Integer>(c);
-			api.carregarCarteira(s[1],newMap);
+		int c =  carteira.validarCarteira(s[0],s[1]);
+		if(c != -1) {
+			api.carregarCarteira(s[1],c);
 		}else {
 			view.opcoesErroGerarCarteira();
 		}
+	}
+	
+	private void salvar(String dir) {
+		List<String> jogadores = api.listaNomeJogadores();
+		HashMap<String,Integer> dinheiro = api.dinheiroJogadoresComNome();
+		int rodada = api.getRodada();
+		
+		SavingUtilities saveUtil = new SavingUtilities();
+		saveUtil.gerarModeloSalvar(jogadores, dinheiro, rodada);
+		saveUtil.salvar(dir, 
+				String.valueOf(Instant.now().getEpochSecond()));
+		
+	}
+	
+	private void carregar(String carregar) {
+		System.out.println(carregar);
+		SavingUtilities saveUtil = new SavingUtilities();
+		SaveDTO dto = saveUtil.carregar(carregar);
+		api.carregarSalvamento(dto);
 	}
 	
 	//

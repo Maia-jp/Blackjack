@@ -19,6 +19,8 @@ public enum CodigosObservadorView {
 	BOTAO_CLEAR(112,Boolean.class),
 	BOTAO_NOVA_RODADA(113, Boolean.class),
 	BOTAO_GERARCARREGAR_TELA_OPCOES(114, String[].class),
+	BOTAO_SALVAR_TELA_OPCOES(115, String.class),
+	BOTAO_CARREGAR_TELA_OPCOES(116, String.class),
 	TESTE(-1,String.class);
 	
 	public int valor;

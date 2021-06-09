@@ -57,7 +57,7 @@ class Jogador {
 	
 	private int contagemJogador(int mao) {
 		int total = 0, contador = 0, flag = 0;
-		//conta as cartas na mão do dealer, para bolar a estrategia
+		//conta as cartas na mï¿½o do dealer, para bolar a estrategia
 		for(int i = 0; i < this.maoJogador[mao].size(); i++) {
 			contador = this.maoJogador[mao].get(i).getValor();
 			
@@ -80,7 +80,7 @@ class Jogador {
 	
 	private int verificaValorAsJogador(int to)
 	{
-		//verifica se o total vai ser maior ou menor que 21 com a escolha do Ás
+		//verifica se o total vai ser maior ou menor que 21 com a escolha do ï¿½s
 		if(to + 11 > 21) {
 			 to += 1;
 		}
@@ -93,7 +93,7 @@ class Jogador {
 	
 	//retorna a quantidade de dinheiro do jogador
 	public int fichasTotalJogador() {
-		return this.totalFichasJogador;
+		return this.getTotalFichasJogador();
 	}
 	
 	//retorna um hashmap com a quantidade de cada ficha que o jogador possui
@@ -102,11 +102,11 @@ class Jogador {
 	}
 	
 	public void apostar(int aposta) {
-		this.totalFichasJogador=this.totalFichasJogador-aposta;
+		this.totalFichasJogador=this.getTotalFichasJogador()-aposta;
 	}
 	
 	public void receberAposta(int aposta) {
-		this.totalFichasJogador=this.totalFichasJogador+aposta;
+		this.totalFichasJogador=this.getTotalFichasJogador()+aposta;
 	}
 	
 	private void setFichasJogador(LinkedHashMap <String, Integer> fichasJogador) {
@@ -120,12 +120,12 @@ class Jogador {
 	}
 	
 	public void receberFichas(String ficha, int qtd) {
-		this.totalFichasJogador=this.totalFichasJogador+(Integer.parseInt(ficha)*qtd);
+		this.totalFichasJogador=this.getTotalFichasJogador()+(Integer.parseInt(ficha)*qtd);
 		this.fichasJogador.replace(ficha,fichasJogador.get(ficha)+qtd);
 	}
 	
 	public void pagarFichas(String ficha, int qtd) {
-		this.totalFichasJogador=this.totalFichasJogador-(Integer.parseInt(ficha)*qtd);
+		this.totalFichasJogador=this.getTotalFichasJogador()-(Integer.parseInt(ficha)*qtd);
 		this.fichasJogador.replace(ficha,fichasJogador.get(ficha)-qtd);
 	}
 		
@@ -142,7 +142,7 @@ class Jogador {
 	}
 	
 	public void dobrar(int aposta,int mao) {
-			this.totalFichasJogador=this.totalFichasJogador-aposta;
+			this.totalFichasJogador=this.getTotalFichasJogador()-aposta;
 			this.putStand(mao);
 			this.putDobrar(mao);
 			this.putSplit();
@@ -272,6 +272,14 @@ class Jogador {
 	
 	public void clearQuit() {
 		this.setQuit(false);
+	}
+	
+	void setTotalFichasJogador(int i) {
+		this.totalFichasJogador = i;
+	}
+
+	public int getTotalFichasJogador() {
+		return totalFichasJogador;
 	}
 	
 }

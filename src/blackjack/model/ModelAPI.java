@@ -424,6 +424,15 @@ public class ModelAPI implements Observado {
 		return listaDin;
 	}
 	
+	
+	public HashMap<String,Integer> dinheiroJogadoresComNome(){
+		HashMap<String,Integer> jogadoresDinheiro = new HashMap<>();
+		jogadores.forEach(j-> jogadoresDinheiro.put(j.getNomeJogador(), j.getTotalFichasJogador()));
+		
+		return jogadoresDinheiro;
+	}
+	
+	
 	public int apostaDoMontante(int indiceJogador) {
 		int total=0;
 		Set<String> chaves = jogadorAposta.get(jogadores.get(indiceJogador).getNomeJogador()).keySet();
@@ -527,6 +536,17 @@ public class ModelAPI implements Observado {
 		return i;
 	}
 	
+	public int jogadorNomeCarteiraTotal(String s) {
+		int index = 0;
+		for(Jogador j: jogadores) {
+			if(s.equals(j.getNomeJogador())) {
+				return jogadorEspecificoCarteiraTotal(index);
+			}
+			index++;
+		}
+		return -1;
+	}
+	
 	public Map<String, Integer> jogadorEspecificoCarteira(int n){
 		return jogadores.get(n).getFichasJogador();
 
@@ -611,6 +631,10 @@ public class ModelAPI implements Observado {
 	
 	public Map<String,Map<String,Integer>> montanteTotal(){
 		return jogadorAposta;
+	}
+	
+	public int getRodada() {
+		return this.rodada;
 	}
 	
 
@@ -924,16 +948,27 @@ public class ModelAPI implements Observado {
 	
 	//Carrega o jogo
 	public void carregarSalvamento(SaveDTO dto) {
+		this.rodada = dto.rodada;
+		List<String> novosJogadores = dto.jogadores;
+		
+		
+		reinicar();
+		novosJogadores.forEach(j-> adicionarJogador(j));
+		
+		for(Jogador j: jogadores) {
+			j.setTotalFichasJogador(dto.dinheiro.get(j.getNomeJogador()));
+		}
+		// @Ale @Ze, Atulizar tela do jogador/dealer
 		
 	}
 	
 	//Carrega uma carteira
-	public void carregarCarteira(String nome, LinkedHashMap<String, Integer> carteira) {
+	public void carregarCarteira(String nome, int carteira) {
 		// @Ale @Ze , atualizar o dealer das novas infos referente ao jogador
 		for(Jogador j: jogadores) {
 			if(j.getNomeJogador()==nome) {
-				j.setFichasJogador(carteira);
-				System.out.println(j.getFichasJogador());
+				j.setTotalFichasJogador(carteira);
+				System.out.println(j.fichasTotalJogador());
 			}
 		}
 	}
