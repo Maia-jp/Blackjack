@@ -67,6 +67,12 @@ class TelaOpcoes extends JFrame implements Observado{
 		this.btnCarregar = new JButton("Carregar");
 		btnCarregar.setEnabled(false);
 		btnCarregar.setBounds(10, 164, 389, 23);
+		btnCarregar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				carregar();
+	         }
+		});
+
 		salvarTAB.add(btnCarregar);
 		
 		this.lblTab0Carregar = new JLabel("Carregar");
@@ -221,6 +227,11 @@ class TelaOpcoes extends JFrame implements Observado{
 	private void salvar() {
 		notificar(diretorioSalvar,
 				CodigosObservadorView.BOTAO_SALVAR_TELA_OPCOES.valor); 
+	}
+	
+	private void carregar() {
+		notificar(diretorioCarregar,
+				CodigosObservadorView.BOTAO_CARREGAR_TELA_OPCOES.valor);
 	}
 	
 	//

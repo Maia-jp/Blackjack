@@ -127,6 +127,12 @@ public class ControllerAPI implements Observador{
 			else
 				salvar(((String) obj));
 		}
+		if(CodigosObservadorView.BOTAO_CARREGAR_TELA_OPCOES.valor== ID) {
+			if(CodigosObservadorView.BOTAO_CARREGAR_TELA_OPCOES.classe != obj.getClass())
+				System.out.print("[ERRO][Controller] Classe passada no metodo executar nao corresponde ao correto, foi passado:"+obj.getClass());
+			else
+				carregar(((String) obj));
+		}
 	} 
 	
 	
@@ -225,6 +231,13 @@ public class ControllerAPI implements Observador{
 		saveUtil.salvar(dir, 
 				String.valueOf(Instant.now().getEpochSecond()));
 		
+	}
+	
+	private void carregar(String carregar) {
+		System.out.println(carregar);
+		SavingUtilities saveUtil = new SavingUtilities();
+		SaveDTO dto = saveUtil.carregar(carregar);
+		api.carregarSalvamento(dto);
 	}
 	
 	//

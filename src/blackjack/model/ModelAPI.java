@@ -948,6 +948,17 @@ public class ModelAPI implements Observado {
 	
 	//Carrega o jogo
 	public void carregarSalvamento(SaveDTO dto) {
+		this.rodada = dto.rodada;
+		List<String> novosJogadores = dto.jogadores;
+		
+		
+		reinicar();
+		novosJogadores.forEach(j-> adicionarJogador(j));
+		
+		for(Jogador j: jogadores) {
+			j.setTotalFichasJogador(dto.dinheiro.get(j.getNomeJogador()));
+		}
+		// @Ale @Ze, Atulizar tela do jogador/dealer
 		
 	}
 	
