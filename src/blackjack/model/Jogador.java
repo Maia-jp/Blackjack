@@ -157,7 +157,6 @@ class Jogador {
 		}else {
 			return false;
 		}
-		
 	}
 	
 	public void surrender() {
@@ -189,7 +188,10 @@ class Jogador {
 		this.setStand(false,mao);
 	}
 	
-
+	public boolean checkSplit() {
+		return this.split;
+	}
+	
 	private void setSplit(boolean split) {
 		this.split = split;
 	}
@@ -216,10 +218,6 @@ class Jogador {
 	
 	public void clearDobrar(int mao) {
 		this.setDobrar(false,mao);
-	}
-	
-	public boolean checkSplit() {
-		return this.split;
 	}
 	
 	void setFichasJogador(Map<String, Integer> novasFichas) {
@@ -274,7 +272,7 @@ class Jogador {
 		this.setQuit(false);
 	}
 	
-	void setTotalFichasJogador(int i) {
+	public void setTotalFichasJogador(int i) {
 		this.totalFichasJogador = i;
 	}
 
