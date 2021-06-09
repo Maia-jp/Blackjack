@@ -1,6 +1,8 @@
 package blackjack.controller;
 
+import java.time.Instant;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -118,6 +120,13 @@ public class ControllerAPI implements Observador{
 			else
 				carregarCarteira((String[]) obj);
 		}
+		
+		if(CodigosObservadorView.BOTAO_SALVAR_TELA_OPCOES.valor== ID) {
+			if(CodigosObservadorView.BOTAO_SALVAR_TELA_OPCOES.classe != obj.getClass())
+				System.out.print("[ERRO][Controller] Classe passada no metodo executar nao corresponde ao correto, foi passado:"+obj.getClass());
+			else
+				salvar(((String) obj));
+		}
 	} 
 	
 	
@@ -204,6 +213,18 @@ public class ControllerAPI implements Observador{
 		}else {
 			view.opcoesErroGerarCarteira();
 		}
+	}
+	
+	private void salvar(String dir) {
+		List<String> jogadores = api.listaNomeJogadores();
+		HashMap<String,Integer> dinheiro = api.dinheiroJogadoresComNome();
+		int rodada = api.getRodada();
+		
+		SavingUtilities saveUtil = new SavingUtilities();
+		saveUtil.gerarModeloSalvar(jogadores, dinheiro, rodada);
+		saveUtil.salvar(dir, 
+				String.valueOf(Instant.now().getEpochSecond()));
+		
 	}
 	
 	//

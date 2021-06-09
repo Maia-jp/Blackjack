@@ -93,7 +93,7 @@ class Jogador {
 	
 	//retorna a quantidade de dinheiro do jogador
 	public int fichasTotalJogador() {
-		return this.totalFichasJogador;
+		return this.getTotalFichasJogador();
 	}
 	
 	//retorna um hashmap com a quantidade de cada ficha que o jogador possui
@@ -102,11 +102,11 @@ class Jogador {
 	}
 	
 	public void apostar(int aposta) {
-		this.totalFichasJogador=this.totalFichasJogador-aposta;
+		this.totalFichasJogador=this.getTotalFichasJogador()-aposta;
 	}
 	
 	public void receberAposta(int aposta) {
-		this.totalFichasJogador=this.totalFichasJogador+aposta;
+		this.totalFichasJogador=this.getTotalFichasJogador()+aposta;
 	}
 	
 	private void setFichasJogador(LinkedHashMap <String, Integer> fichasJogador) {
@@ -120,12 +120,12 @@ class Jogador {
 	}
 	
 	public void receberFichas(String ficha, int qtd) {
-		this.totalFichasJogador=this.totalFichasJogador+(Integer.parseInt(ficha)*qtd);
+		this.totalFichasJogador=this.getTotalFichasJogador()+(Integer.parseInt(ficha)*qtd);
 		this.fichasJogador.replace(ficha,fichasJogador.get(ficha)+qtd);
 	}
 	
 	public void pagarFichas(String ficha, int qtd) {
-		this.totalFichasJogador=this.totalFichasJogador-(Integer.parseInt(ficha)*qtd);
+		this.totalFichasJogador=this.getTotalFichasJogador()-(Integer.parseInt(ficha)*qtd);
 		this.fichasJogador.replace(ficha,fichasJogador.get(ficha)-qtd);
 	}
 		
@@ -142,7 +142,7 @@ class Jogador {
 	}
 	
 	public void dobrar(int aposta,int mao) {
-			this.totalFichasJogador=this.totalFichasJogador-aposta;
+			this.totalFichasJogador=this.getTotalFichasJogador()-aposta;
 			this.putStand(mao);
 			this.putDobrar(mao);
 			this.putSplit();
@@ -276,6 +276,10 @@ class Jogador {
 	
 	void setTotalFichasJogador(int i) {
 		this.totalFichasJogador = i;
+	}
+
+	public int getTotalFichasJogador() {
+		return totalFichasJogador;
 	}
 	
 }

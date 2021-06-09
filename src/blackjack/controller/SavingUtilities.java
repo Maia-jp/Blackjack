@@ -17,8 +17,8 @@ public class SavingUtilities {
 	
 	//Gera um Modelo de salvamento
 	public void gerarModeloSalvar(List<String> jogadores,
-			HashMap<String,HashMap<String,Integer>> dinheiro,
-			HashMap<String,List<String>>MaoJogadores,List<String>MaoDealer) {
+			HashMap<String,Integer> dinheiro,
+			int rodada) {
 		List<String> modeloSalvar = new ArrayList<>();
 		
 		modeloSalvar.add("=====BLACKJACK=====");
@@ -31,30 +31,9 @@ public class SavingUtilities {
 			modeloSalvar.add("-");
 		}
 		
-		modeloSalvar.add("Cartas:");
-		int nCartas=0;
-		for(String j:jogadores) {
-			String cartas = "";
-			for(String c: MaoJogadores.get(j)) {
-				cartas =  cartas+"-"+c;
-			}
-			modeloSalvar.add(cartas);
-			nCartas++;
-		}
-		
-		//Padding
-		for(int i =nCartas; i<4;i++) {
-			modeloSalvar.add("-");
-		}
-		
 		modeloSalvar.add("Dinheiro:");
 		for(String jogador:jogadores) {
-			String dinheiroJogador = dinheiro.get(jogador).get("1")+"-"+
-					dinheiro.get(jogador).get("5")+"-"+
-					dinheiro.get(jogador).get("10")+"-"+
-					dinheiro.get(jogador).get("20")+"-"+
-					dinheiro.get(jogador).get("50")+"-"+
-					dinheiro.get(jogador).get("100");
+			String dinheiroJogador = dinheiro.get(jogador) + "";
 			
 			modeloSalvar.add(dinheiroJogador);
 		}
@@ -63,13 +42,9 @@ public class SavingUtilities {
 		for(int i =jogadores.size(); i<4;i++) {
 					modeloSalvar.add("-");
 		}
-		//Mao dealer
-		String maoDealerString = "";
-		for(String carta:MaoDealer) {
-			maoDealerString = maoDealerString + carta+ " ";
-		}
-		modeloSalvar.add("Dealer:");
-		modeloSalvar.add(maoDealerString);
+		//Rodada
+		modeloSalvar.add("Rodada:");
+		modeloSalvar.add(rodada+"");
 		
 		 this.modeloSalvar = modeloSalvar;
 	}
@@ -128,21 +103,15 @@ public class SavingUtilities {
 		      int linha =0;
 		      while (myReader.hasNextLine()) {
 		        String data = myReader.nextLine();
-		        if(data.length()>=1) {
+		        if(!data.equals("-")) {
 		        	if(linha >=3 && linha <=6) {
 		        		dto.adicionarJogador(data);
 		        	}
 		        	if(linha >=8 && linha <=11) {
-		        		String[] cartas = data.split("-");
-		        		dto.adicionarMao(cartas,linha-8);
+		        		dto.adicionarDinheiro(data,linha-8);
 		        	}
-		        	if(linha >=13 && linha <=16) {
-		        		String[] dinheiro = data.split("-");
-		        		dto.adicionarDinheiro(dinheiro,linha-13);
-		        	}
-		        	if(linha >15) {
-		        		String[] dealer = data.split("-");
-		        		dto.adicionarDealer(dealer);
+		        	if(linha == 13) {
+		        		dto.adicionarRodada(data);
 		        	}
 		        	
 		        }

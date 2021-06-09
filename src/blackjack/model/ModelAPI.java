@@ -424,6 +424,15 @@ public class ModelAPI implements Observado {
 		return listaDin;
 	}
 	
+	
+	public HashMap<String,Integer> dinheiroJogadoresComNome(){
+		HashMap<String,Integer> jogadoresDinheiro = new HashMap<>();
+		jogadores.forEach(j-> jogadoresDinheiro.put(j.getNomeJogador(), j.getTotalFichasJogador()));
+		
+		return jogadoresDinheiro;
+	}
+	
+	
 	public int apostaDoMontante(int indiceJogador) {
 		int total=0;
 		Set<String> chaves = jogadorAposta.get(jogadores.get(indiceJogador).getNomeJogador()).keySet();
@@ -622,6 +631,10 @@ public class ModelAPI implements Observado {
 	
 	public Map<String,Map<String,Integer>> montanteTotal(){
 		return jogadorAposta;
+	}
+	
+	public int getRodada() {
+		return this.rodada;
 	}
 	
 

@@ -1,19 +1,14 @@
 =====BLACKJACK=====
-Partida: 1622553624
+Partida: 1623265577
 Jogadores:
 Bach
 Beethoven
-Vivaldi
-Chopin
-Cartas:
--HK-D10
--HK-D10
--HK-D10
--HK-D10
+-
+-
 Dinheiro:
-1-2-3-4-5-6
-1-2-3-4-5-6
-1-2-3-4-5-6
-1-2-3-4-5-6
-Dealer:
-SK SQ 
+1
+8
+-
+-
+Rodada:
+1

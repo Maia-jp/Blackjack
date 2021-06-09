@@ -93,6 +93,12 @@ class TelaOpcoes extends JFrame implements Observado{
 		this.btnSalvar = new JButton("Salvar");
 		btnSalvar.setEnabled(false);
 		btnSalvar.setBounds(10, 65, 389, 23);
+		btnSalvar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				// Notifica a controller para salvar o jogo
+				salvar();
+			}
+		});
 		salvarTAB.add(btnSalvar);
 		
 		JButton btnSelecionarArquivo = new JButton("Selecionar Arquivo");
@@ -212,6 +218,11 @@ class TelaOpcoes extends JFrame implements Observado{
         }
      }
 	
+	private void salvar() {
+		notificar(diretorioSalvar,
+				CodigosObservadorView.BOTAO_SALVAR_TELA_OPCOES.valor); 
+	}
+	
 	//
 	//Metodos Carteira Dinamica
 	//
@@ -244,6 +255,8 @@ class TelaOpcoes extends JFrame implements Observado{
 		        JOptionPane.ERROR_MESSAGE);
 		
 	}
+	
+	
 	
 	//
 	//AUX
