@@ -51,7 +51,7 @@ class TelaOpcoes extends JFrame implements Observado{
 	private void initialize() {
 		this.setTitle("Opcoes");
 		this.setBounds(100, 100, 450, 300);
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		this.getContentPane().setLayout(null);
 		
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
@@ -193,6 +193,7 @@ class TelaOpcoes extends JFrame implements Observado{
 	//
 	private String diretorioSalvar;
 	private String diretorioCarregar;
+	private Boolean podeSalvar;
 	
 	//Abre o form de Salvamento
 	private void abrirSelecaoDiretorio() {
@@ -234,6 +235,11 @@ class TelaOpcoes extends JFrame implements Observado{
 				CodigosObservadorView.BOTAO_CARREGAR_TELA_OPCOES.valor);
 	}
 	
+	Boolean mudarEstadoSalvar() {
+		btnSalvar.setEnabled(!btnSalvar.isEnabled());
+		return btnSalvar.isEnabled();
+	}
+	
 	//
 	//Metodos Carteira Dinamica
 	//
@@ -266,6 +272,20 @@ class TelaOpcoes extends JFrame implements Observado{
 		        JOptionPane.ERROR_MESSAGE);
 		
 	}
+	
+	void gerarAlertaSalvo() {
+		JOptionPane.showMessageDialog(new JFrame(), "O jogo foi salvo com sucesso", "O jogo foi salvo com sucesso",
+		        JOptionPane.INFORMATION_MESSAGE);
+		
+	}
+	
+	void gerarAlertaCarregar() {
+		JOptionPane.showMessageDialog(new JFrame(), "O jogo foi carregado com sucesso", "O jogo foi carregado com sucesso",
+		        JOptionPane.INFORMATION_MESSAGE);
+		
+	}
+	
+	
 	
 	
 	

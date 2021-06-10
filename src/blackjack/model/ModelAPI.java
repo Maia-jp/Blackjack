@@ -540,7 +540,7 @@ public class ModelAPI implements Observado {
 		int index = 0;
 		for(Jogador j: jogadores) {
 			if(s.equals(j.getNomeJogador())) {
-				return jogadorEspecificoCarteiraTotal(index);
+				return j.getTotalFichasJogador();
 			}
 			index++;
 		}

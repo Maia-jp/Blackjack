@@ -238,6 +238,7 @@ public class ControllerAPI implements Observador{
 		SavingUtilities saveUtil = new SavingUtilities();
 		SaveDTO dto = saveUtil.carregar(carregar);
 		api.carregarSalvamento(dto);
+		view.opcoesInfoCarregar();
 	}
 	
 	//

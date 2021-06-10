@@ -18,7 +18,7 @@ public class GUIService{
 	
 	private String ID;
 	
-	//Model API para operações simples
+	//Model API para operaï¿½ï¿½es simples
 	public ModelAPI api; 
 	
 	//bitmap -> exibindo tela inical, exibindo carregamento de partida, exibindo jogo
@@ -172,7 +172,12 @@ public class GUIService{
 		this.opcoes = TelaOpcoes.iniciar(api.listaNomeJogadores());
 		observadores.forEach(o->this.opcoes.adicionarObservador(o));
 		this.opcoes.setVisible(true);
-		this.opcoes.addWindowListener(wAListner);
+		this.opcoes.addWindowListener(new WindowAdapter() {
+		    @Override
+		    public void windowClosing(WindowEvent evt) {
+		    	opcoes.setVisible(false);
+		    }
+		  });
 	}
 	
 	public void opcoesGerarCarteira(String carteira) {
@@ -182,6 +187,16 @@ public class GUIService{
 	
 	public void opcoesErroGerarCarteira() {
 		opcoes.gerarCarteiraErro();
+	}
+	public void opcoesInfoSalvar() {
+		opcoes.gerarAlertaSalvo();
+	}
+	public void opcoesInfoCarregar() {
+		opcoes.gerarAlertaCarregar();
+	}
+	
+	public Boolean opcoesAlterarSalvamento() {
+		return opcoes.mudarEstadoSalvar();
 	}
 	
 	//
