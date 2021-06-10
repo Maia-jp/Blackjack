@@ -61,11 +61,6 @@ public class TelaJogador extends JFrame implements Observado,Observador{
 		this.getContentPane().setLayout(null);
 		this.setResizable(false);
 		this.setBounds(0, 50, 1120, 700);
-
-		//vamo ver
-		List<String> lista = new ArrayList<String>();  
-		lista.add("C9");
-		lista.add("Dj");
 		
 		Panel panel = new Panel();
 		panel.setBackground(Color.WHITE);
@@ -74,36 +69,30 @@ public class TelaJogador extends JFrame implements Observado,Observador{
 		panel.setLayout(null);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-		Panel panel1 = new Panel();
-		panel1.setBackground(Color.WHITE);
-		panel1.setBounds(901, 10, 195, 133);
+		JPanel panel1 = new JPanel();
+		panel1.setBackground(Color.LIGHT_GRAY);
+		panel1.setBounds(901, 10, 195, 50);
 		this.getContentPane().add(panel1);
 		panel1.setLayout(null);
 		
-		Panel panel2 = new Panel();
-		panel2.setBackground(Color.WHITE);
-		panel2.setBounds(901, 518, 195, 133);
+		JPanel panel2 = new JPanel();
+		panel2.setBackground(Color.LIGHT_GRAY);
+		panel2.setBounds(901, 599, 195, 50);
 		this.getContentPane().add(panel2);
 		panel2.setLayout(null);
 		
-		Label label = new Label(nomeJogador);
+		Label label = new Label();
+		label.setText(nomeJogador);
 		label.setAlignment(Label.CENTER);
-		label.setBounds(45, 10, 98, 22);
+		label.setBounds(45, 8, 98, 22);
 		panel1.add(label);
 		
-		Label label_1 = new Label("Aposta total: ");
-		label_1.setAlignment(Label.CENTER);
-		label_1.setBounds(10, 38, 98, 22);
-		panel1.add(label_1);
-		
 		this.labelDinheiro = new JLabel();
-		this.labelDinheiro.setAlignmentX(CENTER_ALIGNMENT);
-		this.labelDinheiro.setBounds(10, 66, 98, 22);
+		this.labelDinheiro.setBounds(35, 25, 98*2, 22);
 		panel1.add(this.labelDinheiro);
 		
 		this.labelValor = new JLabel();
-		this.labelValor.setAlignmentX(CENTER_ALIGNMENT);
-		this.labelValor.setBounds(45, 10, 98, 22);
+		this.labelValor.setBounds(45, 12, 98*2, 22);
 		panel2.add(this.labelValor);
 		
 		this.hit = new JButton("HIT");
@@ -153,7 +142,7 @@ public class TelaJogador extends JFrame implements Observado,Observador{
 		this.surrender.addActionListener(btnAcionarSurrender);
 		
 		this.quit = new JButton("QUIT");
-		this.quit.setBounds(923,158,150,36);
+		this.quit.setBounds(923,75,150,36);
 		this.quit.setFont(new Font("Helvetica", Font.BOLD, 15));
 		this.quit.setForeground(Color.DARK_GRAY);
 		this.quit.setBackground(Color.LIGHT_GRAY);
@@ -355,11 +344,11 @@ public class TelaJogador extends JFrame implements Observado,Observador{
 	}
 		
 	private void atualizarValorDaMao(Integer novoValor) {
-		this.labelValor.setText("Novo Valor: " + novoValor);
+		this.labelValor.setText("VALOR DA MÃO: " + novoValor);
 	}
 		
 	private void dinheiroTotalJogador(Integer din) {
-		this.labelDinheiro.setText("Novo Valor: " + din);
+		this.labelDinheiro.setText("DINHEIRO TOTAL: " + din);
 	}
 			
 	//

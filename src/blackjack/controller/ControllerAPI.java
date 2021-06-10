@@ -166,8 +166,6 @@ public class ControllerAPI implements Observador{
 	private void telaJogadorSplit(String indiceJogador) {
 		if(api.pedirSplit(Integer.parseInt(indiceJogador))) {
 			view.telaSplitVisivel(Integer.parseInt(indiceJogador));
-		}else {
-			System.out.println("N�O FOI POSSIVEL ACIONAR O SPLIT");
 		}
 	}
 	

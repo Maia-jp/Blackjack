@@ -187,7 +187,7 @@ public class ModelAPI implements Observado {
             j.clearStand(1);
             j.clearSplit();
             j.clearSurrender();
-            if(j.fichasTotalJogador() == 0) {
+            if(j.fichasTotalJogador() < 20) {
                 quit[jogadores.indexOf(j)]=false;
             	notificar(j.getNomeJogador(),CodigosObservador.DINHEIRO_ZERO.valor);
             }
@@ -301,7 +301,6 @@ public class ModelAPI implements Observado {
 		if(jogadores.get(Integer.parseInt(String.valueOf(infoJogador.charAt(0)))).checkStand(Integer.parseInt(String.valueOf(infoJogador.charAt(1))))==false && jogadores.get(Integer.parseInt(String.valueOf(infoJogador.charAt(0)))).valorMao(Integer.parseInt(String.valueOf(infoJogador.charAt(1))))<21){
 			jogadores.get(Integer.parseInt(String.valueOf(infoJogador.charAt(0)))).hit(baralho.pegarCarta(),Integer.parseInt(String.valueOf(infoJogador.charAt(1))));
 			jogadores.get(Integer.parseInt(String.valueOf(infoJogador.charAt(0)))).putDobrar(Integer.parseInt(String.valueOf(infoJogador.charAt(1))));
-			jogadores.get(Integer.parseInt(String.valueOf(infoJogador.charAt(0)))).putSplit();
 			jogadores.get(Integer.parseInt(String.valueOf(infoJogador.charAt(0)))).putSurrender();
 			ativarBotoes(Integer.parseInt(String.valueOf(infoJogador.charAt(0))));
 		}
@@ -323,6 +322,7 @@ public class ModelAPI implements Observado {
 
 	public void pedirStand(String infoJogador) {
 		jogadores.get(Integer.parseInt(String.valueOf(infoJogador.charAt(0)))).putStand(Integer.parseInt(String.valueOf(infoJogador.charAt(1))));
+		jogadores.get(Integer.parseInt(String.valueOf(infoJogador.charAt(0)))).putDobrar(0);
 		jogadores.get(Integer.parseInt(String.valueOf(infoJogador.charAt(0)))).putSurrender();
 		ativarBotoes(Integer.parseInt(String.valueOf(infoJogador.charAt(0))));
 		if(!jogadores.get(Integer.parseInt(String.valueOf(infoJogador.charAt(0)))).getMaoJogador(1).isEmpty()) {
@@ -336,11 +336,9 @@ public class ModelAPI implements Observado {
 		}
 	}
 	
-	public boolean pedirDouble(String infoJogador) {
+	public void pedirDouble(String infoJogador) {
 		int total=apostaDoMontante(Integer.parseInt(String.valueOf(infoJogador.charAt(0))));
-		if(!(jogadores.get(Integer.parseInt(String.valueOf(infoJogador.charAt(0)))).fichasTotalJogador()>=total && jogadores.get(Integer.parseInt(String.valueOf(infoJogador.charAt(0)))).checkDobrar(Integer.parseInt(String.valueOf(infoJogador.charAt(1))))==false) ) {
-			return false;
-		}else{
+		if((jogadores.get(Integer.parseInt(String.valueOf(infoJogador.charAt(0)))).fichasTotalJogador()>=total && jogadores.get(Integer.parseInt(String.valueOf(infoJogador.charAt(0)))).checkDobrar(Integer.parseInt(String.valueOf(infoJogador.charAt(1))))==false) ) {
 			jogadores.get(Integer.parseInt(String.valueOf(infoJogador.charAt(0)))).dobrar(total,Integer.parseInt(String.valueOf(infoJogador.charAt(1))));
 			jogadores.get(Integer.parseInt(String.valueOf(infoJogador.charAt(0)))).hit(baralho.pegarCarta(), Integer.parseInt(String.valueOf(infoJogador.charAt(1))));
 			jogadores.get(Integer.parseInt(String.valueOf(infoJogador.charAt(0)))).putSurrender();
@@ -357,8 +355,11 @@ public class ModelAPI implements Observado {
 				proximoJogador();
 
 			}
-			return true;
-		}		
+		}else {
+			jogadores.get(Integer.parseInt(String.valueOf(infoJogador.charAt(0)))).putDobrar(0);
+			jogadores.get(Integer.parseInt(String.valueOf(infoJogador.charAt(0)))).putDobrar(1);
+			ativarBotoes(Integer.parseInt(String.valueOf(infoJogador.charAt(0))));
+		}
 	}
 	
 	public boolean pedirSplit(int indiceJogador) {
@@ -404,11 +405,12 @@ public class ModelAPI implements Observado {
 		}
 	}
 	
-	public void pedirSurrender(int indiceJogador) {			
+	public void pedirSurrender(int indiceJogador) {
 		jogadores.get(indiceJogador).surrender();
 		ativarBotoes(indiceJogador);
 		enviarInfoMaoJogador();
 		proximoJogador();
+
 	}
 	
 	public void pedirQuit(int indiceJogador) {			
@@ -749,15 +751,36 @@ public class ModelAPI implements Observado {
 			if(j.getNomeJogador() == jogadorNome(indiceJogador)) {
 				vetorBtn[0][0]=String.valueOf(!j.checkHit(0));
 				vetorBtn[1][0]=String.valueOf(!j.checkStand(0));
-				vetorBtn[2][0]=String.valueOf(!j.checkDobrar(0));
-				vetorBtn[3][0]=String.valueOf(!j.checkSplit());
+				if(j.getMaoJogador(0).size()==2 && j.fichasTotalJogador()>=apostaDoMontante(jogadores.indexOf(j))) {
+					vetorBtn[2][0]=String.valueOf(!j.checkDobrar(0));
+				}else if(j.getMaoJogador(0).size()>2) {
+					vetorBtn[2][0]=String.valueOf(!j.checkDobrar(0));
+				}else {
+					System.out.println(j.checkDobrar(0));
+					vetorBtn[2][0]=String.valueOf(j.checkDobrar(0));
+				}
+				if(j.checkSurrender()==false && j.getMaoJogador(0).get(0).getValor()==j.getMaoJogador(0).get(1).getValor() && j.getMaoJogador(0).size()==2 && j.fichasTotalJogador()>=apostaDoMontante(jogadores.indexOf(j))) {
+					vetorBtn[3][0]=String.valueOf(!j.checkSplit());
+				}else {
+					vetorBtn[3][0]=String.valueOf(j.checkSplit());
+				}
 				vetorBtn[4][0]=String.valueOf(!j.checkSurrender());
 				vetorBtn[5][0]=String.valueOf(indiceJogador);
 				vetorBtn[6][0]=String.valueOf(!j.checkQuit());
 				vetorBtn[0][1]=String.valueOf(!j.checkHit(1));
 				vetorBtn[1][1]=String.valueOf(!j.checkStand(1));
-				vetorBtn[2][1]=String.valueOf(!j.checkDobrar(1));
-				vetorBtn[3][1]=String.valueOf(!j.checkSplit());
+				if(j.getMaoJogador(1).size()==2 && j.fichasTotalJogador()>=apostaDoMontante(jogadores.indexOf(j))) {
+					vetorBtn[2][1]=String.valueOf(!j.checkDobrar(1));
+				}else if(j.getMaoJogador(1).size()>2) {
+					vetorBtn[2][1]=String.valueOf(!j.checkDobrar(1));
+				}else {
+					vetorBtn[2][1]=String.valueOf(j.checkDobrar(1));
+				}
+				if(j.checkSurrender()==false && j.getMaoJogador(0).get(0).getValor()== j.getMaoJogador(0).get(1).getValor() && j.getMaoJogador(0).size()==2 && j.fichasTotalJogador()>=apostaDoMontante(jogadores.indexOf(j))) {
+					vetorBtn[3][1]=String.valueOf(!j.checkSplit());
+				}else {
+					vetorBtn[3][1]=String.valueOf(j.checkSplit());
+				}
 				vetorBtn[4][1]=String.valueOf(!j.checkSurrender());
 				vetorBtn[5][1]=String.valueOf(indiceJogador);
 				vetorBtn[6][1]=String.valueOf(!j.checkQuit());
@@ -958,7 +981,7 @@ public class ModelAPI implements Observado {
 		for(Jogador j: jogadores) {
 			j.setTotalFichasJogador(dto.dinheiro.get(j.getNomeJogador()));
 		}
-		// @Ale @Ze, Atulizar tela do jogador/dealer
+		
 		
 	}
 	

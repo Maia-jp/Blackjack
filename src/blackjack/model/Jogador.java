@@ -145,14 +145,12 @@ class Jogador {
 			this.totalFichasJogador=this.getTotalFichasJogador()-aposta;
 			this.putStand(mao);
 			this.putDobrar(mao);
-			this.putSplit();
 	}	
 	
 	public boolean split() {
 		if((this.maoJogador[0].get(0).getValor()==this.maoJogador[0].get(1).getValor()) && this.split==false) {
 			this.maoJogador[1].add(this.maoJogador[0].get(1));
 			this.maoJogador[0].remove(1);
-			this.putSplit();
 			return true;
 		}else {
 			return false;
@@ -163,8 +161,6 @@ class Jogador {
 		this.maoJogador[0].remove(1);
 		this.maoJogador[0].remove(0);
 		this.putStand(0);
-		this.putDobrar(0);
-		this.putSplit();
 		this.putHit(0);
 		this.putSurrender();
 	}
@@ -179,8 +175,6 @@ class Jogador {
 	
 	public void putStand(int mao) {
 		this.setStand(true,mao);
-		this.putSplit();
-		this.putDobrar(mao);
 		this.putHit(mao);
 	}
 	
