@@ -279,12 +279,12 @@ public class ModelAPI implements Observado {
 			jogadores.get(Integer.parseInt(String.valueOf(infoJogador.charAt(0)))).hit(baralho.pegarCarta(),Integer.parseInt(String.valueOf(infoJogador.charAt(1))));
 			jogadores.get(Integer.parseInt(String.valueOf(infoJogador.charAt(0)))).putDobrar(Integer.parseInt(String.valueOf(infoJogador.charAt(1))));
 			jogadores.get(Integer.parseInt(String.valueOf(infoJogador.charAt(0)))).putSurrender();
-			ativarBotoes(Integer.parseInt(String.valueOf(infoJogador.charAt(0))));
+			jogadorAcao(Integer.parseInt(String.valueOf(infoJogador.charAt(0))));
 		}
 		//Verifica se a mao do jogador >= 21
 		if(jogadores.get(Integer.parseInt(String.valueOf(infoJogador.charAt(0)))).valorMao(Integer.parseInt(String.valueOf(infoJogador.charAt(1))))>=21) {
 			jogadores.get(Integer.parseInt(String.valueOf(infoJogador.charAt(0)))).putStand(Integer.parseInt(String.valueOf(infoJogador.charAt(1))));
-			ativarBotoes(Integer.parseInt(String.valueOf(infoJogador.charAt(0))));
+			jogadorAcao(Integer.parseInt(String.valueOf(infoJogador.charAt(0))));
 			if(!jogadores.get(Integer.parseInt(String.valueOf(infoJogador.charAt(0)))).getMaoJogador(1).isEmpty()) {
 				if(jogadores.get(Integer.parseInt(String.valueOf(infoJogador.charAt(0)))).checkStand(0) && jogadores.get(Integer.parseInt(String.valueOf(infoJogador.charAt(0)))).checkStand(1)) {
 					proximoJogador();
@@ -302,7 +302,7 @@ public class ModelAPI implements Observado {
 		jogadores.get(Integer.parseInt(String.valueOf(infoJogador.charAt(0)))).putStand(Integer.parseInt(String.valueOf(infoJogador.charAt(1))));
 		jogadores.get(Integer.parseInt(String.valueOf(infoJogador.charAt(0)))).putDobrar(0);
 		jogadores.get(Integer.parseInt(String.valueOf(infoJogador.charAt(0)))).putSurrender();
-		ativarBotoes(Integer.parseInt(String.valueOf(infoJogador.charAt(0))));
+		jogadorAcao(Integer.parseInt(String.valueOf(infoJogador.charAt(0))));
 		if(!jogadores.get(Integer.parseInt(String.valueOf(infoJogador.charAt(0)))).getMaoJogador(1).isEmpty()) {
 			if(jogadores.get(Integer.parseInt(String.valueOf(infoJogador.charAt(0)))).checkStand(0) && jogadores.get(Integer.parseInt(String.valueOf(infoJogador.charAt(0)))).checkStand(1)) {
 				proximoJogador();
@@ -315,11 +315,12 @@ public class ModelAPI implements Observado {
 	
 	public void pedirDouble(String infoJogador) {
 		int total=apostaDoMontante(Integer.parseInt(String.valueOf(infoJogador.charAt(0))));
+		//Verifica se o jogador tem fichas suficientes para dobrar e se o jogador nao acionou o dobrar antes
 		if((jogadores.get(Integer.parseInt(String.valueOf(infoJogador.charAt(0)))).fichasTotalJogador()>=total && jogadores.get(Integer.parseInt(String.valueOf(infoJogador.charAt(0)))).checkDobrar(Integer.parseInt(String.valueOf(infoJogador.charAt(1))))==false) ) {
 			jogadores.get(Integer.parseInt(String.valueOf(infoJogador.charAt(0)))).dobrar(total,Integer.parseInt(String.valueOf(infoJogador.charAt(1))));
 			jogadores.get(Integer.parseInt(String.valueOf(infoJogador.charAt(0)))).hit(baralho.pegarCarta(), Integer.parseInt(String.valueOf(infoJogador.charAt(1))));
 			jogadores.get(Integer.parseInt(String.valueOf(infoJogador.charAt(0)))).putSurrender();
-			ativarBotoes(Integer.parseInt(String.valueOf(infoJogador.charAt(0))));
+			jogadorAcao(Integer.parseInt(String.valueOf(infoJogador.charAt(0))));
 			apostaAdicional[Integer.parseInt(String.valueOf(infoJogador.charAt(0)))]=total+apostaAdicional[Integer.parseInt(String.valueOf(infoJogador.charAt(0)))];
 			enviarInfoDinheiroJogador();
 			enviarInfoMaoJogador();
@@ -335,18 +336,19 @@ public class ModelAPI implements Observado {
 		}else {
 			jogadores.get(Integer.parseInt(String.valueOf(infoJogador.charAt(0)))).putDobrar(0);
 			jogadores.get(Integer.parseInt(String.valueOf(infoJogador.charAt(0)))).putDobrar(1);
-			ativarBotoes(Integer.parseInt(String.valueOf(infoJogador.charAt(0))));
+			jogadorAcao(Integer.parseInt(String.valueOf(infoJogador.charAt(0))));
 		}
 	}
 	
-	// @Ze
 	public boolean pedirSplit(int indiceJogador) {
 		int total=apostaDoMontante(indiceJogador);
 		if(indiceJogador==-1) {
 			return false;
 		}
+		// Verifica se o jogador tem fichas suficientes para um split
 		if(jogadores.get(indiceJogador).fichasTotalJogador()>=total) {
 			if(jogadores.get(indiceJogador).split()) {
+				//Verifica se as cartas iniciais do jogador sao as, caso seja o jogo segue a regra de um split de as
 				if(jogadores.get(indiceJogador).valorMao(0)+jogadores.get(indiceJogador).valorMao(1)==22) {
 					jogadores.get(indiceJogador).hit(baralho.pegarCarta(), 0);
 					jogadores.get(indiceJogador).hit(baralho.pegarCarta(), 1);
@@ -357,7 +359,7 @@ public class ModelAPI implements Observado {
 					jogadores.get(indiceJogador).putSurrender();
 					jogadores.get(indiceJogador).apostar(total);
 					apostaAdicional[indiceJogador]=total+apostaAdicional[indiceJogador];
-					ativarBotoes(indiceJogador);
+					jogadorAcao(indiceJogador);
 					enviarInfoDinheiroJogador();
 					enviarInfoMaoJogador();
 					enviarInfoMaoJogadorSplit();
@@ -369,7 +371,7 @@ public class ModelAPI implements Observado {
 					jogadores.get(indiceJogador).apostar(total);
 					apostaAdicional[indiceJogador]=total+apostaAdicional[indiceJogador];
 					jogadores.get(indiceJogador).putSurrender();
-					ativarBotoes(indiceJogador);
+					jogadorAcao(indiceJogador);
 					enviarInfoDinheiroJogador();
 					enviarInfoMaoJogador();
 					enviarInfoMaoJogadorSplit();
@@ -385,7 +387,7 @@ public class ModelAPI implements Observado {
 	
 	public void pedirSurrender(int indiceJogador) {
 		jogadores.get(indiceJogador).surrender();
-		ativarBotoes(indiceJogador);
+		jogadorAcao(indiceJogador);
 		enviarInfoMaoJogador();
 		proximoJogador();
 
@@ -697,8 +699,8 @@ public class ModelAPI implements Observado {
 		}
 	}
 	
-	//@Ze
-	public void ativarBotoes(int indiceJogador) {
+	// Atualiza acoes do jogador de acordo com o jogo
+	public void jogadorAcao(int indiceJogador) {
 		String[][] vetorBtn = new String[7][2];
 		for(Jogador j: jogadores ) {
 			if(j.getNomeJogador() == jogadorNome(indiceJogador)) {
@@ -877,7 +879,7 @@ public class ModelAPI implements Observado {
 			}
 		}
 		if(jogada<=jogadores.size()-1) {
-			ativarBotoes(jogada);
+			jogadorAcao(jogada);
 		}
 		exibeNomeJogadores();
 		if(jogada >= jogadores.size()) {
@@ -930,7 +932,6 @@ public class ModelAPI implements Observado {
 	
 	//Carrega uma carteira dinamica 
 	public void carregarCarteira(String nome, int carteira) {
-		// @Ale @Ze , atualizar o dealer das novas infos referente ao jogador
 		for(Jogador j: jogadores) {
 			if(j.getNomeJogador()==nome) {
 				j.setTotalFichasJogador(carteira);

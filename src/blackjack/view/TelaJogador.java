@@ -154,7 +154,8 @@ public class TelaJogador extends JFrame implements Observado,Observador{
 		this.getContentPane().add(this.quit);
 		this.quit.addActionListener(btnAcionarQuit);
 	}
-		
+	
+	// Notificacao para controller dos botoes 
 	ActionListener btnAcionarHit = new ActionListener() {
     	public void actionPerformed(ActionEvent e) {
     		try {
@@ -230,7 +231,6 @@ public class TelaJogador extends JFrame implements Observado,Observador{
 		}
 	}
 	
-	//Observador
 	public void executar(Object obj,int ID) {
 		
 		if(maoJogador==0) {
@@ -240,7 +240,6 @@ public class TelaJogador extends JFrame implements Observado,Observador{
 			    	 if(obj.getClass().equals(HashMap.class)) {
 			    		 maoDosJogadores = (HashMap<String, List<String>>) obj;
 			    		 repaint();
-			    		 alterarMao(maoDosJogadores.get(nomeJogador));
 			    	 }else {
 			    		 System.out.println("[ERRO][Tela jogador][Observer] ID 2 deve receber um hashMap, foi recebido:" + obj.getClass());
 			    	 }
@@ -294,7 +293,6 @@ public class TelaJogador extends JFrame implements Observado,Observador{
 			    	 if(obj.getClass().equals(HashMap.class)) {
 			    		 maoDosJogadores = (HashMap<String, List<String>>) obj;
 			    		 repaint();
-			    		 alterarMao(maoDosJogadores.get(nomeJogador));
 			    	 }else {
 			    		 System.out.println("[ERRO][Tela jogador][Observer] ID 14 deve receber um hashMap, foi recebido:" + obj.getClass());
 			    	 }
@@ -336,13 +334,8 @@ public class TelaJogador extends JFrame implements Observado,Observador{
 			
 	}
 	
-	//Metodos de execucao observer
-	private void alterarMao(List<String> novaMao) {
-		System.out.println(novaMao);
-	}
-		
 	private void atualizarValorDaMao(Integer novoValor) {
-		this.labelValor.setText("VALOR DA M�O: " + novoValor);
+		this.labelValor.setText("VALOR DA MAO: " + novoValor);
 	}
 		
 	private void dinheiroTotalJogador(Integer din) {
