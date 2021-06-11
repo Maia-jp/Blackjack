@@ -1,3 +1,8 @@
+/* Blackjack
+ * Alexandre Bomfim Junior - 1921241
+ * Jose Lucas Teixeira Xavier - 1921254
+ * Joao Pedro Maia - 1920354
+ */
 package blackjack.model;
 
 import java.util.ArrayList;
@@ -16,7 +21,7 @@ class Jogador {
 	@SuppressWarnings("unchecked")
 	private ArrayList<Carta>[] maoJogador = new ArrayList[2];
 	
-	public Jogador(String nome) {
+	Jogador(String nome) {
 		this.setNomeJogador(nome);
 		this.setFichasJogador(fichasJogador);
 		this.maoJogador[0] = new ArrayList<>();
@@ -31,33 +36,33 @@ class Jogador {
 		this.setSurrender(false);
 	}
 	
-	public String getNomeJogador() {
+	 String getNomeJogador() {
 		return nomeJogador;
 	}
 	
-	public void setNomeJogador(String nomeJogador) {
+	 void setNomeJogador(String nomeJogador) {
 		this.nomeJogador = nomeJogador;
 	}
 	
-	public ArrayList<Carta> getMaoJogador(int mao) {
+	 ArrayList<Carta> getMaoJogador(int mao) {
 		return this.maoJogador[mao];
 	}
 	
-	public void recebeCarta(Carta a,int mao) {
+	 void recebeCarta(Carta a,int mao) {
 		this.maoJogador[mao].add(a);
 	}
 	
-	public void limparMaoJogador(int mao) {
+	 void limparMaoJogador(int mao) {
 		this.maoJogador[mao].clear();
 	}
 	
-	public int valorMao(int mao) {
+	 int valorMao(int mao) {
 		return contagemJogador(mao);
 	}
 	
 	private int contagemJogador(int mao) {
 		int total = 0, contador = 0, flag = 0;
-		//conta as cartas na m�o do dealer, para bolar a estrategia
+		//conta as cartas na mao do JOGADOR
 		for(int i = 0; i < this.maoJogador[mao].size(); i++) {
 			contador = this.maoJogador[mao].get(i).getValor();
 			
@@ -75,12 +80,11 @@ class Jogador {
 		}
 		
 		return total;
-		//TESTADO
 	}
 	
 	private int verificaValorAsJogador(int to)
 	{
-		//verifica se o total vai ser maior ou menor que 21 com a escolha do �s
+		//verifica se o total vai ser maior ou menor que 21 com a escolha do as
 		if(to + 11 > 21) {
 			 to += 1;
 		}
@@ -88,24 +92,24 @@ class Jogador {
 			to += 11;
 		}
 		return to;
-	//TESTADO
+
 	}
 	
 	//retorna a quantidade de dinheiro do jogador
-	public int fichasTotalJogador() {
+	 int fichasTotalJogador() {
 		return this.getTotalFichasJogador();
 	}
 	
 	//retorna um hashmap com a quantidade de cada ficha que o jogador possui
-	public LinkedHashMap <String, Integer> getFichasJogador() {
+	 LinkedHashMap <String, Integer> getFichasJogador() {
 		return fichasJogador;
 	}
 	
-	public void apostar(int aposta) {
+	 void apostar(int aposta) {
 		this.totalFichasJogador=this.getTotalFichasJogador()-aposta;
 	}
 	
-	public void receberAposta(int aposta) {
+	 void receberAposta(int aposta) {
 		this.totalFichasJogador=this.getTotalFichasJogador()+aposta;
 	}
 	
@@ -119,17 +123,17 @@ class Jogador {
 		this.totalFichasJogador=500;
 	}
 	
-	public void receberFichas(String ficha, int qtd) {
+	 void receberFichas(String ficha, int qtd) {
 		this.totalFichasJogador=this.getTotalFichasJogador()+(Integer.parseInt(ficha)*qtd);
 		this.fichasJogador.replace(ficha,fichasJogador.get(ficha)+qtd);
 	}
 	
-	public void pagarFichas(String ficha, int qtd) {
+	 void pagarFichas(String ficha, int qtd) {
 		this.totalFichasJogador=this.getTotalFichasJogador()-(Integer.parseInt(ficha)*qtd);
 		this.fichasJogador.replace(ficha,fichasJogador.get(ficha)-qtd);
 	}
 		
-	public boolean blackjack() {
+	 boolean blackjack() {
 		if (this.getMaoJogador(0).size() == 2 && this.valorMao(0) == 21) {
 			return true;
 		}else {
@@ -137,17 +141,17 @@ class Jogador {
 		}
 	}
 	
-	public void hit(Carta a,int mao) {
+	 void hit(Carta a,int mao) {
 		this.maoJogador[mao].add(a);
 	}
 	
-	public void dobrar(int aposta,int mao) {
+	 void dobrar(int aposta,int mao) {
 			this.totalFichasJogador=this.getTotalFichasJogador()-aposta;
 			this.putStand(mao);
 			this.putDobrar(mao);
 	}	
 	
-	public boolean split() {
+	 boolean split() {
 		if((this.maoJogador[0].get(0).getValor()==this.maoJogador[0].get(1).getValor()) && this.split==false) {
 			this.maoJogador[1].add(this.maoJogador[0].get(1));
 			this.maoJogador[0].remove(1);
@@ -157,7 +161,7 @@ class Jogador {
 		}
 	}
 	
-	public void surrender() {
+	 void surrender() {
 		this.maoJogador[0].remove(1);
 		this.maoJogador[0].remove(0);
 		this.putStand(0);
@@ -165,7 +169,7 @@ class Jogador {
 		this.putSurrender();
 	}
 	
-	public boolean checkStand(int mao) {
+	 boolean checkStand(int mao) {
 		return this.stand[mao];
 	}
 
@@ -173,16 +177,16 @@ class Jogador {
 		this.stand[mao] = stand;
 	}
 	
-	public void putStand(int mao) {
+	 void putStand(int mao) {
 		this.setStand(true,mao);
 		this.putHit(mao);
 	}
 	
-	public void clearStand(int mao) {
+	 void clearStand(int mao) {
 		this.setStand(false,mao);
 	}
 	
-	public boolean checkSplit() {
+	 boolean checkSplit() {
 		return this.split;
 	}
 	
@@ -190,15 +194,15 @@ class Jogador {
 		this.split = split;
 	}
 	
-	public void putSplit() {
+	 void putSplit() {
 		this.setSplit(true);
 	}
 	
-	public void clearSplit() {
+	 void clearSplit() {
 		this.setSplit(false);
 	}
 	
-	public boolean checkDobrar(int mao) {
+	 boolean checkDobrar(int mao) {
 		return this.dobrar[mao];
 	}
 	
@@ -206,11 +210,11 @@ class Jogador {
 		this.dobrar[mao] = dobrar;
 	}
 	
-	public void putDobrar(int mao) {
+	 void putDobrar(int mao) {
 		this.setDobrar(true,mao);
 	}
 	
-	public void clearDobrar(int mao) {
+	 void clearDobrar(int mao) {
 		this.setDobrar(false,mao);
 	}
 	
@@ -218,7 +222,7 @@ class Jogador {
 		this.fichasJogador = (LinkedHashMap<String, Integer>) novasFichas;
 	}
 
-	public boolean checkHit(int mao) {
+	 boolean checkHit(int mao) {
 		return this.hit[mao];
 	}
 	
@@ -226,15 +230,15 @@ class Jogador {
 		this.hit[mao] = hit;
 	}
 	
-	public void putHit(int mao) {
+	 void putHit(int mao) {
 		this.setHit(true,mao);
 	}
 	
-	public void clearHit(int mao) {
+	 void clearHit(int mao) {
 		this.setHit(false,mao);
 	}
 	
-	public boolean checkSurrender() {
+	 boolean checkSurrender() {
 		return this.surrender;
 	}
 	
@@ -242,15 +246,15 @@ class Jogador {
 		this.surrender = surrender;
 	}
 	
-	public void putSurrender() {
+	 void putSurrender() {
 		this.setSurrender(true);
 	}
 	
-	public void clearSurrender() {
+	 void clearSurrender() {
 		this.setSurrender(false);
 	}
 	
-	public boolean checkQuit() {
+	 boolean checkQuit() {
 		return this.quit;
 	}
 	
@@ -258,19 +262,19 @@ class Jogador {
 		this.quit = quit;
 	}
 	
-	public void putQuit() {
+	 void putQuit() {
 		this.setQuit(true);
 	}
 	
-	public void clearQuit() {
+	 void clearQuit() {
 		this.setQuit(false);
 	}
 	
-	public void setTotalFichasJogador(int i) {
+	 void setTotalFichasJogador(int i) {
 		this.totalFichasJogador = i;
 	}
 
-	public int getTotalFichasJogador() {
+	 int getTotalFichasJogador() {
 		return totalFichasJogador;
 	}
 	

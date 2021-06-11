@@ -1,7 +1,11 @@
+/* Blackjack
+ * Alexandre Bomfim Junior - 1921241
+ * Jose Lucas Teixeira Xavier - 1921254
+ * Joao Pedro Maia - 1920354
+ */
 package blackjack.model;
 
 
-//Implementa uma carta
 // H = Hearts/Copas
 // S = Spades/As
 // C = Clubs/Paus

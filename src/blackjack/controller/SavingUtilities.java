@@ -1,3 +1,8 @@
+/* Blackjack
+ * Alexandre Bomfim Junior - 1921241
+ * Jose Lucas Teixeira Xavier - 1921254
+ * Joao Pedro Maia - 1920354
+ */
 package blackjack.controller;
 
 import java.io.File;
@@ -24,6 +29,7 @@ public class SavingUtilities {
 		modeloSalvar.add("=====BLACKJACK=====");
 		modeloSalvar.add("Partida: "+ Instant.now().getEpochSecond());
 		
+		//Jogadores
 		modeloSalvar.add("Jogadores:");
 		jogadores.forEach(j->modeloSalvar.add(j));
 		//Padding
@@ -49,7 +55,6 @@ public class SavingUtilities {
 		 this.modeloSalvar = modeloSalvar;
 	}
 	
-	//Salva
 	public boolean salvar(String path,String name) {
 		 try {
 		      if(this.modeloSalvar == null ||this.modeloSalvar.isEmpty()) {
@@ -77,7 +82,7 @@ public class SavingUtilities {
 		    }
 	}
 	
-	//Criar Arquivo
+	
 	private void criarArquivo(String path,String name) {
 		try {
 		      File myObj = new File(path+"/"+name+".txt");
@@ -93,7 +98,6 @@ public class SavingUtilities {
 	}
 	
 	
-	//Carregar arquivo
 	public SaveDTO carregar(String path) {
 		SaveDTO dto = new SaveDTO();
 		

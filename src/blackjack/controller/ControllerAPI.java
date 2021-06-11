@@ -1,3 +1,8 @@
+/* Blackjack
+ * Alexandre Bomfim Junior - 1921241
+ * Jose Lucas Teixeira Xavier - 1921254
+ * Joao Pedro Maia - 1920354
+ */
 package blackjack.controller;
 
 import java.time.Instant;
@@ -21,11 +26,10 @@ public class ControllerAPI implements Observador{
 	public void start() throws Exception {
 		view.adicionarObservador(this);
 		view.exibir();
-		//view.exibirOpcoes();
 	}
 	
 	
-	//LOGICA OBSERVADOR
+	//Metodos de observacao
 	public void executar(Object obj, int ID) {
 		
 		if(CodigosObservadorView.BOTAO_COMECAR_TELA_INICIAL.valor==ID) {
@@ -179,7 +183,7 @@ public class ControllerAPI implements Observador{
 		  
 	}
 	
-	//Banca
+	//Callack observador relacionados a banca
 	
 	private void telaBancaAposta(String s) {
 		api.adicionaApostaInicial(s);
@@ -194,7 +198,7 @@ public class ControllerAPI implements Observador{
 		api.clearJogadorRodada();
 	}
 	
-	//Opcoes
+	//Callack observador relacionados a opcoes
 	private void opcoesGerarCarteira(String jogador) {
 		view.opcoesGerarCarteira(carteira.gerarCarteira(
 				api.jogadorNomeCarteiraTotal(jogador)
@@ -219,6 +223,7 @@ public class ControllerAPI implements Observador{
 		}
 	}
 	
+	////CALLBACKS de Botoes de Salvar
 	private void salvar(String dir) {
 		List<String> jogadores = api.listaNomeJogadores();
 		HashMap<String,Integer> dinheiro = api.dinheiroJogadoresComNome();
@@ -232,11 +237,12 @@ public class ControllerAPI implements Observador{
 	}
 	
 	private void carregar(String carregar) {
-		System.out.println(carregar);
 		SavingUtilities saveUtil = new SavingUtilities();
 		SaveDTO dto = saveUtil.carregar(carregar);
 		api.carregarSalvamento(dto);
 		view.opcoesInfoCarregar();
+		
+		view.reinicarComCarregamento();
 	}
 	
 	//

@@ -1,3 +1,8 @@
+/* Blackjack
+ * Alexandre Bomfim Junior - 1921241
+ * Jose Lucas Teixeira Xavier - 1921254
+ * Joao Pedro Maia - 1920354
+ */
 package blackjack.view;
 
 
@@ -56,7 +61,6 @@ public class TelaJogador extends JFrame implements Observado,Observador{
 	}
 	
 	private void initialize() {
-		System.out.println("Jogador incializado:" + nomeJogador);
 		this.getContentPane().setBackground(Color.DARK_GRAY);
 		this.getContentPane().setLayout(null);
 		this.setResizable(false);
@@ -151,73 +155,67 @@ public class TelaJogador extends JFrame implements Observado,Observador{
 		this.quit.addActionListener(btnAcionarQuit);
 	}
 		
-	public ActionListener btnAcionarHit = new ActionListener() {
+	ActionListener btnAcionarHit = new ActionListener() {
     	public void actionPerformed(ActionEvent e) {
     		try {
     			notificar(infoJogador,CodigosObservadorView.BOTAO_HIT_JOGADOR.valor);
-				System.out.println("HIT ACIONADO PELO JOGADOR: " + nomeJogador);
 			} catch (Exception e1) {
-				System.out.println("Erro[btnAcionarHit] ao chamar btnComecarCallback()"+e1);
+				System.out.println("Erro[btnAcionarHit] ao chamar btnComecarCallback()"+e);
 			}
 		}
     };
 	
-    public ActionListener btnAcionarStand = new ActionListener() {
+     ActionListener btnAcionarStand = new ActionListener() {
     	public void actionPerformed(ActionEvent e) {
     		try {
     			notificar(infoJogador,CodigosObservadorView.BOTAO_STAND_JOGADOR.valor);
-				System.out.println("STAND ACIONADO PELO JOGADOR: " + nomeJogador);
 			} catch (Exception e1) {
 				System.out.println("Erro[btnAcionarStand] ao chamar btnComecarCallback()"+e1);
 			}
 		}
     };
     
-    public ActionListener btnAcionarDouble = new ActionListener() {
+    ActionListener btnAcionarDouble = new ActionListener() {
     	public void actionPerformed(ActionEvent e) {
     		try {
     			notificar(infoJogador,CodigosObservadorView.BOTAO_DOUBLE_JOGADOR.valor);
-				System.out.println("DOUBLE ACIONADO PELO JOGADOR: " + nomeJogador);
 			} catch (Exception e1) {
 				System.out.println("Erro[btnAcionarDouble] ao chamar btnComecarCallback()"+e1);
 			}
 		}
     };
     
-    public ActionListener btnAcionarSplit = new ActionListener() {
+    ActionListener btnAcionarSplit = new ActionListener() {
     	public void actionPerformed(ActionEvent e) {
     		try {
     			notificar(Integer.toString(indiceJogador),CodigosObservadorView.BOTAO_SPLIT_JOGADOR.valor);
-				System.out.println("SPLIT ACIONADO PELO JOGADOR: " + nomeJogador);
 			} catch (Exception e1) {
 				System.out.println("Erro[btnAcionarSplit] ao chamar btnComecarCallback()"+e1);
 			}
 		}
     };
     
-    public ActionListener btnAcionarSurrender = new ActionListener() {
+    ActionListener btnAcionarSurrender = new ActionListener() {
     	public void actionPerformed(ActionEvent e) {
     		try {
     			notificar(Integer.toString(indiceJogador),CodigosObservadorView.BOTAO_SURRENDER_JOGADOR.valor);
-				System.out.println("SURRENDER ACIONADO PELO JOGADOR: " + nomeJogador);
 			} catch (Exception e1) {
 				System.out.println("Erro[btnAcionarSurrender] ao chamar btnComecarCallback()"+e1);
 			}
 		}
     };
     
-    public ActionListener btnAcionarQuit = new ActionListener() {
+    ActionListener btnAcionarQuit = new ActionListener() {
     	public void actionPerformed(ActionEvent e) {
     		try {
     			notificar(Integer.toString(indiceJogador),CodigosObservadorView.BOTAO_QUIT_JOGADOR.valor);
-				System.out.println("QUIT ACIONADO PELO JOGADOR: " + nomeJogador);
 			} catch (Exception e1) {
 				System.out.println("Erro[btnAcionarQuit] ao chamar btnComecarCallback()"+e1);
 			}
 		}
     };
     
-	public class Panel extends JPanel{
+	class Panel extends JPanel{
 		public void paintComponent(Graphics g) {
 			super.paintComponent(g);
 			g.drawImage(cI.getFundoBanca(), 0, 0, this);
@@ -344,7 +342,7 @@ public class TelaJogador extends JFrame implements Observado,Observador{
 	}
 		
 	private void atualizarValorDaMao(Integer novoValor) {
-		this.labelValor.setText("VALOR DA MÃO: " + novoValor);
+		this.labelValor.setText("VALOR DA Mï¿½O: " + novoValor);
 	}
 		
 	private void dinheiroTotalJogador(Integer din) {

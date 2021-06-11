@@ -1,3 +1,8 @@
+/* Blackjack
+ * Alexandre Bomfim Junior - 1921241
+ * Jose Lucas Teixeira Xavier - 1921254
+ * Joao Pedro Maia - 1920354
+ */
 package blackjack.controller;
 
 import java.util.ArrayList;
@@ -6,7 +11,6 @@ import java.util.List;
 
 //DTO -> Data transfer object
 public class SaveDTO {
-	boolean[] info = {false,false,false,false,false,false};
 	public List<String> jogadores;
 	public HashMap<String,Integer> dinheiro;
 	public int rodada;
@@ -19,19 +23,16 @@ public class SaveDTO {
 	
 	public void adicionarJogador(String jogador) {
 		jogadores.add(jogador);
-		info[0] = true; //Valida jogador adicionado
 	}
 	
 	
 	public void adicionarDinheiro(String dinheiroStr, int jogador) {
 		int temp = Integer.valueOf(dinheiroStr);
-		info[3] = true; //Valida Dinheiro adicionado
 		dinheiro.put(jogadores.get(jogador), temp);
 	}
 	
 	public void adicionarRodada(String rodada) {
 		this.rodada = Integer.valueOf(rodada);
-		info[4] = true; //Valida mao dealer
 	}
 	
 }

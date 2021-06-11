@@ -1,3 +1,8 @@
+/* Blackjack
+ * Alexandre Bomfim Junior - 1921241
+ * Jose Lucas Teixeira Xavier - 1921254
+ * Joao Pedro Maia - 1920354
+ */
 package blackjack.model;
 
 import java.util.ArrayList;
@@ -10,7 +15,7 @@ class Baralho{
 	private List<Carta> cartas;
 	
 	
-	public Baralho(int nBaralhos) {
+	 Baralho(int nBaralhos) {
 		this.cartas = new ArrayList<>();
 		for (int i = 0; i < nBaralhos; i++) {
 			 this.cartas.addAll(adicionarBaralho());
@@ -21,24 +26,21 @@ class Baralho{
 	}
 	
 	
-	//Embaralha as cartas
-	public void embaralhar() {
+	 void embaralhar() {
 		Collections.shuffle(this.cartas);
 	}
 	
 	
-	public int getNumeroDeCartas() {
+	 int getNumeroDeCartas() {
 		return numeroDeCartas;
 	}
 	
-	public Carta pegarCarta() {
+	 Carta pegarCarta() {
 		this.numeroDeCartas--; 
 		return this.cartas.remove(0);
 	}
 	
 	
-	
-	//Adiciona um baralho
 	private List<Carta> adicionarBaralho(){
 
 		String[] naipes = {"H","S","C","D"};

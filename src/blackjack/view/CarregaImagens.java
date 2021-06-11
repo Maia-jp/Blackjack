@@ -1,3 +1,8 @@
+/* Blackjack
+ * Alexandre Bomfim Junior - 1921241
+ * Jose Lucas Teixeira Xavier - 1921254
+ * Joao Pedro Maia - 1920354
+ */
 package blackjack.view;
 
 import java.awt.image.BufferedImage;
@@ -6,7 +11,7 @@ import java.util.LinkedHashMap;
 
 import javax.imageio.ImageIO;
 
-public class CarregaImagens {
+class CarregaImagens {
 	private BufferedImage fundoBanca;
 	private BufferedImage fichaV1;
 	private BufferedImage fichaV5;
@@ -20,7 +25,7 @@ public class CarregaImagens {
 	
 	private LinkedHashMap <String, BufferedImage> mapBaralho= new LinkedHashMap<String, BufferedImage>();
 	
-	public CarregaImagens() {
+	CarregaImagens() {
 	        try {
 	        	fundoBanca = ImageIO.read(getClass().getResource("/blackjackBKG.png"));
 	        	fichaV1 = ImageIO.read(getClass().getResource("/ficha 1$.png"));

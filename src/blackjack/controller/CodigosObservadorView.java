@@ -1,7 +1,12 @@
+/* Blackjack
+ * Alexandre Bomfim Junior - 1921241
+ * Jose Lucas Teixeira Xavier - 1921254
+ * Joao Pedro Maia - 1920354
+ */
 package blackjack.controller;
 import java.util.ArrayList;
 
-//IDS 100-200
+//Codigos referentes as chamadas do modelo observer (IDs de 100 a 200 inclusivo)
 public enum CodigosObservadorView {
 	
 	BOTAO_COMECAR_TELA_INICIAL(100,ArrayList.class),

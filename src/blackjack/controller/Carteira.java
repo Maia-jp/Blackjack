@@ -1,3 +1,8 @@
+/* Blackjack
+ * Alexandre Bomfim Junior - 1921241
+ * Jose Lucas Teixeira Xavier - 1921254
+ * Joao Pedro Maia - 1920354
+ */
 package blackjack.controller;
 
 import java.io.UnsupportedEncodingException;
@@ -8,6 +13,7 @@ import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
 
+//Modulos de criptografia
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
 
@@ -16,6 +22,7 @@ class Carteira {
 	private static SecretKeySpec secretKey;
 	private static byte[] key;
 	
+	//Cria uma chave secreta utilizando o padrão AES/SHA-1
 	private static void setKey(String myKey) 
     {
         MessageDigest sha = null;
@@ -34,6 +41,7 @@ class Carteira {
         }
     }
 	
+	//Encripta a mensagem usando uma chave
 	private static String encrypt(String strToEncrypt, String secret) 
     {
         try
@@ -45,11 +53,12 @@ class Carteira {
         } 
         catch (Exception e) 
         {
-            //System.out.println("Error while encrypting: " + e.toString());
+           return null;
         }
-        return null;
+
     }
 	
+	//Utilizado para decrptar uma mensagem
 	private static String decrypt(String strToDecrypt, String secret) 
     {
         try
@@ -67,22 +76,23 @@ class Carteira {
     }
 	
 	//Metodos especificos
-	public String gerarCarteira(int fichas , String jogador) {
-		//Padrão de string encriptada -> |Fichas de 1,5,10,20,50,100 no formato 0x0000 unsigned||nome do jogador|
+	String gerarCarteira(int fichas , String jogador) {
 		
 		//Mensagem a ser criptografada
 		String msg = "";
 		
 		msg = msg + converterHex(fichas);
-		msg = msg + "s0" + jogador;
+		msg = msg + "s0" + jogador; // padding
 		
-		
+	
 		return encrypt(msg,jogador);
 	}
 	
-	public int validarCarteira(String endereco,String jogador){
+	
+	 int validarCarteira(String endereco,String jogador){
 		String msg = decrypt(endereco,jogador);
 		
+		//Se nao for possivel validar retorna -1
 		if(!validarNome(msg,jogador)) {
 			return -1;
 		}
@@ -118,6 +128,7 @@ class Carteira {
 		return resultado+hex;
 	}
 	
+	//Validaão é feita conferindo a existencia de certos "marcos" na string
 	private boolean validarNome(String msg,String Jogador) {
 		boolean[] testes = {false,false,false};
 		if(msg==null) {

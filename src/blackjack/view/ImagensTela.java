@@ -1,3 +1,8 @@
+/* Blackjack
+ * Alexandre Bomfim Junior - 1921241
+ * Jose Lucas Teixeira Xavier - 1921254
+ * Joao Pedro Maia - 1920354
+ */
 package blackjack.view;
 
 import javax.swing.JPanel;
@@ -8,7 +13,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.util.List;
 
-public class ImagensTela extends JPanel{
+class ImagensTela extends JPanel{
    
 	private CarregaImagens cI;
     private List<String> chave;
@@ -20,12 +25,12 @@ public class ImagensTela extends JPanel{
     private boolean botaoOk;
     private List<String[]> resultadoFinal;
     
-    public ImagensTela(CarregaImagens cI) {
+     ImagensTela(CarregaImagens cI) {
     	this.cI = cI;
     	this.botaoOk = false;
      }
     
-    public void paintComponent(Graphics g) {
+     protected void paintComponent(Graphics g) {
     	super.paintComponent(g);
     	Graphics2D g2d = (Graphics2D) g;
     	g2d.drawImage(cI.getFundoBanca(),0,0, null);
@@ -108,44 +113,44 @@ public class ImagensTela extends JPanel{
     	}
     }
     
-    public void redesenhar(List<String> mao) {
+     void redesenhar(List<String> mao) {
     	chave = mao;
     	repaint();
     }
     
-    public void redesenhar(int [] conteudo) {
+     void redesenhar(int [] conteudo) {
     	this.conteudo = conteudo;
     	repaint();
     }
     
-    public void redesenhar(String[] valorFicha) {
+     void redesenhar(String[] valorFicha) {
     	this.valorFicha = valorFicha[0];
     	this.apostaInicialTotal = valorFicha[1];
     	repaint();
     }
     
-    public void redesenhar(boolean botaoOk) {
+     void redesenhar(boolean botaoOk) {
     	this.botaoOk = botaoOk;
     	repaint();
     }
     
-    public void redesenhar() {
+     void redesenhar() {
     	this.botaoOk = false;
     	this.valorFicha = null;
     	repaint();
     }
     
-    public void redesenhar(String nomeJogador) {
+     void redesenhar(String nomeJogador) {
     	this.nomeJogador = nomeJogador;
     	repaint();
     }
     
-    public void redesenhar2(List<String[]> infosJogadores) {
+     void redesenhar2(List<String[]> infosJogadores) {
     	this.infosJogadores = infosJogadores;
     	repaint();
     }
     
-    public void redesenhar3(List<String[]> resultadoFinal) {
+     void redesenhar3(List<String[]> resultadoFinal) {
     	this.resultadoFinal = resultadoFinal;
     	repaint();
     }

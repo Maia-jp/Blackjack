@@ -1,3 +1,8 @@
+/* Blackjack
+ * Alexandre Bomfim Junior - 1921241
+ * Jose Lucas Teixeira Xavier - 1921254
+ * Joao Pedro Maia - 1920354
+ */
 package blackjack.view;
 
 import java.awt.event.ActionEvent;
@@ -30,7 +35,7 @@ public class TelaIncial extends JFrame implements Observado{
 	
 	private JLabel lblJogadoresSelecionados;
 	
-	public JButton btnComecarPartida;
+	JButton btnComecarPartida;
 	
 	public TelaIncial() {
 		initialize();
@@ -161,7 +166,7 @@ public class TelaIncial extends JFrame implements Observado{
         }
     };
     
-    public ActionListener btnPartidaAction = new ActionListener() {
+    ActionListener btnPartidaAction = new ActionListener() {
     	public void actionPerformed(ActionEvent e) {
     		try {
 				btnComecarCallback();
@@ -201,7 +206,7 @@ public class TelaIncial extends JFrame implements Observado{
         }else {
         	this.setVisible(false);
         }
-        System.out.print("Passa 1; ");
+        
         notificar(this.getJogadores(),CodigosObservadorView.BOTAO_COMECAR_TELA_INICIAL.valor);
 
     }

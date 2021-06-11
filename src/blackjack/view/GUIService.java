@@ -1,3 +1,8 @@
+/* Blackjack
+ * Alexandre Bomfim Junior - 1921241
+ * Jose Lucas Teixeira Xavier - 1921254
+ * Joao Pedro Maia - 1920354
+ */
 package blackjack.view;
 import javax.swing.*;
 import javax.swing.event.*;
@@ -15,10 +20,8 @@ import blackjack.model.Observado;
 
 public class GUIService{
 	
-	
 	private String ID;
 	
-	//Model API para opera��es simples
 	public ModelAPI api; 
 	
 	//bitmap -> exibindo tela inical, exibindo carregamento de partida, exibindo jogo
@@ -32,10 +35,8 @@ public class GUIService{
 	TelaBanca telaBanca = new TelaBanca(cI);
 	TelaOpcoes opcoes;
 	
-	//
-	//
+	
 	//Singleton
-	//
 	private static GUIService instanciaUnica;
 	
 	private GUIService(ModelAPI api) {
@@ -53,6 +54,13 @@ public class GUIService{
 		if(instanciaUnica == null)
 			instanciaUnica = new GUIService(api);
 		return instanciaUnica;
+	}
+	
+	public void reinicarComCarregamento() {
+		this.ID = gerarID();
+		estado.clear();
+		estado.set(1); //Estado iniciar é exibir a tela inicial
+		
 	}
 		
 	//
@@ -104,8 +112,6 @@ public class GUIService{
 			exibirTelaJogador();
 			exibirTelaBanca();
 			exibirTelaJogadorSplit();
-			//DISTRIBUIR AS CARTAS
-			//api.distribuirCartas();
 		}
 	}
 	
@@ -147,11 +153,9 @@ public class GUIService{
 		 
 		 estado.flip(0);
 		 estado.flip(1);
-		 System.out.println("Jogadores adicionados com sucesso");
 		 try {
 			exibir();
 		} catch (Exception e) {
-			System.out.println("Erro[telaInicialComecarCallback] ao chamar exibir()");
 			e.printStackTrace();
 		}
 	}
@@ -207,6 +211,5 @@ public class GUIService{
 	public void adicionarObservador(Observador o) {
 		observadores.add(o);
 	}
-
 	
 }

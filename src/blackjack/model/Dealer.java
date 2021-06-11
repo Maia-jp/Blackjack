@@ -1,3 +1,8 @@
+/* Blackjack
+ * Alexandre Bomfim Junior - 1921241
+ * Jose Lucas Teixeira Xavier - 1921254
+ * Joao Pedro Maia - 1920354
+ */
 package blackjack.model;
 
 import java.util.ArrayList;
@@ -5,52 +10,44 @@ import java.util.ArrayList;
 class Dealer extends Jogador{
 	private ArrayList<Carta> cartasDealer;
 	
-	public Dealer(String nome) {
+	 Dealer(String nome) {
 		super(nome);
 		super.setNomeJogador(nome);
 		this.cartasDealer = new ArrayList<>();
-		//TESTADO
 	}
 	
-	public String getNomeJogador() {
+	 String getNomeJogador() {
 		return super.getNomeJogador();
-		//TESTADO
 	}
 	
-	//adiciona cartas na mão do Dealer
+	//adiciona cartas na mao do Dealer
 	void receberCarta(Carta a) {
 		this.cartasDealer.add(a);
-		//TESTADO
 	}
 	
 	//Retorna quantas cartas o delaer possui.
 	int qtdCartasDealer() {
 		return this.cartasDealer.size();
-		//TESTADO
 	}
 	
-	//remove as cartas da mão
+	//remove as cartas da mao
 	void limpaMao() {
 		this.cartasDealer.clear();
-		//TESTADO
 	}
 	
 	//retorna pra mesa as cartas do Dealer
 	ArrayList<Carta> verificarMao(){
 		return this.cartasDealer;
-		//TESTADO
 	}
 	
 	int valorMao() {
 		int val = contagem();
 		return val;
-		//TESTADO
 	}
 	
-	//verifica qual valor o dealer vai escolher do Ás
-	private int verificaValorAs(int to)
-	{
-		//verifica se o total vai ser maior ou menor que 21 com a escolha do Ás
+	//verifica qual valor o dealer vai escolher do as
+	private int verificaValorAs(int to){
+		//verifica se o total vai ser maior ou menor que 21 com a escolha do ï¿½s
 		if(to + 11 > 21) {
 			 to += 1;
 		}
@@ -58,13 +55,12 @@ class Dealer extends Jogador{
 			to += 11;
 		}
 		return to;
-	//TESTADO
 	}
 	
-	//conta as cartas na mão do Dealer
+
 	private int contagem() {
 		int total = 0, contador = 0, flag = 0;
-		//conta as cartas na mão do dealer, para bolar a estrategia
+		//conta as cartas na mao do dealer, para bolar a estrategia
 		for(int i = 0; i < this.cartasDealer.size(); i++) {
 			contador = this.cartasDealer.get(i).getValor();
 			
@@ -82,22 +78,21 @@ class Dealer extends Jogador{
 		}
 		
 		return total;
-		//TESTADO
+
 	}
 	
-	//vai definir a estrategia do Dealer______DEVE SER CHAMADO PELA MESA_________
+	
 	private int estrategia() {
 		int total = contagem();
 		
 		if(total >= 17) {
-			//significa que não pode pegar mais cartas
+			//significa que nao pode pegar mais cartas
 			return 1;
 		}
 		else{
 			// significa que mais uma Carta
 			return 2;
 		}
-		//TESTADO
 	}
 	
 	boolean blackJackDealer() {
@@ -105,12 +100,10 @@ class Dealer extends Jogador{
 			return true;
 		}
 		return false;
-		//TESTADO
 	}
 	
 	int checkEstrategia() {
 		return estrategia();
-		//TESTADO
 	}
 }
 

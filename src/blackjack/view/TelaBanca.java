@@ -1,3 +1,8 @@
+/* Blackjack
+ * Alexandre Bomfim Junior - 1921241
+ * Jose Lucas Teixeira Xavier - 1921254
+ * Joao Pedro Maia - 1920354
+ */
 package blackjack.view;
 import java.awt.Canvas;
 import java.awt.Color;
@@ -21,7 +26,7 @@ import javax.swing.JFrame;
 import blackjack.controller.CodigosObservadorView;
 import blackjack.model.Observado;
 
-public class TelaBanca extends JFrame implements Observado,Observador, MouseListener{
+class TelaBanca extends JFrame implements Observado,Observador, MouseListener{
 	
 	private final int LARG_DEFAULT=891;
 	private final int ALT_DEFAULT=700;
@@ -32,7 +37,7 @@ public class TelaBanca extends JFrame implements Observado,Observador, MouseList
 	private JButton salvar;
 	private JButton clear;
 	
-	public TelaBanca(CarregaImagens cI) {
+	 TelaBanca(CarregaImagens cI) {
 		super("Banca");
 		this.cI = cI;
 		addMouseListener(this);
@@ -50,6 +55,7 @@ public class TelaBanca extends JFrame implements Observado,Observador, MouseList
 			novaRodada.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				notificar(true,CodigosObservadorView.BOTAO_NOVA_RODADA.valor);
+				// @jao
 			}
 		});
 		telaI.add(novaRodada);
@@ -187,6 +193,7 @@ public class TelaBanca extends JFrame implements Observado,Observador, MouseList
 		}
 		else if (e.getX() >= 760 && e.getX() <= 810 && e.getY() >= 290 && e.getY() <=  320) {
 			notificar(true,CodigosObservadorView.BOTAO_APOSTA_INCIAL_REALIZAR.valor);
+			// @eu
 		}
 		else if (e.getX() >= 750 && e.getX() <= 809 && e.getY() >= 200 && e.getY() <=  259) {
 			notificar(true,CodigosObservadorView.BOTAO_REMOVE_FICHA_APOSTA.valor);
