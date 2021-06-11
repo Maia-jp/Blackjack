@@ -58,7 +58,7 @@ public class ModelAPI implements Observado {
 				if(j.getMaoJogador(0).isEmpty()) {
 					if(dealer.blackJackDealer() == false) {
 						result = "RESULTADO FOI DE UMA RENDICAO PARA O JOGADOR: " + j.getNomeJogador();
-						lucro = "SEU LUCRO FOI‰ DE: " + apostaDoMontante(jogadores.indexOf(j))/2;
+						lucro = "SEU LUCRO FOI DE: " + apostaDoMontante(jogadores.indexOf(j))/2;
 						j.receberAposta(apostaDoMontante(jogadores.indexOf(j))/2);
 					}else if (dealer.blackJackDealer() == true) {
 						result = "DEALER POSSUI BLACKJACK, JOGADOR NAO PODE SE RENDER:" + j.getNomeJogador();
@@ -94,7 +94,7 @@ public class ModelAPI implements Observado {
 					resultadosJogador = new String[] {result, lucro};
 				}else {
 					if(j.valorMao(0)>21) {
-						result = "VOCÃŠ QUEBROU A MAO: " + j.getNomeJogador();
+						result = "VOCE QUEBROU A MAO: " + j.getNomeJogador();
 						lucro = "SEU LUCRO FOI ZERO";
 					}else if((j.blackjack()) && (dealer.blackJackDealer() == false)) {
 						result = "RESULTADO FOI UM BLACKJACK PARA O JOGADOR: " + j.getNomeJogador();

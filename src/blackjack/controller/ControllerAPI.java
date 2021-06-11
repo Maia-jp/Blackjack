@@ -165,6 +165,7 @@ public class ControllerAPI implements Observador{
 		api.notificaViewInfoJogadores();
 	}
 	
+	// Importante ressaltar que a string infojogador eh formada por dois caracteres, sendo o primeiro caracter o indice do jogador e o segundo caractere a mao que o jogador pediu a acao
 	private void telaJogadorHit(String infoJogador) {
 		api.pedirHit(infoJogador);
 	}
