@@ -49,6 +49,7 @@ class TelaBanca extends JFrame implements Observado,Observador, MouseListener{
 		getContentPane().add(telaI);
 		setResizable(false);
 		setBounds(450,40,LARG_DEFAULT,ALT_DEFAULT);
+		this.setLocationRelativeTo(null); 
 
 		novaRodada = new JButton("Nova Rodada");
 		novaRodada.setEnabled(false);

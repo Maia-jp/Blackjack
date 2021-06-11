@@ -36,6 +36,7 @@ public class TelaIncial extends JFrame implements Observado{
 	private JLabel lblJogadoresSelecionados;
 	
 	JButton btnComecarPartida;
+	JButton btnCarregar;
 	
 	public TelaIncial() {
 		initialize();
@@ -113,9 +114,14 @@ public class TelaIncial extends JFrame implements Observado{
 		lblJogadoresSelecionados.setBounds(346, 9, 160, 64);
 		lblj2.add(lblJogadoresSelecionados);
 		
-		JButton btnCarregar = new JButton("Carregar Partida");
+		this.btnCarregar = new JButton("Carregar Partida");
 		btnCarregar.setBounds(10, 227, 135, 23);
 		this.getContentPane().add(btnCarregar);
+		btnCarregar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				abrirSelecaoCarregar();
+		}
+	});
 		
 		
 		//Adiciona listners
@@ -215,6 +221,11 @@ public class TelaIncial extends JFrame implements Observado{
     	if(jogadores.isEmpty())
     		throw new Exception("Nao existem jogadores");
     	return jogadores;
+    }
+    
+    private void abrirSelecaoCarregar() {
+    	notificar(true,CodigosObservadorView.BOTAO_CARREGAR_TELA_INICIAL.valor);
+    	System.out.println("Notificar");
     }
 
     //

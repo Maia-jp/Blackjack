@@ -40,10 +40,8 @@ class TelaOpcoes extends JFrame implements Observado{
 	
 	//Botoes e labels globais - Tab salvar/carregar
 	JButton btnSelecionarLocal;
-	JButton btnCarregar;
 	JButton btnSalvar;
 	JLabel lblTab0Salvar;
-	JLabel  lblTab0Carregar; 
 	
 	//Botoes e labels globais - Carteira
 	JButton btnGerarCarteira;
@@ -66,23 +64,9 @@ class TelaOpcoes extends JFrame implements Observado{
 		//Tab salvar/carregar
 		
 		JPanel salvarTAB = new JPanel();
-		tabbedPane.addTab("Salvar/Carregar", null, salvarTAB, null);
+		tabbedPane.addTab("Salvar", null, salvarTAB, null);
 		salvarTAB.setLayout(null);
 		
-		this.btnCarregar = new JButton("Carregar");
-		btnCarregar.setEnabled(false);
-		btnCarregar.setBounds(10, 164, 389, 23);
-		btnCarregar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				carregar();
-	         }
-		});
-
-		salvarTAB.add(btnCarregar);
-		
-		this.lblTab0Carregar = new JLabel("Carregar");
-		lblTab0Carregar.setBounds(10, 104, 389, 14);
-		salvarTAB.add(lblTab0Carregar);
 		
 		this.lblTab0Salvar = new JLabel("Salvar");
 		lblTab0Salvar.setBounds(10, 11, 389, 14);
@@ -112,14 +96,6 @@ class TelaOpcoes extends JFrame implements Observado{
 		});
 		salvarTAB.add(btnSalvar);
 		
-		JButton btnSelecionarArquivo = new JButton("Selecionar Arquivo");
-		btnSelecionarArquivo.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				abrirSelecaoArquivo();
-			}
-		});
-		btnSelecionarArquivo.setBounds(10, 130, 389, 23);
-		salvarTAB.add(btnSelecionarArquivo);
 		
 		//TAB carteira
 		
@@ -215,30 +191,12 @@ class TelaOpcoes extends JFrame implements Observado{
         }
      }
 	
-	private void abrirSelecaoArquivo() {
-		JFileChooser fileChooser = new JFileChooser();
-        fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-        int option = fileChooser.showOpenDialog(this);
-        if(option == JFileChooser.APPROVE_OPTION){
-           File file = fileChooser.getSelectedFile();
-           diretorioCarregar = file.getAbsolutePath();
-           lblTab0Carregar.setText("Carregar de: "+diretorioCarregar);
-           btnCarregar.setEnabled(true);
-           
-        }else{
-        	return;
-        }
-     }
 	
 	private void salvar() {
 		notificar(diretorioSalvar,
 				CodigosObservadorView.BOTAO_SALVAR_TELA_OPCOES.valor); 
 	}
 	
-	private void carregar() {
-		notificar(diretorioCarregar,
-				CodigosObservadorView.BOTAO_CARREGAR_TELA_OPCOES.valor);
-	}
 	
 	Boolean mudarEstadoSalvar() {
 		btnSalvar.setEnabled(!btnSalvar.isEnabled());
@@ -278,8 +236,10 @@ class TelaOpcoes extends JFrame implements Observado{
 		
 	}
 	
-	void gerarAlertaSalvo() {
-		JOptionPane.showMessageDialog(new JFrame(), "O jogo foi salvo com sucesso", "O jogo foi salvo com sucesso",
+	void gerarAlertaSalvo(String dir) {
+		String msg = "JOGO SALVO na pasta informada com o nome: "+dir+".txt";
+		
+		JOptionPane.showMessageDialog(new JFrame(), msg, "Salvar",
 		        JOptionPane.INFORMATION_MESSAGE);
 		
 	}

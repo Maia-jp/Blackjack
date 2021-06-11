@@ -32,7 +32,8 @@ import javax.swing.ImageIcon;
 
 import blackjack.controller.CodigosObservadorView;
 
-public class TelaJogador extends JFrame implements Observado,Observador{
+class TelaJogador extends JFrame implements Observado,Observador{
+	int yLocaltion =50;
 	String nomeJogador;
 	Integer indiceJogador;
 	HashMap<String,List<String>> maoDosJogadores;
@@ -65,6 +66,7 @@ public class TelaJogador extends JFrame implements Observado,Observador{
 		this.getContentPane().setLayout(null);
 		this.setResizable(false);
 		this.setBounds(0, 50, 1120, 700);
+		this.setLocation(0, yLocaltion);
 		
 		Panel panel = new Panel();
 		panel.setBackground(Color.WHITE);
@@ -340,6 +342,11 @@ public class TelaJogador extends JFrame implements Observado,Observador{
 		
 	private void dinheiroTotalJogador(Integer din) {
 		this.labelDinheiro.setText("DINHEIRO TOTAL: " + din);
+	}
+	
+	void adicionarYAbertura(int n) {
+		this.yLocaltion = n*50;
+		this.setLocation(0, n*50);
 	}
 			
 	//

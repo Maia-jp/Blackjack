@@ -34,6 +34,7 @@ public class GUIService{
 	static List<TelaJogador> telasJogadorSplit = new ArrayList<>();
 	TelaBanca telaBanca = new TelaBanca(cI);
 	TelaOpcoes opcoes;
+	TelaCarregamento telaCarregamento;
 	
 	
 	//Singleton
@@ -147,8 +148,61 @@ public class GUIService{
 		 jogadores.forEach((j) -> telasJogadorSplit.add(new TelaJogador(j,cI,1,jogadores.indexOf(j))));
 		 telasJogadorSplit.forEach((j) -> j.adicionarObservador(o));
 		 telasJogadorSplit.forEach((j) -> api.adicionarObservador(j));
+		 
+		//Incrimenta a posicao y da janela para adicioanr efeito "stack"
+		 int stackY=1;
+		 for(TelaJogador t:telasJogador){
+			 t.adicionarYAbertura(stackY);
+			 stackY++;
+			 
+		 }
+		 
+		 stackY=1;
+		 for(TelaJogador t:telasJogadorSplit){
+			 t.adicionarYAbertura(stackY);
+			 stackY++;
+			 
+		 }
 	
 		 telaInicial.dispose();
+		 
+		 
+		 estado.flip(0);
+		 estado.flip(1);
+		 try {
+			exibir();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void telaIncialCarregar(Observador o) {
+		List<String> jogadores = api.listaNomeJogadores();
+		 jogadores.forEach((j) -> telasJogador.add(new TelaJogador(j,cI,0,jogadores.indexOf(j))));
+		 telasJogador.forEach((j) -> j.adicionarObservador(o));
+		 telasJogador.forEach((j) -> api.adicionarObservador(j));
+		 
+		 jogadores.forEach((j) -> telasJogadorSplit.add(new TelaJogador(j,cI,1,jogadores.indexOf(j))));
+		 telasJogadorSplit.forEach((j) -> j.adicionarObservador(o));
+		 telasJogadorSplit.forEach((j) -> api.adicionarObservador(j));
+		 
+		 //Incrimenta a posicao y da janela para adicioanr efeito "stack"
+		 int stackY=1;
+		 for(TelaJogador t:telasJogador){
+			 t.adicionarYAbertura(stackY);
+			 stackY++;
+			 
+		 }
+		 
+		 stackY=1;
+		 for(TelaJogador t:telasJogadorSplit){
+			 t.adicionarYAbertura(stackY);
+			 stackY++;
+			 
+		 }
+	
+		 telaInicial.dispose();
+		 telaCarregamento.dispose();
 		 
 		 
 		 estado.flip(0);
@@ -192,8 +246,8 @@ public class GUIService{
 	public void opcoesErroGerarCarteira() {
 		opcoes.gerarCarteiraErro();
 	}
-	public void opcoesInfoSalvar() {
-		opcoes.gerarAlertaSalvo();
+	public void opcoesInfoSalvar(String dir) {
+		opcoes.gerarAlertaSalvo(dir);
 	}
 	public void opcoesInfoCarregar() {
 		opcoes.gerarAlertaCarregar();
@@ -202,6 +256,13 @@ public class GUIService{
 	public Boolean opcoesAlterarSalvamento() {
 		return opcoes.mudarEstadoSalvar();
 	}
+	
+	public void abirTelaCarregamento() {
+		this.telaCarregamento = TelaCarregamento.iniciar();
+		observadores.forEach(o->telaCarregamento.adicionarObservador(o));
+		telaCarregamento.setVisible(true);
+	}
+
 	
 	//
 	// OBSERVADO metodos
