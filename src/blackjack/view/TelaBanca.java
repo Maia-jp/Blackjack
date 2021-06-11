@@ -78,6 +78,7 @@ class TelaBanca extends JFrame implements Observado,Observador, MouseListener{
 		telaI.add(salvar);
 		
 		clear = new JButton("Clear");
+		clear.setEnabled(true);
 		clear.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			notificar(false,CodigosObservadorView.BOTAO_CLEAR.valor);
@@ -152,7 +153,7 @@ class TelaBanca extends JFrame implements Observado,Observador, MouseListener{
 		    		 Boolean novaRodadaBol = (Boolean)obj;
 		    		 this.novaRodada.setEnabled(novaRodadaBol);
 		    	 }else {
-		    		 System.out.println("[ERRO][Tela Banca][Observer] ID 1 deve receber um ArrayList, foi recebido:" + obj.getClass());
+		    		 System.out.println("[ERRO][Tela Banca][Observer] ID 1 deve receber um Boolean, foi recebido:" + obj.getClass());
 		    	 }
 		    	 break;
 			case 20:
@@ -161,6 +162,14 @@ class TelaBanca extends JFrame implements Observado,Observador, MouseListener{
 		    		 this.telaI.redesenhar3(resultadosFinais);
 		    	 }else {
 		    		 System.out.println("[ERRO][Tela Banca][Observer] ID 1 deve receber um ArrayList, foi recebido:" + obj.getClass());
+		    	 }
+		    	 break;
+			case 22:
+		    	 if(obj.getClass().equals(Boolean.class)) {
+		    		 Boolean clearBol = (Boolean)obj;
+		    		 this.clear.setEnabled(clearBol);
+		    	 }else {
+		    		 System.out.println("[ERRO][Tela Banca][Observer] ID 1 deve receber um Boolean, foi recebido:" + obj.getClass());
 		    	 }
 		    	 break;
 		}

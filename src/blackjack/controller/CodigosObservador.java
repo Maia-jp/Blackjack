@@ -27,6 +27,7 @@ public enum CodigosObservador {
 	BOTAO_NOVA_RODADA_OK(19, Boolean.class),
 	INFO_RESULTADO_FINAL(20, List.class),
 	DINHEIRO_ZERO(21,String.class),
+	BOTAO_CLEAR_VISIBLE_NOTVISIBLE(22, Boolean.class),
 	TESTE(-1,String.class);
 
 	
