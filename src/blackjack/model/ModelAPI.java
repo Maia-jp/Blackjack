@@ -21,7 +21,6 @@ import java.util.Stack;
 
 import blackjack.controller.CodigosObservador;
 import blackjack.view.Observador;
-import blackjack.view.TelaJogador;
 
 public class ModelAPI implements Observado {
 	//Info principal

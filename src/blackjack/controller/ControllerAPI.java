@@ -15,7 +15,6 @@ import java.util.Map;
 import blackjack.model.ModelAPI;
 import blackjack.view.GUIService;
 import blackjack.view.Observador;
-import blackjack.view.TelaJogador;
 
 public class ControllerAPI implements Observador{
 	private ModelAPI api = ModelAPI.iniciar();
@@ -137,7 +136,20 @@ public class ControllerAPI implements Observador{
 			else
 				carregar(((String) obj));
 		}
+		if(CodigosObservadorView.BOTAO_CARREGAR_TELA_INICIAL.valor== ID) {
+			if(CodigosObservadorView.BOTAO_CARREGAR_TELA_INICIAL.classe != obj.getClass())
+				System.out.print("[ERRO][Controller] Classe passada no metodo executar nao corresponde ao correto, foi passado:"+obj.getClass());
+			else
+				abrirCarregarTelaInicial();
+		}
 	} 
+	
+	
+	//Callbacks relacionadas a tela inicial
+	private void abrirCarregarTelaInicial() {
+		view.abirTelaCarregamento();
+		
+	}
 	
 	
 	//CALLBACKS de Botoes VIEW
@@ -148,7 +160,6 @@ public class ControllerAPI implements Observador{
 			e1.printStackTrace();
 			System.exit(1);
 		}
-		System.out.print("Passa 3; "+jogadores);
 		view.telaInicialCriarJogadores(jogadores,this);
 		api.exibeNomeJogadores();
 		api.notificaViewInfoJogadores();
@@ -159,7 +170,6 @@ public class ControllerAPI implements Observador{
 	}
 	
 	private void telaJogadorStand(String infoJogador) {
-		System.out.println("CHEGOU AQUI " + infoJogador);
 		api.pedirStand(infoJogador);
 	}
 	
@@ -225,29 +235,41 @@ public class ControllerAPI implements Observador{
 	
 	////CALLBACKS de Botoes de Salvar
 	private void salvar(String dir) {
+		String SaveName = String.valueOf(Instant.now().getEpochSecond()); // Nome do arquivo é o insante em Unix
 		List<String> jogadores = api.listaNomeJogadores();
 		HashMap<String,Integer> dinheiro = api.dinheiroJogadoresComNome();
 		int rodada = api.getRodada();
 		
 		SavingUtilities saveUtil = new SavingUtilities();
 		saveUtil.gerarModeloSalvar(jogadores, dinheiro, rodada);
-		saveUtil.salvar(dir, 
-				String.valueOf(Instant.now().getEpochSecond()));
+		saveUtil.salvar(dir, SaveName);
+		
+		view.opcoesInfoSalvar(SaveName);
 		
 	}
 	
 	private void carregar(String carregar) {
 		SavingUtilities saveUtil = new SavingUtilities();
-		SaveDTO dto = saveUtil.carregar(carregar);
-		api.carregarSalvamento(dto);
-		view.opcoesInfoCarregar();
+		SaveDTO dto;
+		try {
+			dto = saveUtil.carregar(carregar);
+			api.carregarSalvamento(dto);
 		
-		view.reinicarComCarregamento();
+			view.telaIncialCarregar(this);
+			api.exibeNomeJogadores();
+			api.notificaViewInfoJogadores();
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+			System.out.println("[COntroller][Carregar] erro ao carregar");
+		}
+		
+		
 	}
 	
-	//
-	//Singleton
-	//
+	/*
+	 * Singleton
+	 */
 	private static ControllerAPI instanciaUnica;
 	
 	private ControllerAPI() {
