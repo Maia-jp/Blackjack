@@ -1,5 +1,5 @@
 =====BLACKJACK=====
-Partida: 1623265577
+Partida: 1623596862
 Jogadores:
 Bach
 Beethoven
