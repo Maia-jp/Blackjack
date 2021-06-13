@@ -23,14 +23,14 @@ public class cartasTest {
 	@Test
 	public void inicializarAsTesteSucesso() {
 		Carta teste = new Carta("Ha");
-		assertEquals(11,teste.getValor());
+		assertEquals(-1,teste.getValor());
 		
 	}
 	
 	@Test
 	public void inicializarAsMaiusculoTesteSucesso() {
 		Carta teste = new Carta("HA");
-		assertEquals(11,teste.getValor());
+		assertEquals(-1,teste.getValor());
 		
 	}
 

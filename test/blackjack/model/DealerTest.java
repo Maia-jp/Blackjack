@@ -76,7 +76,7 @@ public class DealerTest {
 		
 		Carta teste1 = new Carta("HA");
 		d.receberCarta(teste1);
-		//Adicionando cartas na mão do jogador  Ás e Reis o dealer vai escolher o Ás = 11
+		//Adicionando cartas na mï¿½o do jogador  ï¿½s e Reis o dealer vai escolher o ï¿½s = 11
 		assertEquals(21, d.valorMao());
 	}
 	
@@ -91,9 +91,8 @@ public class DealerTest {
 		
 		Carta teste2 = new Carta("H5");
 		d.receberCarta(teste2);
-		//Adicionando cartas na mão do jogador  Ás e Reis e 5 o dealer vai escolher o Ás = 1
-		
-		assertEquals(26, d.valorMao());
+
+		assertEquals(16, d.valorMao());
 	}
 	
 	@Test
@@ -105,7 +104,7 @@ public class DealerTest {
 		
 		Carta teste1 = new Carta("HA");
 		d.receberCarta(teste1);
-		//Adicionando cartas na mão do jogador  Ás e Reis o dealer vai escolher o Ás = 11
+		//Adicionando cartas na mï¿½o do jogador  ï¿½s e Reis o dealer vai escolher o ï¿½s = 11
 		//BLACKJACK
 		assertTrue(d.blackJackDealer());
 	}
@@ -119,7 +118,7 @@ public class DealerTest {
 		
 		Carta teste1 = new Carta("H4");
 		d.receberCarta(teste1);
-		//Não deu BlackJack
+		//Nï¿½o deu BlackJack
 		assertFalse(d.blackJackDealer());
 	}
 	
@@ -136,8 +135,8 @@ public class DealerTest {
 		Carta teste2 = new Carta("H2");
 		d.receberCarta(teste2);
 		
-		//Adicionando mais de duas cartas na mão do jogador iqual a 21
-		//Não deu BLACKJACK
+		//Adicionando mais de duas cartas na mï¿½o do jogador iqual a 21
+		//Nï¿½o deu BLACKJACK
 		assertFalse(d.blackJackDealer());
 	}
 	
@@ -150,7 +149,7 @@ public class DealerTest {
 		
 		Carta teste1 = new Carta("H9");
 		d.receberCarta(teste1);
-		//não pode pegar mais cartas, possui mais que 17 pontos.
+		//nï¿½o pode pegar mais cartas, possui mais que 17 pontos.
 		assertEquals(1, d.checkEstrategia());
 	}
 	
