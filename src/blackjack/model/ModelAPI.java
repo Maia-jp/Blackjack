@@ -129,7 +129,6 @@ public class ModelAPI implements Observado {
 	}
 	
 	private void confereBlackJackGeral() {
-		//Fazer Testes Unitarios
 		int i = 0;
 		for(Jogador j: jogadores) {
 			if(j.blackjack()) {
@@ -171,7 +170,7 @@ public class ModelAPI implements Observado {
         setClear();
         setApostaAdicional();
 		carteiraJogadorApostaInicial.clear();
-		geracarteiraJogadorApostaInicial();
+		geraOpcoesJogadorApostaInicial();
 		pilhaApostaInicial.clear();
         dealer.limpaMao();
         zerarMontante();
@@ -184,6 +183,7 @@ public class ModelAPI implements Observado {
         notificar(false, CodigosObservador.BOTAO_NOVA_RODADA_OK.valor);
         List<String[]> resultadosFinais = new ArrayList<String[]>();
         notificar(resultadosFinais, CodigosObservador.INFO_RESULTADO_FINAL.valor);
+        notificar(true, CodigosObservador.BOTAO_CLEAR_VISIBLE_NOTVISIBLE.valor);
     }
 	
 	private void setTeveBlackJack() {
@@ -220,7 +220,6 @@ public class ModelAPI implements Observado {
 	}
 	
 	//verifica de precisa de um novo baralho
-	// @Ze @Ale
 	private boolean checkNovoBaralho() {
 		if(baralho.getNumeroDeCartas() < ((52*4) - ((52*4)*0.10))){
 			reiniciarBaralho();
@@ -248,7 +247,6 @@ public class ModelAPI implements Observado {
 	}
 	
 	private int dinheiroTotalJogadorAtual() {
-		//FazerTesteUnitario
 		int money = 0;
 		for(Jogador j: jogadores) {
 			if(j.getNomeJogador() == jogadorNome(jogada)) {
@@ -671,21 +669,20 @@ public class ModelAPI implements Observado {
 	}
 	
 	private void verificaJogadaApostaInicial() {
-		//Fazer Teste unitario
 		if(this.jogada == numeroDeJogadores()) {	
 			this.ifOkApostaInicial = false;
 			carteiraJogadorApostaInicial.clear();
 			pilhaApostaInicial.clear();
-			geracarteiraJogadorApostaInicial();
+			geraOpcoesJogadorApostaInicial();
 			distribuirCartas();
 			jogada = -1;
 			proximoJogador();
 			notificar(false, CodigosObservador.VERIFICA_APOSTA_INICAL_EFETUADA.valor);
+			notificar(false, CodigosObservador.BOTAO_CLEAR_VISIBLE_NOTVISIBLE.valor);
 		}
 	}
 	
 	private void realizaApostaInicial() {
-		//Fazer Teste Unitario
 		Set<String> chaves = carteiraJogadorApostaInicial.keySet();
 		for(Jogador j: jogadores ) {
 			if(j.getNomeJogador() == jogadorNome(jogada) && clear[jogadores.indexOf(j)]) {
@@ -744,12 +741,11 @@ public class ModelAPI implements Observado {
 	}
 	
 	public void finalizaApostaInicial() {
-		//Fazer Teste Unitario
 		if(this.valorApostaInicial >= 20 && this.ifOkApostaInicial == true) {
 			realizaApostaInicial();
 			this.valorApostaInicial = 0;
 			carteiraJogadorApostaInicial.clear();
-			geracarteiraJogadorApostaInicial();
+			geraOpcoesJogadorApostaInicial();
 			notificar(false, CodigosObservador.VERIFICA_APOSTA_INICAL_EFETUADA.valor);
 			if(clear[jogada]) {
 				jogada=jogada+1;
@@ -765,7 +761,6 @@ public class ModelAPI implements Observado {
 	}
 	
 	private void notificaViewApostaInicial(String s) {
-		//Fazer Teste Unitario
 		String[] infoForTelaBanca = new String[] {s, String.valueOf(valorApostaInicial)};
 		notificar(infoForTelaBanca, CodigosObservador.VERIFICA_APOSTA_INICIAL_OK_REPAINT.valor);
 	}
@@ -779,7 +774,7 @@ public class ModelAPI implements Observado {
 		clear[jogada] = false;
 		this.valorApostaInicial = 0;
 		carteiraJogadorApostaInicial.clear();
-		geracarteiraJogadorApostaInicial();
+		geraOpcoesJogadorApostaInicial();
 		notificar(false, CodigosObservador.VERIFICA_APOSTA_INICAL_EFETUADA.valor);
 		this.jogada += 1;
 		verificaJogadaApostaInicial();
@@ -793,14 +788,17 @@ public class ModelAPI implements Observado {
 		int i = 0;
 		List<String[]> infosJogadores = new ArrayList<String[]>();
 		for(Jogador j: jogadores) {
-			String[] infoJogador = new String[]{j.getNomeJogador(), String.valueOf(j.fichasTotalJogador())};
-			infosJogadores.add(infoJogador);
+			if(clear[i]) {
+				String[] infoJogador = new String[]{j.getNomeJogador(), String.valueOf(j.fichasTotalJogador())};
+				infosJogadores.add(infoJogador);
+			}
+			i++;
 		}
 		notificar(infosJogadores, CodigosObservador.INFOS_JOGADORES.valor);
 	}
 	
 	public void removeFichaPilha() {
-		//Fazer Teste Unitario
+		//remove a ultima ficha que clicou da aposta que ira realizar
 		if(this.ifOkApostaInicial == true && !(pilhaApostaInicial.isEmpty())) {
 			String vFicha = pilhaApostaInicial.pop();
 			carteiraJogadorApostaInicial.replace(vFicha, carteiraJogadorApostaInicial.get(vFicha)+1);
@@ -824,7 +822,6 @@ public class ModelAPI implements Observado {
 	}
 	
 	public void adicionaApostaInicial(String s) {
-		//Fazer Teste Unitario
 		if(this.ifOkApostaInicial == true) {
 			if((this.valorApostaInicial+Integer.parseInt(s) <= 100) && (dinheiroTotalJogadorAtual() - (this.valorApostaInicial+Integer.parseInt(s)) >= 0 )) {
 				carteiraJogadorApostaInicial.replace(s, carteiraJogadorApostaInicial.get(s)-1);
@@ -854,9 +851,8 @@ public class ModelAPI implements Observado {
 		}
 	}
 	
-	//TROCA O NOME @ALEXANDRE
-	private void geracarteiraJogadorApostaInicial() {
-		//Fazer Teste Unitario
+
+	private void geraOpcoesJogadorApostaInicial() {
 		carteiraJogadorApostaInicial.put("100", 0);
 		carteiraJogadorApostaInicial.put("50", 0);
 		carteiraJogadorApostaInicial.put("20", 0);
@@ -937,6 +933,7 @@ public class ModelAPI implements Observado {
 				System.out.println(j.fichasTotalJogador());
 			}
 		}
+		notificaViewInfoJogadores();
 	}
 	
 	//
@@ -952,7 +949,7 @@ public class ModelAPI implements Observado {
 		this.jogadorAposta.clear();
 		this.ifOkApostaInicial = true;
 		carteiraJogadorApostaInicial.clear();
-		geracarteiraJogadorApostaInicial();
+		geraOpcoesJogadorApostaInicial();
 	}
 	
 	private String gerarID() {
@@ -974,7 +971,7 @@ public class ModelAPI implements Observado {
 		this.jogadaDealer = 0;
 		this.ifOkApostaInicial = true;
 		this.ID = gerarID();
-		geracarteiraJogadorApostaInicial();
+		geraOpcoesJogadorApostaInicial();
 		
 	}
 	

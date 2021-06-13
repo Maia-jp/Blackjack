@@ -40,12 +40,12 @@ class ImagensTela extends JPanel{
     	g2d.drawImage(cI.getFichaV20(), 460,590, null);
     	g2d.drawImage(cI.getFichaV50(), 590,560, null);
     	g2d.drawImage(cI.getFichaV100(), 720,520, null);
-    	g2d.drawImage(cI.getBaralhoAzul(), 340,340, null);
-    	g2d.drawImage(cI.getBaralhoVermelho(), 460,340, null);
+    	g2d.drawImage(cI.getBaralhoAzul(), 340,380, null);
+    	g2d.drawImage(cI.getBaralhoVermelho(), 460,380, null);
     	
     	g2d.setFont(new Font("Helvetica", Font.BOLD, 15));
-		g2d.setColor(Color.RED);
-		g2d.drawString("Jogador: "+nomeJogador, 340, 500);
+		g2d.setColor(Color.BLACK);
+		g2d.drawString("Jogador: "+nomeJogador, 350, 500);
     	int indice = 1;
     	if(chave != null) {
 	    	for(String i : chave) {
@@ -57,16 +57,16 @@ class ImagensTela extends JPanel{
 	    	}
 	    	else {
 	    		g2d.setFont(new Font("Helvetica", Font.BOLD, 15));
-	    		g2d.setColor(Color.RED);
-	    		g2d.drawString("Pontos Dealer "+Integer.toString(conteudo[0]), 360, 110);
+	    		g2d.setColor(Color.BLACK);
+	    		g2d.drawString("Pontos Dealer "+Integer.toString(conteudo[0]), 360, 113);
 	    	}
     	}
     	
     	if(infosJogadores != null) {
-    		int y = 210;
+    		int y = 220;
         	for(String[] i : infosJogadores) {
-        		g2d.setFont(new Font("Helvetica", Font.BOLD, 12));
-        		g2d.setColor(Color.RED);
+        		g2d.setFont(new Font("Helvetica", Font.BOLD, 14));
+        		g2d.setColor(Color.BLACK);
         		g2d.drawString("Nome: "+i[0], 30,y);
         		g2d.drawString("Qtd fichas totais: "+i[1], 30,y+22);
         		y += 40;
@@ -93,22 +93,22 @@ class ImagensTela extends JPanel{
     			g2d.drawImage(cI.getFichaV100(), 750, 200, null);
     		}
     		g2d.setFont(new Font("Helvetica", Font.BOLD, 15));
-    		g2d.setColor(Color.RED);
+    		g2d.setColor(Color.BLACK);
     		g2d.drawString("Valor Aposta Inicial: "+apostaInicialTotal, 700, 180);
     	}
     	if(botaoOk == true) {
-    		g2d.setFont(new Font("Helvetica", Font.BOLD, 15));
-    		g2d.setColor(Color.RED);
+    		g2d.setFont(new Font("Helvetica", Font.BOLD, 18));
+    		g2d.setColor(Color.BLACK);
     		g2d.drawString("DEAL", 760, 290);
     	}
     	if(resultadoFinal != null) {
-    		int y = 200;
+    		int y = 240;
     		for(String[] i : resultadoFinal) {
-        		g2d.setFont(new Font("Helvetica", Font.BOLD, 11));
-        		g2d.setColor(Color.RED);
-        		g2d.drawString(i[0], 500,y);
-        		g2d.drawString(i[1], 590,y+11);
-        		y += 22;
+        		g2d.setFont(new Font("Helvetica", Font.BOLD, 14));
+        		g2d.setColor(Color.BLACK);
+        		g2d.drawString(i[0], 350,y);
+        		g2d.drawString(i[1], 440,y+15);
+        		y += 30;
         	}
     	}
     }
